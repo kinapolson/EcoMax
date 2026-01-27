@@ -7,57 +7,75 @@ import { ThemedView } from '@/components/themed-view';
 import { Link } from 'expo-router';
 
 export default function HomeScreen() {
+  const progress = 86;
+
   return (
     <ScrollView style={styles.container}>
 
       {/* header */}
       <ThemedView style={styles.header}>
-        <ThemedText style={styles.headerTxt}>Hi James!</ThemedText>
+        <ThemedText style={styles.headerTxt}>
+          Hi James!
+        </ThemedText>
       </ThemedView>
 
       {/* eco points/header status */}
-      <View style={styles.cardWrapper}>
-        {/* green bkgd */}
-        <View style={styles.cardBackground} />
+      <View style={styles.homeCardWrapper}>
+        <View style={styles.homeCard}>
+          <View style={styles.homeItem}>
+            <ThemedText style={styles.homeLabel}>
+              Eco Points
+            </ThemedText>
+            <ThemedText style={styles.homeValue}>
+              350
+            </ThemedText>
+          </View>
 
-        <ThemedView style={styles.topBox}>
-        <View style={styles.topItem}>
-          <ThemedText style={styles.smallTxt}>Eco Points</ThemedText>
-          <ThemedText style={styles.bigText}>350</ThemedText>
+          <View style={styles.homeDivider} />
+
+          <View style={styles.homeItem}>
+            <ThemedText style={styles.homeLabel}>
+              Eco Challenge
+            </ThemedText>
+            <ThemedText style={styles.homeValue}>
+              6/7
+            </ThemedText>
+          </View>
         </View>
-
-        <View style={styles.divider} />
-
-        <View style={styles.topItem}>
-          <ThemedText style={styles.smallTxt}>Eco Challenge</ThemedText>
-          <ThemedText style={styles.bigText}>6/7</ThemedText>
-        </View>
-      </ThemedView>
       </View>
 
       {/* progress bar */}
-      <View style={styles.cardWrapper}>
-        <View style={styles.cardBackground} />
+      <View style={styles.card}>
+        <ThemedText style={styles.cardTitle}>
+          Progress
+        </ThemedText>
 
-        <ThemedView style={styles.cardContent}>
-          <ThemedText style={styles.cardTitle}>Progress</ThemedText>
+        <View style={styles.cardTitleDivider} />
 
-          <View style={styles.progressBackground}>
-            <View style={styles.progressFill} />
-            <ThemedText style={styles.percent}>86%</ThemedText>
-          </View>
-        </ThemedView>
+        <View style={styles.progressBar}>
+          <View
+            style={[
+              styles.progressFill, 
+              {width: progress + "%"},
+            ]}
+          />
+
+          <ThemedText style={styles.progressText}>
+            {progress}%
+          </ThemedText>
+        </View>
       </View>
 
       {/* impact tracker */}
-      <View style={styles.cardWrapper}>
-        <View style={styles.cardBackground} />
+      <View style={styles.card}>
+        <ThemedText style={styles.cardTitle}>
+          Impact Tracker
+        </ThemedText>
+        
+        <View style={styles.cardTitleDivider} />
 
-        {/* impact tracker info */}
-        <ThemedView style={styles.cardContent}>
-          <ThemedText style={styles.cardTitle}>Impact Tracker</ThemedText>
-
-          <View style={styles.chart}>
+        {/* impact tracker content */}
+        <View style={styles.chart}>
             <View style={styles.barGroup}>
               <View style={[styles.bar, { height: 30 }]} />
               <ThemedText style={styles.day}>Sun</ThemedText>
@@ -93,103 +111,131 @@ export default function HomeScreen() {
               <ThemedText style={styles.day}>Sat</ThemedText>
             </View>
           </View>
-        </ThemedView>
       </View>
-
     </ScrollView>
   );
 }
 
 
 const styles = StyleSheet.create({
+  //body
   container: {
     backgroundColor: "#f5f0e6",
   },
 
+  //header
   header: {
-    paddingVertical: 20,
     backgroundColor: "#264e36",
+    paddingTop: 80,
+    paddingBottom: 65,
+    paddingLeft: 20,
   },
 
   headerTxt: {
-    fontSize: 28,
+    fontSize: 36,
+    lineHeight: 44,
     fontWeight: "bold",
-    color: "#FFFFFF",
+    color: "#F5F0E6",
+    left: 7.5,
   },
 
-  topBox: {
-    backgroundColor: "36db187",
-    borderRadius: 10,
+  //card container
+  //eco pts/eco challenge card
+  homeCardWrapper: {
+    alignItems: "center",
+    marginTop: -53,
+  },
+
+  homeCard: {
+    backgroundColor: "#5ca377",
     flexDirection: "row",
     padding: 16,
-    marginBottom: 20,
+    borderRadius: 12,
+    width: "85%",
   },
 
-  topItem: {
+  homeItem: {
     flex: 1,
     alignItems: "center",
   },
 
-  smallTxt: {
+  homeLabel: {
     fontSize: 12,
-    color: "#eaf53f",
+    color: "#F5F0E6",
   },
 
-  bigText: {
-    fontSize: 26,
+  homeValue: {
+    fontSize: 36,
+    lineHeight: 44,
     fontWeight: "bold",
-    color: "#FFFFFF",
+    color: "#F5F0E6",
   },
 
-  divider: {
-    width: 1,
-    backgroundColor: "#d9efe3",
+  homeDivider: {
+    width: 1.6,
+    backgroundColor: "#F5F0E6",
+    marginHorizontal: 12,
+  },
+
+  //progress and impact trakcker cards
+  cardTitleDivider: {
+    height: 1.6,
+    backgroundColor: "#F5F0E6",
+    marginVertical: 14,
   },
 
   card: {
-    backgroundColor: "36db187",
-    borderRadius: 10,
+    backgroundColor: "#5ca377",
+    marginVertical: 20,
+    alignSelf: "center",
+    width: "85%",
     padding: 16,
-    marginBottom: 20,
+    borderRadius: 12,
   },
 
   cardTitle: {
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: "bold",
-    color: "#FFFFFF",
-    marginBottom: 10,
+    color: "#F5F0E6",
   },
 
-  progressBackground: {
-    backgroundColor: "#eaf5ef",
-    height: 30,
-    borderRadius: 20,
+  // progress bar
+  progressBar: {
+    backgroundColor: "#F5F0E6",
+    height: 34,
+    borderRadius: 30,
+    borderWidth: 3,
+    borderColor: "#F5F0E6",
     justifyContent: "center",
+    overflow: "hidden",
   },
 
   progressFill: {
     position: "absolute",
+    left: 0,
     height: "100%",
-    width: "86%",
     backgroundColor: "#264e36",
     borderRadius: 20,
+    borderTopLeftRadius: 30,
+    borderBottomLeftRadius: 30,
   },
 
-  percent: {
+  progressText: {
     alignSelf: "flex-end",
-    marginRight: 10,
+    marginRight: 12,
     fontWeight: "bold",
     color: "#5ca377",
   },
 
+  //impact tracker
   chart: {
     backgroundColor: "#161618",
-    borderRadius: 10,
-    padding: 10,
+    borderRadius: 12,
+    height: 180,
+    padding: 12,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-end",
-    height: 180,
   },
 
   barGroup: {
@@ -197,38 +243,14 @@ const styles = StyleSheet.create({
   },
 
   bar: {
-    width: 10,
+    width: 14,
     backgroundColor: "#5ca377",
-    borderRadius: 5,
-    marginBottom: 5,
+    borderRadius: 7,
+    marginBottom: 6,
   },
 
   day: {
     fontSize: 10,
-    color: "#FFFFFF",
+    color: "#F5F0E6",
   },
-
-  cardWrapper: {
-    marginBottom: 20,
-    position: "relative",
-    padding: 10,
-  },
-
-  cardBackground: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: "#5ca377",
-    borderRadius: 12,
-  },
-
-  cardContent: {
-    padding: 16,
-    zIndex: 1,
-    backgroundColor: "#5ca377",
-    borderRadius: 12,
-  },
-
 });

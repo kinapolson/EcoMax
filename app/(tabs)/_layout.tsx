@@ -1,33 +1,123 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { Tabs } from "expo-router";
+import { View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
+
+        tabBarStyle: {
+          backgroundColor: "#264e36",
+          height: 70,
+          borderTopWidth: 0,
+        },
+
+        tabBarBackground: () => {
+          return (
+            <View
+              style={{
+                flex: 1,
+                backgroundColor: "#264e36",
+              }}
+            />
+          );
+        },
+
+        tabBarActiveTintColor: "black",
+        tabBarInactiveTintColor: "#F5F0e6",
+
+        tabBarLabelStyle: {
+            fontSize: 12,
+            marginBottom: 6,
+        },
+      }}
+    >
+
+      {/* home */}
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: "Home",
+          tabBarIcon: ({ color, size }) => {
+            return (
+              <Ionicons
+                name="home-outline"
+                size={size}
+                color={color}
+              />
+            );
+          },
         }}
       />
+
+      {/* shop */}
       <Tabs.Screen
-        name="explore"
+        name="shop"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: "Shop",
+          tabBarIcon: ({ color, size }) => {
+            return (
+              <Ionicons
+                name="cart-outline"
+                size={size}
+                color={color}
+              />
+            );
+          },
+        }}
+      />
+
+      {/* scan */}
+      <Tabs.Screen
+        name="scan"
+        options={{
+          title: "Scan",
+          tabBarIcon: ({ color, size }) => {
+            return (
+              <Ionicons
+                name="camera-outline"
+                size={size}
+                color={color}
+              />
+            );
+          },
+        }}
+      />
+
+      {/* rewards */}
+      <Tabs.Screen
+        name="rewards"
+        options={{
+          title: "Rewards",
+          tabBarIcon: ({ color, size }) => {
+            return (
+              <Ionicons
+                name="receipt-outline"
+                size={size}
+                color={color}
+              />
+            );
+          },
+        }}
+      />
+
+      {/* profile */}
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "Profile",
+          tabBarIcon: ({ color, size }) => {
+            return (
+              <Ionicons
+                name="person-outline"
+                size={size}
+                color={color}
+              />
+            );
+          },
         }}
       />
     </Tabs>

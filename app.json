@@ -23,12 +23,13 @@
     },
     "web": {
       "output": "static",
+      "bundler": "metro",
       "favicon": "./assets/images/favicon.png"
     },
 
     "extra": {
       "router": {
-        "origin": "https://kinapolson.github.io/EcoMax/"
+        "basePath": "/EcoMax"
       }
     },
     

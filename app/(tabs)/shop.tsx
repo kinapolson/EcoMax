@@ -1,9 +1,10 @@
-import { View } from "react-native";
+import { TextInput, View } from "react-native";
 import { Text } from "react-native";
 import { StyleSheet } from "react-native";
 import { ScrollView } from "react-native";
 import { TouchableOpacity } from "react-native";
-import { useState } from "react";
+import React, { useState } from "react";
+import MapView from "react-native-maps"
 
 export default function ShopScreen() {
   {/* swith btwn tabs */}
@@ -116,11 +117,20 @@ export default function ShopScreen() {
 
         {/* map content */}
         {activeTab === "map" &&(
-          <View style={styles.mapPlaceholder}>
-            <Text style={styles.mapTxt}>
-              Map
-            </Text>
+          <>
+          {/* search bar */}
+          <View style={styles.mapSearchBar}>
+            <TextInput
+              placeholder="Find Near Me"
+              placeholderTextColor="white"
+              style={styles.input}
+            />
           </View>
+
+          {/* map */}
+          <View style={styles.mapPlaceholder}>
+              <MapView style={styles.map} />
+            </View></>
         )}
       </ScrollView>
     </View>
@@ -238,15 +248,32 @@ const styles = StyleSheet.create({
   //map
   mapPlaceholder: {
     height: 445,
-    backgroundColor: "#161618",
-    borderRadius: 12,
+    backgroundColor: "#a47148",
+    borderRadius: 7,
     justifyContent: "center",
     alignItems: "center",
   },
 
-  mapTxt: {
-    color: "#F5F0E6",
-    fontSize: 16,
+  map: {
+    width: "90%",
+    height: "90%",
+    borderRadius: 6,
+  },
+  
+  mapSearchBar: {
+    height: 50,
+    backgroundColor: "#a47148",
+    borderRadius: 29,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 15,
+  },
+
+  input: {
     fontWeight: "bold",
+    borderRadius: 7,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    fontSize: 15,
   },
 });

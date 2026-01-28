@@ -18,6 +18,12 @@ export default function ShopScreen() {
     { name: "Orlando Cleaners", points: 25 },
   ];
 
+  const moreEcoBusiness = [
+    { name: "Origins", points: 25},
+    { name: "Peralta Clothing", points: 25},
+    { name: "...", points: 25},
+  ];
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -61,6 +67,31 @@ export default function ShopScreen() {
             {/* eco buisnesses grid */}
             <View style={styles.cardGrid}>
               {ecoBusinesses.map((item, index) => (
+                <View key={index} style={styles.cardWrapper}>
+                  {/* card */}
+                  <TouchableOpacity style={styles.card}>
+                    {/* buisness logo */}
+                    <View style={styles.logoBox}>
+                      <Text style={styles.logotTxt}>{item.name[0]}</Text>
+                    </View>
+
+                    {/* eco pts */}                 
+                    <View style={styles.ptsRow}>
+                      <Text style={styles.ptsTxt}>{item.points}</Text>
+                    </View>
+                  </TouchableOpacity>
+
+                  {/* buisness name */}
+                  <Text style={styles.cardName}>{item.name}</Text>
+                </View>
+              ))}
+            </View>
+
+            <Text style={styles.categoryLabel}>More</Text>
+
+            {/* eco buisnesses grid */}
+            <View style={styles.cardGrid}>
+              {moreEcoBusiness.map((item, index) => (
                 <View key={index} style={styles.cardWrapper}>
                   {/* card */}
                   <TouchableOpacity style={styles.card}>
@@ -186,7 +217,9 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: "bold",
     color: "#264e36",
+    marginTop: 2.5,
     marginBottom: 6,
+    textAlign: "center",
   },
 
   ptsRow: {

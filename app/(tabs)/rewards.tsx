@@ -1,5 +1,7 @@
-import { TextInput, View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from "react-native";
+import { TextInput, View, Text, StyleSheet, ScrollView, Pressable, TouchableOpacity, Image } from "react-native";
 import React, { useState } from "react";
+import { router } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function RewardsScreen() {
   {/* swith btwn tabs */}
@@ -24,6 +26,9 @@ export default function RewardsScreen() {
         <Image source={require('../../assets/images/ecomax_icon_dark.png')} 
           style={styles.image}
         />
+        <Pressable onPress={() => router.back()}>
+          <Ionicons name="search" size={24} color="#F5F0E6" />
+        </Pressable>
       </View>
 
       {/* tab navigation */}

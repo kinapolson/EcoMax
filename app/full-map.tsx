@@ -12,9 +12,9 @@ export default function FullMap() {
             {/* header */}
             <SafeAreaView edges={["top"]} style={styles.header}>
                 <Pressable onPress={() => router.back()}>
-                    <Ionicons name="arrow-back" size={24} color="#F5F0E6" />
+                    <Ionicons name="chevron-back" size={35} color="#F5F0E6" />
                 </Pressable>
-
+                
                 <Text style={styles.title}>Map</Text>
             </SafeAreaView>
 

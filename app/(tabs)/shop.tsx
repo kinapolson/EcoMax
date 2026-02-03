@@ -1,8 +1,8 @@
-import { TextInput, View, Image, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
+import { TextInput, View, Pressable, Image, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import MapView from "react-native-maps";
 import { useRouter } from "expo-router";
-import { Pressable } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function ShopScreen() {
   const [activeTab, setActiveTab] = useState("business"); {/* swith btwn tabs */}
@@ -147,6 +147,11 @@ export default function ShopScreen() {
         {/* map content */}
         {activeTab === "map" && (
           <>
+            {/* back btn */}
+            <Pressable onPress={() => router.back()}>
+                <Ionicons name="chevron-back" size={35} color="#264E36" />
+            </Pressable>
+
             {/* search bar */}
             <View style={styles.mapSearchBar}>
               <TextInput

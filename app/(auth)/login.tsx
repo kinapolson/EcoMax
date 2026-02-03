@@ -85,12 +85,15 @@ const styles = StyleSheet.create({
 
     //text field inputs
     input: {
-        backgroundColor: "#FFFFFF",
-        borderRadius: 7,
+        backgroundColor: "transparent",
+        borderBottomWidth: 2,
+        borderBottomColor: "#264E36",
         paddingVertical: 14,
         paddingHorizontal: 14,
         fontSize: 17,
         marginBottom: 14,
+        color: "#364E36",
+        fontWeight: "bold",
     },
 
     //login button
@@ -100,6 +103,8 @@ const styles = StyleSheet.create({
         borderRadius: 7,
         marginTop: 90,
         marginBottom: 10,
+        width: "60%",
+        alignSelf: "center",
     },
 
     primaryTxt: {

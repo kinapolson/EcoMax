@@ -1,147 +1,109 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
-import { useState } from "react";
-import MapView from "react-native-maps"
+import { TextInput, View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from "react-native";
+import React, { useState } from "react";
 
 export default function RewardsScreen() {
-    const [activeTab, setActiveTab] = useState("browse");
-    
-    const ecoBusinessesItems = [
-        { name: "Indeu Apothecary", points: 25 },
-        { name: "Good Fills", points: 25 },
-        { name: "Chamberlin's", points: 25 },
-    ];
+  {/* swith btwn tabs */}
+  const [activeTab, setActiveTab] = useState("browse");
 
-    const claimedItems = [
-        { name: "Origins", points: 25},
-        { name: "Peralta Clothing", points: 25},
-        { name: "...", points: 25},
-    ];
+  const favorites = [
+    { name: "Indeu Apothecary", points: 25 },
+    { name: "Good Fills", points: 25 },
+    { name: "Chamberlin's", points: 25 },
+  ];
 
-    return (
-        <View style={styles.container}>
-            <View style={styles.header}>
-                {/* logo and search setup */}
-            </View>
+  const claimed = [
+    { name: "Origins", points: 25 },
+    { name: "Peralta Clothing", points: 25 },
+    { name: "...", points: 25 },
+  ];
 
-            {/* tab navigation */}
-            <View style={styles.tabRow}>
-                {/* browse tab */}
-                <TouchableOpacity onPress={() => setActiveTab("browse")}>
-                    <Text
-                        style={[
-                            styles.tabTxt,
-                            activeTab === "browse" && styles.activeTab,
-                        ]}
-                    >
-                        Browse
-                    </Text>
-                </TouchableOpacity>
+  return (
+    <View style={styles.container}>
+      <View style={styles.header}>
+        {/* logo and search setup */}
+        <Image source={require('../../assets/images/ecomax_icon_dark.png')} 
+          style={styles.image}
+        />
+      </View>
 
-                {/* redeem tab */}
-                <TouchableOpacity onPress={() => setActiveTab("redeem")}>
-                    <Text
-                        style={[
-                            styles.tabTxt,
-                            activeTab === "redeem" && styles.activeTab,
-                        ]}
-                    >
-                        Redeem
-                    </Text>
-                </TouchableOpacity>
+      {/* tab navigation */}
+      <View style={styles.tabRow}>
+        <TouchableOpacity onPress={() => setActiveTab("browse")}>
+          <Text
+            style={[
+              styles.tabTxt,
+              activeTab === "browse" && styles.activeTab,
+            ]}
+          >
+            Browse
+          </Text>
+        </TouchableOpacity>
 
-                {/* leaderboard tab */}
-                <TouchableOpacity onPress={() => setActiveTab("leaderboard")}>
-                    <Text
-                        style={[
-                            styles.tabTxt,
-                            activeTab === "leaderboard" && styles.activeTab,
-                        ]}
-                    >
-                        Leaderboard
-                    </Text>
-                </TouchableOpacity>
-            </View>
+        <TouchableOpacity onPress={() => setActiveTab("redeem")}>
+          <Text
+            style={[
+              styles.tabTxt,
+              activeTab === "redeem" && styles.activeTab,
+            ]}
+          >
+            Redeem
+          </Text>
+        </TouchableOpacity>
 
-            {/* browse tab content */}
-            {activeTab === "browse" && (
-                <>
-                    {/* pts status */}
-                    <View style={styles.ptsCard}>
-                        {/* title */}
-                        <Text style={styles.ptsCardTitle}>
-                            Eco Points
-                        </Text>
+        <TouchableOpacity onPress={() => setActiveTab("leaderboard")}>
+          <Text
+            style={[
+              styles.tabTxt,
+              activeTab === "leaderboard" && styles.activeTab,
+            ]}
+          >
+            Leaderboard
+          </Text>
+        </TouchableOpacity>
+      </View>
 
-                        <Text style={styles.ptsCardTitle}>
-                            350
-                        </Text>
-                    </View>
-                    
-                    <Text style={styles.categoryLabel}>Favorites</Text>
-                    
-                    {/* eco buisnesses favorite items grid */}
-                    <View style={styles.cardGrid}>
-                        {ecoBusinessesItems.map((item, index) => (
-                            <View key={index} style={styles.cardWrapper}>
-                                {/* card */}
-                                <TouchableOpacity style={styles.card}>
-                                     {/* buisness logo */}
-                                    <View style={styles.logoBox}>
-                                        <Text style={styles.logotTxt}>{item.name[0]}</Text>
-                                    </View>
-                        
-                                    {/* eco pts */}                 
-                                    <View style={styles.ptsRow}>
-                                        <Text style={styles.ptsTxt}>{item.points}</Text>
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
-                        ))}
-                    </View>
-
-                    <Text style={styles.categoryLabel}>Previously Claimed</Text>
-                    
-                    {/* eco buisnesses more items grid */}
-                    <View style={styles.cardGrid}>
-                        {claimedItems.map((item, index) => (
-                            <View key={index} style={styles.cardWrapper}>
-                                {/* card */}
-                                <TouchableOpacity style={styles.card}>
-                                     {/* buisness logo */}
-                                    <View style={styles.logoBox}>
-                                        <Text style={styles.logotTxt}>{item.name[0]}</Text>
-                                    </View>
-                        
-                                    {/* eco pts */}                 
-                                    <View style={styles.ptsRow}>
-                                        <Text style={styles.ptsTxt}>{item.points}</Text>
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
-                        ))}
-                    </View>
-                </>
-            )}
-
-            {/* redeem tab content */}
-            {activeTab === "redeem" && (
-                <>
-                    <View style={styles.mapPlaceholder}>
-                        <MapView style={styles.map} />
-                    </View>
-                </>
-            )}
-
-            {/* leaderboard tab content */}
-            {activeTab === "leaderboard" && (
-                <>
-                    <View style={styles.mapPlaceholder}>
-                        <MapView style={styles.map} />
-                    </View>
-                </>
-            )}
+      <ScrollView contentContainerStyle={styles.content}>
+        <View style={styles.pointsBar}>
+          <Text style={styles.pointsTxt}>Eco Points</Text>
+          <Text style={styles.pointsValue}>350</Text>
         </View>
-    );
+
+        <Text style={styles.categoryLabel}>Favorites</Text>
+
+        <View style={styles.cardGrid}>
+          {favorites.map((item, index) => (
+            <View key={index} style={styles.cardWrapper}>
+              <TouchableOpacity style={styles.card}>
+                <View style={styles.logoBox}>
+                  <Text style={styles.logotTxt}>{item.name[0]}</Text>
+                </View>
+                <View style={styles.ptsRow}>
+                  <Text style={styles.ptsTxt}>{item.points}</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          ))}
+        </View>
+
+        <Text style={styles.categoryLabel}>Previously Claimed</Text>
+
+        <View style={styles.cardGrid}>
+          {claimed.map((item, index) => (
+            <View key={index} style={styles.cardWrapper}>
+              <TouchableOpacity style={styles.card}>
+                <View style={styles.logoBox}>
+                  <Text style={styles.logotTxt}>{item.name[0]}</Text>
+                </View>
+                <View style={styles.ptsRow}>
+                  <Text style={styles.ptsTxt}>{item.points}</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          ))}
+        </View>
+      </ScrollView>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -153,18 +115,23 @@ const styles = StyleSheet.create({
 
     //header
     header: {
-        backgroundColor: "#264e36",
-        paddingTop: 80,
-        paddingBottom: 65,
-        paddingLeft: 20,
+      backgroundColor: "#264e36",
+      paddingTop: 70,
+      paddingBottom: 20,
+      paddingLeft: 25,
     },
+
+  image: {
+    height: 49,
+    width: 37,
+  },
 
     //tabs
     tabRow: {
         flexDirection: "row",
         justifyContent: "space-around",
         paddingVertical: 12,
-        backgroundColor: "F5F0E6",
+        backgroundColor: "#F5F0E6",
     },
 
     tabTxt: {
@@ -179,33 +146,40 @@ const styles = StyleSheet.create({
         paddingBottom: 4,
     },
 
-    //progress card
-    ptsCard: {
-        margin: 16,
+    content: {
         padding: 16,
-        backgroundColor: "#5ca377",
-        borderRadius: 12,
     },
 
-    ptsCardTitle: {
+    pointsBar: {
+        backgroundColor: "#5ca377",
+        borderRadius: 10,
+        padding: 16,
+        marginBottom: 16,
+    },
+
+    pointsTxt: {
         color: "#F5F0E6",
+        fontWeight: "bold",
+        fontSize: 16,
+    },
+
+    pointsValue: {
+        color: "#F5F0E6",
+        fontSize: 22,
         fontWeight: "bold",
     },
 
-    //map
-    mapPlaceholder: {
-        height: 445,
-        backgroundColor: "#a47148",
-        borderRadius: 7,
-        justifyContent: "center",
-        alignItems: "center",
-        margin: 16,
-    },
-
-    map: {
-        width: "90%",
-        height: "90%",
-        borderRadius: 6,
+    //card group labels
+    categoryLabel: {
+        backgroundColor: "#A47148",
+        color: "#F5F0E6",
+        alignSelf: "flex-start",
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+        borderRadius: 10,
+        marginBottom: 12,
+        fontSize: 17,
+        fontWeight: "bold",
     },
 
     //eco buisness card grid
@@ -225,8 +199,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#264e36",
         borderRadius: 10,
         padding: 8,
-        marginLeft: 16,
-        marginRight: 16,
     },
 
     logoBox: {
@@ -244,15 +216,6 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
     },
 
-    cardName: {
-        fontSize: 10,
-        fontWeight: "bold",
-        color: "#264e36",
-        marginTop: 2.5,
-        marginBottom: 6,
-        textAlign: "center",
-    },
-
     ptsRow: {
         backgroundColor: "#F5F0E6",
         borderRadius: 6,
@@ -264,18 +227,5 @@ const styles = StyleSheet.create({
         color: "#264e36",
         fontSize: 12,
         fontWeight: "bold",
-    },
-
-    categoryLabel: {
-        backgroundColor: "#A47148",
-        color: "#F5F0E6",
-        alignSelf: "flex-start",
-        paddingHorizontal: 12,
-        paddingVertical: 6,
-        borderRadius: 10,
-        marginBottom: 12,
-        fontSize: 17,
-        fontWeight: "bold",
-        marginLeft: 16,
     },
 });

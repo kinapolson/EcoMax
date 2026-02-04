@@ -65,7 +65,7 @@ export default function ProfileScreen() {
                             <Ionicons name="chevron-back" size={28} color="#264e36" />
                         </TouchableOpacity>
 
-                        <ThemedText style={styles.friendsTitle}>Friends</ThemedText>
+                        <ThemedText style={styles.friendsTitle}>Friends!</ThemedText>
 
                         <TouchableOpacity style={styles.addButton}>
                             <View style={styles.addButtonCircle}>

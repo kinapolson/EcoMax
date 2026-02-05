@@ -25,13 +25,11 @@
       "output": "static",
       "bundler": "metro"
     },
-
     "extra": {
       "router": {
         "basePath": "/EcoMax"
       }
     },
-    
     "plugins": [
       "expo-router",
       [
@@ -45,7 +43,8 @@
             "backgroundColor": "#000000"
           }
         }
-      ]
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true,

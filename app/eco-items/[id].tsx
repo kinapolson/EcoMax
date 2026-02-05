@@ -83,7 +83,7 @@ export default function BusinessDetails() {
                 <Image source={business.image} style={styles.itemImage} />
 
                 <View style={styles.ptsRow}>
-                  <Ionicons name="leaf" size={14} color="#264e36" />
+                  <Ionicons name="leaf" size={14} color="#1c4964" />
                   <Text style={styles.ecoPtsTxt}>{business.points}</Text>
                 </View>
               </View>
@@ -174,8 +174,8 @@ const styles = StyleSheet.create ({
   },
 
   itemTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
+    fontSize: 20,
+    fontFamily: 'Quicksand_700Bold',
     color: "#F5F0E6",
   },
 
@@ -187,25 +187,27 @@ const styles = StyleSheet.create ({
     fontSize: 18,
     color: "#F5F0E6",
     marginVertical: 6,
+    fontFamily: 'Poppins_400Regular',
   },
 
   itemDescript: {
     fontSize: 15,
     lineHeight: 22,
     color: "#F5F0E6",
+    fontFamily: 'Poppins_400Regular',
   },
 
   title: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontFamily: 'Quicksand_700Bold',
     color: "#F5F0E6",
   },
 
   //brand logo placement
   brandLogoWrap: {
     position: "absolute",
-    bottom: -30,
-    right: 3,
+    bottom: -35,
+    right: 8,
     width: 75,
     height: 75,
     borderRadius: 100,
@@ -270,7 +272,7 @@ const styles = StyleSheet.create ({
   ecoPtsTxt: {
     marginLeft: 4,
     fontWeight: "bold",
-    color: "#264e36",
+    color: "#1c4964",
     fontSize: 14,
   },
 });

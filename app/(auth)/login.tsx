@@ -2,12 +2,11 @@ import { TextInput, View, Text, StyleSheet, Pressable, TouchableOpacity } from "
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 
-
 export default function LoginScreen() {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Pressable onPress={() => router.back()}>
+                <Pressable onPress={() => router.push("/(auth)")}>
                     <Ionicons name="chevron-back-outline" size={33} color="#F5F0E6" />
                 </Pressable>
             </View>
@@ -66,8 +65,8 @@ const styles = StyleSheet.create({
 
     //text
     title: {
+        fontFamily: 'Quicksand_700Bold',
         fontSize: 32,
-        fontWeight: "bold",
         color: "#264E36",
         marginTop: 27,
         marginBottom: 5,
@@ -79,7 +78,7 @@ const styles = StyleSheet.create({
       color: "#264E36", 
       marginBottom: 40,
       marginLeft: 1,
-
+      fontFamily: 'Poppins_400Regular',
     },
 
     //cream sand container
@@ -102,8 +101,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 14,
         fontSize: 17,
         marginBottom: 14,
-        color: "#364E36",
-        fontWeight: "bold",
+        color: "#264E36",
+        fontFamily: 'Quicksand_700Bold',
     },
 
     //login button
@@ -120,8 +119,8 @@ const styles = StyleSheet.create({
     primaryTxt: {
         color: "#F5F0E6",
         textAlign: "center",
-        fontWeight: "bold",
         fontSize: 17,
+        fontFamily: 'Quicksand_700Bold',
     },
 
     //sign up link
@@ -129,10 +128,11 @@ const styles = StyleSheet.create({
         color: "#264E36",
         fontSize: 17,
         textAlign: "center",
+        fontFamily: 'Quicksand_400Regular',
     },
 
     link: {
-        fontWeight: "bold",
+        fontFamily: 'Quicksand_700Bold',
         textDecorationLine: "underline",
     },
 });

@@ -138,7 +138,7 @@ const styles = StyleSheet.create ({
     color: "#F5F0E6",
     fontSize: 17,
     width: "90%",
-    fontWeight: "bold",
+    fontFamily: 'Poppins_700Bold',
   },
 
   //sections label
@@ -149,7 +149,7 @@ const styles = StyleSheet.create ({
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 10,
-    fontWeight: "bold",
+    fontFamily: 'Quicksand_700Bold',
     marginBottom: 18,
     marginTop: 10,
     fontSize: 17,
@@ -172,7 +172,7 @@ const styles = StyleSheet.create ({
 
   catTxt: {
     color: "#F5F0E6",
-    fontWeight: "bold",
+    fontFamily: 'Poppins_700Bold',
     fontSize: 16,
   },
 

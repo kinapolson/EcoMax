@@ -49,7 +49,7 @@ const styles = StyleSheet.create ({
 
     title: {
         fontSize: 24,
-        fontWeight: "bold",
+        fontFamily: 'Quicksand_700Bold',
         color: "#F5F0E6",
         marginLeft: 130,
         marginTop: 20,

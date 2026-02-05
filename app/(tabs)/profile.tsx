@@ -88,7 +88,7 @@ export default function ProfileScreen() {
                         style={styles.accountBackButton}
                         onPress={() => setShowAccountInfo(false)}
                     >
-                        <Ionicons name="chevron-back" size={28} color="#f5f0e6" />
+                        <Ionicons name="chevron-back-outline" size={28} color="#f5f0e6" />
                     </TouchableOpacity>
                 </ThemedView>
 
@@ -178,7 +178,7 @@ export default function ProfileScreen() {
                         style={styles.receiptImageBackButton}
                         onPress={() => setShowReceiptImage(false)}
                     >
-                        <Ionicons name="chevron-back" size={28} color="#f5f0e6" />
+                        <Ionicons name="chevron-back-outline" size={28} color="#f5f0e6" />
                     </TouchableOpacity>
                 </View>
 
@@ -205,7 +205,7 @@ export default function ProfileScreen() {
                         style={styles.receiptDetailBackButton}
                         onPress={() => setSelectedReceipt(null)}
                     >
-                        <Ionicons name="chevron-back" size={28} color="#f5f0e6" />
+                        <Ionicons name="chevron-back-outline" size={28} color="#f5f0e6" />
                     </TouchableOpacity>
 
                     <View style={{ flex: 1 }} />
@@ -299,7 +299,7 @@ export default function ProfileScreen() {
                             style={styles.historyBackButton}
                             onPress={() => setShowHistory(false)}
                         >
-                            <Ionicons name="chevron-back" size={28} color="#264e36" />
+                            <Ionicons name="chevron-back-outline" size={28} color="#264e36" />
                         </TouchableOpacity>
 
                         <ThemedText style={styles.historyTitle}>My Receipts</ThemedText>
@@ -364,7 +364,7 @@ export default function ProfileScreen() {
                             style={styles.backButton}
                             onPress={() => setShowFriends(false)}
                         >
-                            <Ionicons name="chevron-back" size={28} color="#264e36" />
+                            <Ionicons name="chevron-back-outline" size={28} color="#264e36" />
                         </TouchableOpacity>
 
                         <ThemedText style={styles.friendsTitle}>Friends</ThemedText>
@@ -407,7 +407,7 @@ export default function ProfileScreen() {
                         style={styles.notificationsBackButton}
                         onPress={() => setShowNotifications(false)}
                     >
-                        <Ionicons name="chevron-back" size={28} color="#f5f0e6" />
+                        <Ionicons name="chevron-back-outline" size={28} color="#f5f0e6" />
                     </TouchableOpacity>
                 </ThemedView>
 
@@ -457,7 +457,7 @@ export default function ProfileScreen() {
                         style={styles.supportBackButton}
                         onPress={() => setShowSupport(false)}
                     >
-                        <Ionicons name="chevron-back" size={28} color="#f5f0e6" />
+                        <Ionicons name="chevron-back-outline" size={28} color="#f5f0e6" />
                     </TouchableOpacity>
                 </ThemedView>
 
@@ -517,7 +517,7 @@ export default function ProfileScreen() {
                         style={styles.privacyBackButton}
                         onPress={() => setShowPrivacy(false)}
                     >
-                        <Ionicons name="chevron-back" size={28} color="#f5f0e6" />
+                        <Ionicons name="chevron-back-outline" size={28} color="#f5f0e6" />
                     </TouchableOpacity>
                 </ThemedView>
 
@@ -570,7 +570,7 @@ export default function ProfileScreen() {
                             style={styles.settingsBackButton}
                             onPress={() => setShowSettings(false)}
                         >
-                            <Ionicons name="chevron-back" size={28} color="#264e36" />
+                            <Ionicons name="chevron-back-outline" size={28} color="#264e36" />
                         </TouchableOpacity>
 
                         <ThemedText style={styles.settingsTitle}>Settings</ThemedText>
@@ -734,7 +734,7 @@ const styles = StyleSheet.create({
     pointsPillText: {
         color: '#f5f0e6',
         fontSize: 22,
-        fontWeight: '700',
+        fontFamily: 'Quicksand_700Bold',
     },
 
     profileCardWrapper: {
@@ -800,7 +800,7 @@ const styles = StyleSheet.create({
     statValue: {
         color: '#f5f0e6',
         fontSize: 24,
-        fontWeight: '700',
+        fontFamily: 'Quicksand_700Bold',
         marginTop: 4,
         maxWidth: '100%',
         textAlign: 'center',
@@ -856,8 +856,8 @@ const styles = StyleSheet.create({
 
     actionText: {
         color: '#f5f0e6',
-        fontSize: 18,
-        fontWeight: '600',
+        fontSize: 22,
+        fontFamily: 'Quicksand_700Bold',
     },
 
     // Friends view styles
@@ -952,8 +952,8 @@ const styles = StyleSheet.create({
 
     friendName: {
         color: '#f5f0e6',
-        fontSize: 18,
-        fontWeight: '600',
+        fontSize: 20,
+        fontFamily: 'Quicksand_700Bold',
     },
 
     // Account Information view styles
@@ -996,8 +996,8 @@ const styles = StyleSheet.create({
 
     accountCardTitle: {
         color: '#f5f0e6',
-        fontSize: 20,
-        fontWeight: '600',
+        fontSize: 22,
+        fontFamily: 'Quicksand_700Bold',
         marginTop: 12,
     },
 
@@ -1032,9 +1032,9 @@ const styles = StyleSheet.create({
     },
 
     inputLabel: {
-        color: '#264e36',
+        color: '#161618',
         fontSize: 14,
-        fontWeight: '500',
+        fontFamily: 'Poppins_400Regular',
         marginBottom: 4,
         marginLeft: 12,
     },
@@ -1043,11 +1043,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderRadius: 20,
         borderWidth: 1,
-        borderColor: '#264e36',
+        borderColor: '#161618',
         paddingVertical: 14,
         paddingHorizontal: 16,
-        fontSize: 16,
-        color: '#264e36',
+        fontSize: 17,
+        color: '#161618',
+        fontFamily: 'Quicksand_700Bold',
     },
 
     saveButton: {
@@ -1061,7 +1062,7 @@ const styles = StyleSheet.create({
     saveButtonText: {
         color: '#264e36',
         fontSize: 18,
-        fontWeight: '600',
+        fontFamily: 'Quicksand_700Bold',
     },
 
     // History/My Receipts view styles
@@ -1099,8 +1100,9 @@ const styles = StyleSheet.create({
     },
 
     historyTitle: {
-        fontSize: 24,
-        fontWeight: '700',
+        fontSize: 32,
+        lineHeight: 42,
+        fontFamily: 'Quicksand_700Bold',
         color: '#264e36',
         flex: 1,
         textAlign: 'center',
@@ -1200,13 +1202,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
 
-    indeuLogoText: {
-        color: '#c4c4a0',
-        fontSize: 8,
-        fontWeight: '700',
-        letterSpacing: 0.5,
-    },
-
     blankLogo: {
         width: 50,
         height: 50,
@@ -1227,9 +1222,9 @@ const styles = StyleSheet.create({
     },
 
     receiptStoreName: {
-        fontSize: 18,
-        fontWeight: '700',
-        color: '#264e36',
+        fontSize: 20,
+        fontFamily: 'Quicksand_700Bold',
+        color: '#161618',
         marginBottom: 4,
     },
 
@@ -1241,14 +1236,15 @@ const styles = StyleSheet.create({
 
     receiptPoints: {
         fontSize: 14,
-        fontWeight: '600',
-        color: '#264e36',
+        fontFamily: 'Quicksand_700Bold',
+        color: '#161618',
         marginLeft: 4,
     },
 
     receiptDate: {
         fontSize: 12,
-        color: '#666',
+        color: '#161618',
+        fontFamily: 'Poppins_400Regular',
     },
 
     // Receipt Detail view styles
@@ -1304,20 +1300,21 @@ const styles = StyleSheet.create({
     receiptDetailStoreName: {
         fontSize: 20,
         fontWeight: '700',
-        color: '#000',
+        color: '#161618',
         marginBottom: 4,
     },
 
     receiptDetailDate: {
         fontSize: 14,
-        color: '#666',
+        color: '#161618',
         marginBottom: 16,
+        fontFamily: 'Poppins_400Regular',
     },
 
     receiptDashedLine: {
         width: '100%',
         borderBottomWidth: 1,
-        borderBottomColor: '#999',
+        borderBottomColor: '#161618',
         borderStyle: 'dashed',
         marginVertical: 8,
     },
@@ -1336,13 +1333,15 @@ const styles = StyleSheet.create({
 
     receiptItemText: {
         fontSize: 14,
-        color: '#000',
+        color: '#161618',
+        fontFamily: 'Poppins_400Regular',
         flex: 1,
     },
 
     receiptItemPrice: {
         fontSize: 14,
-        color: '#000',
+        color: '#161618',
+        fontFamily: 'Poppins_400Regular',
         marginLeft: 16,
     },
 
@@ -1355,14 +1354,14 @@ const styles = StyleSheet.create({
 
     receiptTotalLabel: {
         fontSize: 16,
-        fontWeight: '700',
-        color: '#000',
+        fontFamily: 'Poppins_700Bold',
+        color: '#161618',
     },
 
     receiptTotalValue: {
         fontSize: 16,
-        fontWeight: '400',
-        color: '#000',
+        fontFamily: 'Poppins_400Regular',
+        color: '#161618',
     },
 
     receiptPointsEarned: {
@@ -1373,9 +1372,10 @@ const styles = StyleSheet.create({
     },
 
     receiptPointsEarnedText: {
-        fontSize: 28,
-        fontWeight: '700',
-        color: '#264e36',
+        fontSize: 36,
+        lineHeight: 40,
+        fontFamily: 'Quicksand_700Bold',
+        color: '#161618',
         marginLeft: 8,
     },
 
@@ -1475,8 +1475,8 @@ const styles = StyleSheet.create({
 
     settingsMenuText: {
         color: '#f5f0e6',
-        fontSize: 18,
-        fontWeight: '600',
+        fontSize: 22,
+        fontFamily: 'Quicksand_700Bold',
         flex: 1,
         marginLeft: 12,
     },
@@ -1526,8 +1526,8 @@ const styles = StyleSheet.create({
 
     notificationsCardTitle: {
         color: '#f5f0e6',
-        fontSize: 20,
-        fontWeight: '600',
+        fontSize: 22,
+        fontFamily: 'Quicksand_700Bold',
         marginTop: 12,
     },
 
@@ -1545,8 +1545,8 @@ const styles = StyleSheet.create({
 
     notificationsToggleLabel: {
         color: '#264e36',
-        fontSize: 18,
-        fontWeight: '500',
+        fontSize: 22,
+        fontFamily: 'Quicksand_700Bold',
     },
 
     // Support view styles
@@ -1594,15 +1594,15 @@ const styles = StyleSheet.create({
 
     supportCardTitle: {
         color: '#f5f0e6',
-        fontSize: 20,
-        fontWeight: '600',
+        fontSize: 22,
+        fontFamily: 'Quicksand_700Bold',
         marginTop: 12,
     },
 
     supportWelcomeText: {
         color: '#264e36',
         fontSize: 22,
-        fontWeight: '700',
+        fontFamily: 'Quicksand_700Bold',
         textAlign: 'center',
         marginTop: 24,
         marginBottom: 16,
@@ -1626,15 +1626,15 @@ const styles = StyleSheet.create({
 
     supportButtonText: {
         color: '#f5f0e6',
-        fontSize: 18,
-        fontWeight: '600',
+        fontSize: 22,
+        fontFamily: 'Quicksand_700Bold',
         flex: 1,
     },
 
     supportFaqTitle: {
         color: '#264e36',
-        fontSize: 20,
-        fontWeight: '700',
+        fontSize: 22,
+        fontFamily: 'Quicksand_700Bold',
         textAlign: 'center',
         marginTop: 16,
         marginBottom: 16,
@@ -1685,8 +1685,8 @@ const styles = StyleSheet.create({
 
     privacyCardTitle: {
         color: '#f5f0e6',
-        fontSize: 20,
-        fontWeight: '600',
+        fontSize: 22,
+        fontFamily: 'Quicksand_700Bold',
         marginTop: 12,
     },
 
@@ -1705,8 +1705,8 @@ const styles = StyleSheet.create({
 
     privacyInfoText: {
         color: '#f5f0e6',
-        fontSize: 18,
-        fontWeight: '500',
+        fontSize: 22,
+        fontFamily: 'Poppins_400Regular',
         lineHeight: 26,
     },
 });

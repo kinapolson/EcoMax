@@ -1,9 +1,5 @@
-import { View } from "react-native";
-import { Text } from "react-native";
-import { StyleSheet } from "react-native";
-import { TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { router } from "expo-router";
-import { Image } from "react-native";
 
 export default function OpeningScreen() {
     return (
@@ -53,7 +49,7 @@ const styles = StyleSheet.create({
     primaryTxt: {
         color: "#F5F0E6",
         fontSize: 17,
-        fontWeight: "bold",
+        fontFamily: 'Quicksand_700Bold',
     },
 
     //signup button
@@ -68,6 +64,6 @@ const styles = StyleSheet.create({
     secondaryTxt: {
         color: "#F5F0E6",
         fontSize: 17,
-        fontWeight: "bold",
+        fontFamily: 'Quicksand_700Bold',
     },
 });

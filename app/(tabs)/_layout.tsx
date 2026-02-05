@@ -26,12 +26,13 @@ export default function TabLayout() {
           );
         },
 
-        tabBarActiveTintColor: "black",
+        tabBarActiveTintColor: "#5ca377",
         tabBarInactiveTintColor: "#F5F0e6",
 
         tabBarLabelStyle: {
             fontSize: 12,
             marginBottom: 6,
+            fontFamily: 'Quicksand_700Bold',
         },
       }}
     >

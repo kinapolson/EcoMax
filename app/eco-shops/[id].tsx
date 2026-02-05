@@ -83,7 +83,7 @@ export default function BusinessDetails() {
                 <Image source={business.image} style={styles.itemImage} />
 
                 <View style={styles.ptsRow}>
-                  <Ionicons name="leaf" size={14} color="#264e36" />
+                  <Ionicons name="leaf" size={14} color="#1c4964" />
                   <Text style={styles.ptsTxt}>{business.points}</Text>
                 </View>
               </View>
@@ -158,7 +158,7 @@ const styles = StyleSheet.create ({
 
   title: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontFamily: 'Quicksand_700Bold',
     color: "#F5F0E6",
   },
 
@@ -173,6 +173,7 @@ const styles = StyleSheet.create ({
     fontSize: 15,
     color: "#F5F0E6",
     lineHeight: 22,
+    fontFamily: 'Poppins_400Regular',
   },
 
   ratingRow: {
@@ -183,6 +184,7 @@ const styles = StyleSheet.create ({
     fontSize: 15,
     color: "#F5F0E6",
     lineHeight: 22,
+    fontFamily: 'Poppins_400Regular',
   },
 
   //featured items
@@ -227,7 +229,7 @@ const styles = StyleSheet.create ({
 
   ptsTxt: {
     marginLeft: 4,
-    fontWeight: "bold",
-    color: "#264e36",
+    fontFamily: 'Quicksand_700Bold',
+    color: "#1c4964",
   },
 });

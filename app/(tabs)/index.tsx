@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
   headerTxt: {
     fontSize: 36,
     lineHeight: 44,
-    fontWeight: "bold",
+    fontFamily: 'Quicksand_700Bold',
     color: "#F5F0E6",
     left: 7.5,
   },
@@ -160,14 +160,15 @@ const styles = StyleSheet.create({
   },
 
   homeLabel: {
-    fontSize: 12,
+    fontSize: 14,
     color: "#F5F0E6",
+    fontFamily: 'Quicksand_700Bold',
   },
 
   homeValue: {
     fontSize: 36,
     lineHeight: 44,
-    fontWeight: "bold",
+    fontFamily: 'Quicksand_700Bold',
     color: "#F5F0E6",
   },
 
@@ -195,7 +196,7 @@ const styles = StyleSheet.create({
 
   cardTitle: {
     fontSize: 17,
-    fontWeight: "bold",
+    fontFamily: 'Quicksand_700Bold',
     color: "#F5F0E6",
   },
 
@@ -250,7 +251,8 @@ const styles = StyleSheet.create({
   },
 
   day: {
-    fontSize: 10,
+    fontSize: 15,
     color: "#F5F0E6",
+    fontFamily: 'Poppins_400Regular',
   },
 });

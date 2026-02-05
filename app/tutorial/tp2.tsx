@@ -84,7 +84,7 @@ const styles=StyleSheet.create({
 
   headerTitle: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontFamily: "Quicksand_700Bold",
     color: "#F5F0E6",
     right: 134,
   },
@@ -111,7 +111,7 @@ const styles=StyleSheet.create({
 
   title: {
     fontSize: 25,
-    fontWeight: "bold",
+    fontFamily: 'Quicksand_700Bold',
     marginBottom: 12,
     color: "#F5F0E6",
   },
@@ -120,6 +120,7 @@ const styles=StyleSheet.create({
     fontSize: 20,
     lineHeight: 22,
     color: "#F5F0E6",
+    fontFamily: 'Poppins_400Regular',
   },
 
   //nav btns

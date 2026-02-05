@@ -273,10 +273,6 @@ const styles = StyleSheet.create({
     padding: 8,
   },
 
-  searchText: {
-    fontSize: 24,
-  },
-
   image: {
     height: 49,
     width: 37,
@@ -293,10 +289,11 @@ const styles = StyleSheet.create({
   tabTxt: {
     fontSize: 15,
     color: "#264e36",
+    fontFamily: 'Quicksand_400Regular',
   },
 
   activeTab: {
-    fontWeight: "bold",
+    fontFamily: 'Quicksand_700Bold',
     borderBottomWidth: 2,
     borderBottomColor: "#264e36",
     paddingBottom: 4,
@@ -318,12 +315,13 @@ const styles = StyleSheet.create({
     color: "#F5F0E6", 
     fontSize: 17,
     textAlign: "center",
+    fontFamily: 'Quicksand_700Bold',
   },
 
   pointsValue: {
     color: "#F5F0E6", 
     fontSize: 38, 
-    fontWeight: "bold",
+    fontFamily: 'Quicksand_700Bold',
     textAlign: "center",
   },
 
@@ -337,7 +335,7 @@ const styles = StyleSheet.create({
     borderRadius: 10, 
     marginBottom: 12, 
     fontSize: 17, 
-    fontWeight: "bold", 
+    fontFamily: 'Quicksand_700Bold',
   },
 
   //card grid
@@ -382,9 +380,9 @@ const styles = StyleSheet.create({
   }, 
   
   ptsTxt: { 
-    color: "#264e36", 
-    fontSize: 12, 
-    fontWeight: "bold", 
+    color: "#1c4964", 
+    fontSize: 14, 
+    fontFamily: 'Quicksand_700Bold',
   },
 
   //redeem tab
@@ -397,8 +395,8 @@ const styles = StyleSheet.create({
   },
 
   currentPointsText: {
-    fontSize: 18,
-    fontWeight: "bold",
+    fontSize: 25,
+    fontFamily: 'Quicksand_700Bold',
     color: "#264e36",
   },
 
@@ -456,7 +454,7 @@ const styles = StyleSheet.create({
 
   redeemName: {
     fontSize: 14,
-    fontWeight: "bold",
+    fontFamily: 'Quicksand_700Bold',
     color: "#f5f0e6",
     marginBottom: 8,
   },
@@ -468,8 +466,8 @@ const styles = StyleSheet.create({
   },
 
   redeemPoints: {
-    fontSize: 13,
-    fontWeight: "bold",
+    fontSize: 17,
+    fontFamily: 'Quicksand_700Bold',
     color: "#f5f0e6",
   },
 
@@ -482,7 +480,7 @@ const styles = StyleSheet.create({
 
   priceText: {
     fontSize: 13,
-    fontWeight: "bold",
+    fontFamily: 'Quicksand_700Bold',
     color: "#264e36",
   },
 
@@ -497,7 +495,7 @@ const styles = StyleSheet.create({
   redeemButtonText: {
     color: "#f5f0e6",
     fontSize: 12,
-    fontWeight: "bold",
+    fontFamily: 'Quicksand_700Bold',
     letterSpacing: 0.5,
   },
 
@@ -562,7 +560,7 @@ const styles = StyleSheet.create({
 
   rankName: {
     fontSize: 11,
-    fontWeight: "bold",
+    fontFamily: 'Quicksand_700Bold',
     color: "#264e36",
     textAlign: "center",
     marginBottom: 4,
@@ -576,8 +574,8 @@ const styles = StyleSheet.create({
   },
 
   rankScoreText: {
-    fontSize: 11,
-    fontWeight: "bold",
+    fontSize: 15,
+    fontFamily: 'Quicksand_700Bold',
     color: "#f5f0e6",
   },
 
@@ -607,8 +605,8 @@ const styles = StyleSheet.create({
   },
 
   listRankNumberText: {
-    fontSize: 16,
-    fontWeight: "bold",
+    fontSize: 17,
+    fontFamily: 'Poppins_700Bold',
     color: "#f5f0e6",
   },
 
@@ -632,8 +630,8 @@ const styles = StyleSheet.create({
   },
 
   listUserName: {
-    fontSize: 14,
-    fontWeight: "bold",
+    fontSize: 17,
+    fontFamily: 'Quicksand_700Bold',
     color: "#f5f0e6",
   },
 
@@ -646,7 +644,7 @@ const styles = StyleSheet.create({
 
   listScoreText: {
     fontSize: 12,
-    fontWeight: "bold",
+    fontFamily: 'Poppins_400Regular',
     color: "#264e36",
   },
 

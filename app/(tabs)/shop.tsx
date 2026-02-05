@@ -70,8 +70,9 @@ export default function ShopScreen() {
         <Image source={require('../../assets/images/ecomax_icon_dark.png')} 
           style={styles.image}
         /> 
-        <Pressable onPress={() => router.push("/search")}></Pressable>
-        <Ionicons name="search" size={24} color="#F5F0E6" /> 
+        <Pressable onPress={() => router.push("/search")}>
+          <Ionicons name="search" size={24} color="#F5F0E6" /> 
+        </Pressable>
       </View>
 
        {/* tab navigation */}
@@ -222,6 +223,7 @@ const styles = StyleSheet.create({
 
   searchText: {
     fontSize: 24,
+    fontFamily: 'Poppins_700Bold',
   },
 
   image: {
@@ -240,10 +242,11 @@ const styles = StyleSheet.create({
   tabTxt: {
     fontSize: 15,
     color: "#264e36",
+    fontFamily: 'Quicksand_400Regular',
   },
   
   activeTab: {
-    fontWeight: "bold",
+    fontFamily: 'Quicksand_700Bold',
     borderBottomWidth: 2,
     borderBottomColor: "#264e36",
     paddingBottom: 4,
@@ -263,7 +266,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 12,
     fontSize: 17,
-    fontWeight: "bold",
+    fontFamily: 'Quicksand_700Bold',
   },
 
   //eco buisness card grid
@@ -301,7 +304,7 @@ const styles = StyleSheet.create({
 
   cardName: {
     fontSize: 10,
-    fontWeight: "bold",
+    fontFamily: 'Poppins_700Bold',
     color: "#264e36",
     marginTop: 2.5,
     marginBottom: 6,
@@ -316,9 +319,9 @@ const styles = StyleSheet.create({
   },
 
   ptsTxt: {
-    color: "#264e36",
-    fontSize: 12,
-    fontWeight: "bold",
+    color: "#1c4964",
+    fontSize: 14,
+    fontFamily: 'Quicksand_700Bold',
   },
 
   //map
@@ -350,7 +353,7 @@ const styles = StyleSheet.create({
   },
 
   input: {
-    fontWeight: "bold",
+    fontFamily: 'Poppins_700Bold',
     borderRadius: 7,
     paddingVertical: 10,
     paddingHorizontal: 14,

@@ -7,15 +7,15 @@ export default function RewardsScreen() {
   const [activeTab, setActiveTab] = useState("browse");
 
   const favorites = [
-    { id: 1, name: "Eco Product 1", points: 25, image: "🌿" },
-    { id: 2, name: "Eco Product 2", points: 25, image: "" },
-    { id: 3, name: "Eco Product 3", points: 25, image: "" },
+    { id: 1, name: "Eco Product 1", points: 25, logo: require("../../assets/images/items/l_black_clay_fw.webp"), },
+    { id: 2, name: "Eco Product 2", points: 25, logo: require("../../assets/images/items/c_ic_bears.webp"), },
+    { id: 3, name: "Eco Product 3", points: 25, logo: require("../../assets/images/items/gp_uw.png"), },
   ];
 
   const previouslyClaimed = [
-    { id: 4, name: "Claimed Item 1", points: 25, image: "" },
-    { id: 5, name: "Claimed Item 2", points: 25, image: "" },
-    { id: 6, name: "Claimed Item 3", points: 25, image: "" },
+    { id: 4, name: "Claimed Item 1", points: 25, logo: require("../../assets/images/items/ia-creme-brulee-candle.webp"), },
+    { id: 5, name: "Claimed Item 2", points: 25, logo: require("../../assets/images/items/ia-blue-tansy-body-oil.webp"), },
+    { id: 6, name: "Claimed Item 3", points: 25, logo: require("../../assets/images/items/ia-tummeric-soap.webp"), },
   ];
 
   const redeemRewards = [
@@ -44,10 +44,9 @@ export default function RewardsScreen() {
         <Image source={require('../../assets/images/ecomax_icon_dark.png')} 
           style={styles.image}
         /> 
-
-        <Pressable onPress={() => router.back()}> 
+        <Pressable onPress={() => router.push("/search")}>
           <Ionicons name="search" size={24} color="#F5F0E6" /> 
-        </Pressable> 
+        </Pressable>
       </View>
 
       {/* tab navigation */}
@@ -87,10 +86,16 @@ export default function RewardsScreen() {
             <View style={styles.cardGrid}> 
               {favorites.map((item, index) => ( 
                 <View key={index} style={styles.cardWrapper}> 
-                  <TouchableOpacity style={styles.card}> 
-                    <View style={styles.logoBox}> 
-                      <Text style={styles.logotTxt}>{item.name[0]}</Text> 
-                    </View> 
+                  <TouchableOpacity style={styles.card} 
+                    onPress={() => router.push(`/eco-items/${item.id}`)}
+                  > 
+                    <View style={styles.logoBox}>
+                      <Image 
+                        source={item.logo}
+                        style={styles.logoImage}
+                        resizeMode="contain"
+                      />
+                    </View>
                     
                     <View style={styles.ptsRow}> 
                       <Text style={styles.ptsTxt}>{item.points}</Text> 
@@ -106,9 +111,15 @@ export default function RewardsScreen() {
             <View style={styles.cardGrid}> 
               {previouslyClaimed.map((item, index) => ( 
                 <View key={index} style={styles.cardWrapper}> 
-                  <TouchableOpacity style={styles.card}> 
-                    <View style={styles.logoBox}> 
-                      <Text style={styles.logotTxt}>{item.name[0]}</Text> 
+                  <TouchableOpacity style={styles.card} 
+                    onPress={() => router.push(`/eco-items/${item.id}`)}
+                  > 
+                    <View style={styles.logoBox}>
+                      <Image 
+                        source={item.logo}
+                        style={styles.logoImage}
+                        resizeMode="contain"
+                      />
                     </View> 
 
                     <View style={styles.ptsRow}> 
@@ -299,20 +310,21 @@ const styles = StyleSheet.create({
   pointsBar: {
     backgroundColor: "#5ca377", 
     borderRadius: 10, 
-    padding: 16, 
+    padding: 40, 
     marginBottom: 16,
   },
 
   pointsTxt: {
     color: "#F5F0E6", 
-    fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 17,
+    textAlign: "center",
   },
 
   pointsValue: {
     color: "#F5F0E6", 
-    fontSize: 22, 
+    fontSize: 38, 
     fontWeight: "bold",
+    textAlign: "center",
   },
 
   //card group labels 
@@ -348,20 +360,19 @@ const styles = StyleSheet.create({
     padding: 8, 
   }, 
 
-  logoBox: { 
-    height: 60, 
+  logoBox: {
+    height: 60,
     backgroundColor: "#F5F0E6",
-    borderRadius: 6, 
-    justifyContent: "center", 
-    alignItems: "center", 
-    marginBottom: 8, 
-  }, 
-    
-  logotTxt: { 
-    color: "#5ca377", 
-    fontSize: 24, 
-    fontWeight: "bold", 
-  }, 
+    borderRadius: 6,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 8,
+  },
+
+  logoImage: {
+    width: "90%",
+    height: "90%"
+  },  
   
   ptsRow: { 
     backgroundColor: "#F5F0E6", 

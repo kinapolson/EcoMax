@@ -17,17 +17,27 @@ export default function ShopScreen() {
   });
 
   const ecoBusinesses = [
-    { name: "Indeu Apothecary", points: 25 },
-    { name: "Good Fills", points: 25 },
-    { name: "Chamberlin's", points: 25 },
-    { name: "Green Phantom", points: 25 },
-    { name: "LÜFKA", points: 25 },
-    { name: "Orlando Cleaners", points: 25 },
+    { id: "indeu", name: "Indeu Apothecary", points: 25, 
+      logo: require("../../assets/images/logos/ia_logo.avif"),
+    },
+    { id: "goodgills", name: "Good Fills", points: 25,
+      logo: require("../../assets/images/logos/gf_logo.png"),
+     },
+    { id: "chamberlins", name: "Chamberlin's", points: 25,
+      logo: require("../../assets/images/logos/c_logo.png"), },
+    { name: "Green Phantom", points: 25,
+      logo: require("../../assets/images/logos/gp_logo.png"), },
+    { name: "LÜFKA", points: 25,
+      logo: require("../../assets/images/logos/l_logo.png"), },
+    { name: "Orlando Cleaners", points: 25,
+      logo: require("../../assets/images/logos/oc_logo.png"), },
   ];
 
   const moreEcoBusiness = [
-    { name: "Origins", points: 25},
-    { name: "Peralta Clothing", points: 25},
+    { name: "Origins", points: 25,
+      logo: require("../../assets/images/logos/o_logo.png"),},
+    { name: "Peralta Clothing", points: 25,
+      logo: require("../../assets/images/logos/pc_logo.png"),},
     { name: "...", points: 25},
   ];
 
@@ -60,10 +70,8 @@ export default function ShopScreen() {
         <Image source={require('../../assets/images/ecomax_icon_dark.png')} 
           style={styles.image}
         /> 
-
-        <Pressable onPress={() => router.back()}> 
-          <Ionicons name="search" size={24} color="#F5F0E6" /> 
-        </Pressable> 
+        <Pressable onPress={() => router.push("/search")}></Pressable>
+        <Ionicons name="search" size={24} color="#F5F0E6" /> 
       </View>
 
        {/* tab navigation */}
@@ -105,10 +113,15 @@ export default function ShopScreen() {
               {ecoBusinesses.map((item, index) => (
                 <View key={index} style={styles.cardWrapper}>
                   {/* card */}
-                  <TouchableOpacity style={styles.card}>
+                  <TouchableOpacity style={styles.card}
+                    onPress={() => router.push(`/eco-shops/${item.id}`)}>
                     {/* buisness logo */}
                     <View style={styles.logoBox}>
-                      <Text style={styles.logotTxt}>{item.name[0]}</Text>
+                      <Image 
+                        source={item.logo}
+                        style={styles.logoImage}
+                        resizeMode="contain"
+                      />
                     </View>
 
                     {/* eco pts */}                 
@@ -133,7 +146,11 @@ export default function ShopScreen() {
                   <TouchableOpacity style={styles.card}>
                     {/* buisness logo */}
                     <View style={styles.logoBox}>
-                      <Text style={styles.logotTxt}>{item.name[0]}</Text>
+                      <Image 
+                        source={item.logo}
+                        style={styles.logoImage}
+                        resizeMode="contain"
+                      />
                     </View>
 
                     {/* eco pts */}                 
@@ -201,14 +218,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-  },
-
-  headerIcon: {
-    fontSize: 28,
-  },
-
-  searchIcon: {
-    padding: 8,
   },
 
   searchText: {
@@ -285,10 +294,9 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
 
-  logotTxt: {
-    color: "#5ca377",
-    fontSize: 24,
-    fontWeight: "bold",
+  logoImage: {
+    width: "90%",
+    height: "90%"
   },
 
   cardName: {

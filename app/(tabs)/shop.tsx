@@ -1,15 +1,20 @@
-import { TextInput, View, Text, StyleSheet, ScrollView, TouchableOpacity, Pressable, Image } from "react-native";
-import React, { useState } from "react";
-import MapView from "react-native-maps"
-import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import React, { useState } from "react";
+import { Image, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+
+let MapView: any = null;
+
+if (Platform.OS !== "web") {
+  MapView = require("react-native-maps").default;
+}
 
 export default function ShopScreen() {
-  const [activeTab, setActiveTab] = useState("business"); {/* swith btwn tabs */}
+  const [activeTab, setActiveTab] = useState("business"); {/* swith btwn tabs */ }
   const router = useRouter();
-  const [searchText, setSearchText] = useState(""); {/* search map feat */}
-  {/* set default map area to orl */}
-  const [mapRegion, setMapRegion] = useState({ 
+  const [searchText, setSearchText] = useState(""); {/* search map feat */ }
+  {/* set default map area to orl */ }
+  const [mapRegion, setMapRegion] = useState({
     latitude: 28.5383,
     longitude: -81.3792,
     latitudeDelta: 0.05,
@@ -17,40 +22,54 @@ export default function ShopScreen() {
   });
 
   const ecoBusinesses = [
-    { id: "indeu", name: "Indeu Apothecary", points: 25, 
+    {
+      id: "indeu", name: "Indeu Apothecary", points: 25,
       logo: require("../../assets/images/logos/ia_logo.avif"),
     },
-    { id: "goodgills", name: "Good Fills", points: 25,
+    {
+      id: "goodgills", name: "Good Fills", points: 25,
       logo: require("../../assets/images/logos/gf_logo.png"),
-     },
-    { id: "chamberlins", name: "Chamberlin's", points: 25,
-      logo: require("../../assets/images/logos/c_logo.png"), },
-    { name: "Green Phantom", points: 25,
-      logo: require("../../assets/images/logos/gp_logo.png"), },
-    { name: "LÜFKA", points: 25,
-      logo: require("../../assets/images/logos/l_logo.png"), },
-    { name: "Orlando Cleaners", points: 25,
-      logo: require("../../assets/images/logos/oc_logo.png"), },
+    },
+    {
+      id: "chamberlins", name: "Chamberlin's", points: 25,
+      logo: require("../../assets/images/logos/c_logo.png"),
+    },
+    {
+      name: "Green Phantom", points: 25,
+      logo: require("../../assets/images/logos/gp_logo.png"),
+    },
+    {
+      name: "LÜFKA", points: 25,
+      logo: require("../../assets/images/logos/l_logo.png"),
+    },
+    {
+      name: "Orlando Cleaners", points: 25,
+      logo: require("../../assets/images/logos/oc_logo.png"),
+    },
   ];
 
   const moreEcoBusiness = [
-    { name: "Origins", points: 25,
-      logo: require("../../assets/images/logos/o_logo.png"),},
-    { name: "Peralta Clothing", points: 25,
-      logo: require("../../assets/images/logos/pc_logo.png"),},
-    { name: "...", points: 25},
+    {
+      name: "Origins", points: 25,
+      logo: require("../../assets/images/logos/o_logo.png"),
+    },
+    {
+      name: "Peralta Clothing", points: 25,
+      logo: require("../../assets/images/logos/pc_logo.png"),
+    },
+    { name: "...", points: 25 },
   ];
 
-  {/* search map feat */}
+  {/* search map feat */ }
   const handleSearch = async () => {
-    if(!searchText) return;
+    if (!searchText) return;
     try {
       const response = await fetch(
         `https://nominatim.openstreetmap.org/search?format=json&q=${searchText}`
       );
 
       const data = await response.json();
-      if(data.length > 0) {
+      if (data.length > 0) {
         setMapRegion({
           latitude: parseFloat(data[0].lat),
           longitude: parseFloat(data[0].lon),
@@ -65,17 +84,17 @@ export default function ShopScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}> 
-        {/* logo and search setup */} 
-        <Image source={require('../../assets/images/ecomax_icon_dark.png')} 
+      <View style={styles.header}>
+        {/* logo and search setup */}
+        <Image source={require('../../assets/images/ecomax_icon_dark.png')}
           style={styles.image}
-        /> 
+        />
         <Pressable onPress={() => router.push("/search")}>
-          <Ionicons name="search" size={24} color="#F5F0E6" /> 
+          <Ionicons name="search" size={24} color="#F5F0E6" />
         </Pressable>
       </View>
 
-       {/* tab navigation */}
+      {/* tab navigation */}
       <View style={styles.tabRow}>
         {/* business tab */}
         <TouchableOpacity onPress={() => setActiveTab("business")}>
@@ -88,7 +107,7 @@ export default function ShopScreen() {
             Business
           </Text>
         </TouchableOpacity>
-        
+
         {/* map tab */}
         <TouchableOpacity onPress={() => setActiveTab("map")}>
           <Text
@@ -103,7 +122,7 @@ export default function ShopScreen() {
       </View>
 
       <ScrollView contentContainerStyle={styles.content}>
-        
+
         {/* busiesss content*/}
         {activeTab === "business" && (
           <>
@@ -118,14 +137,14 @@ export default function ShopScreen() {
                     onPress={() => router.push(`/eco-shops/${item.id}`)}>
                     {/* buisness logo */}
                     <View style={styles.logoBox}>
-                      <Image 
+                      <Image
                         source={item.logo}
                         style={styles.logoImage}
                         resizeMode="contain"
                       />
                     </View>
 
-                    {/* eco pts */}                 
+                    {/* eco pts */}
                     <View style={styles.ptsRow}>
                       <Text style={styles.ptsTxt}>{item.points}</Text>
                     </View>
@@ -147,14 +166,14 @@ export default function ShopScreen() {
                   <TouchableOpacity style={styles.card}>
                     {/* buisness logo */}
                     <View style={styles.logoBox}>
-                      <Image 
+                      <Image
                         source={item.logo}
                         style={styles.logoImage}
                         resizeMode="contain"
                       />
                     </View>
 
-                    {/* eco pts */}                 
+                    {/* eco pts */}
                     <View style={styles.ptsRow}>
                       <Text style={styles.ptsTxt}>{item.points}</Text>
                     </View>
@@ -169,9 +188,9 @@ export default function ShopScreen() {
         )}
 
         {/* map content */}
-        {activeTab === "map" &&(
+        {activeTab === "map" && (
           <>
-          {/* search bar */}
+            {/* search bar */}
             <View style={styles.mapSearchBar}>
               <TextInput
                 placeholder="Find Near Me"
@@ -190,9 +209,16 @@ export default function ShopScreen() {
                 style={styles.mapWrapper}
                 onPress={() => router.push("/full-map")}
               >
-                <MapView style={styles.map} 
-                region={mapRegion}
-                />
+                {Platform.OS === "web" ? (
+                  <View style={[styles.map, { justifyContent: "center", alignItems: "center" }]}>
+                    <Text style={{ color: "white", fontFamily: "Poppins_700Bold", textAlign: "center", paddingHorizontal: 12 }}>
+                      Map preview is only avaliable on iOS/Android.
+                      {"\n"}(Web version for Docker grading)
+                    </Text>
+                  </View>
+                ) : (
+                  <MapView style={styles.map} region={mapRegion} />
+                )}
               </Pressable>
             </View>
           </>
@@ -244,7 +270,7 @@ const styles = StyleSheet.create({
     color: "#264e36",
     fontFamily: 'Quicksand_400Regular',
   },
-  
+
   activeTab: {
     fontFamily: 'Quicksand_700Bold',
     borderBottomWidth: 2,

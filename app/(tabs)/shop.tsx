@@ -1,14 +1,20 @@
-import { TextInput, View } from "react-native";
-import { Text } from "react-native";
-import { StyleSheet } from "react-native";
-import { ScrollView } from "react-native";
-import { TouchableOpacity } from "react-native";
+import { TextInput, View, Text, StyleSheet, ScrollView, TouchableOpacity, Pressable, Image } from "react-native";
 import React, { useState } from "react";
 import MapView from "react-native-maps"
+import { useRouter } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function ShopScreen() {
-  {/* swith btwn tabs */}
-  const [activeTab, setActiveTab] = useState("business");
+  const [activeTab, setActiveTab] = useState("business"); {/* swith btwn tabs */}
+  const router = useRouter();
+  const [searchText, setSearchText] = useState(""); {/* search map feat */}
+  {/* set default map area to orl */}
+  const [mapRegion, setMapRegion] = useState({ 
+    latitude: 28.5383,
+    longitude: -81.3792,
+    latitudeDelta: 0.05,
+    longitudeDelta: 0.05,
+  });
 
   const ecoBusinesses = [
     { name: "Indeu Apothecary", points: 25 },
@@ -25,10 +31,39 @@ export default function ShopScreen() {
     { name: "...", points: 25},
   ];
 
+  {/* search map feat */}
+  const handleSearch = async () => {
+    if(!searchText) return;
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${searchText}`
+      );
+
+      const data = await response.json();
+      if(data.length > 0) {
+        setMapRegion({
+          latitude: parseFloat(data[0].lat),
+          longitude: parseFloat(data[0].lon),
+          latitudeDelta: 0.05,
+          longitudeDelta: 0.05,
+        });
+      }
+    } catch (error) {
+      console.log("Location Not Found");
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        {/* logo and search setup */}
+      <View style={styles.header}> 
+        {/* logo and search setup */} 
+        <Image source={require('../../assets/images/ecomax_icon_dark.png')} 
+          style={styles.image}
+        /> 
+
+        <Pressable onPress={() => router.back()}> 
+          <Ionicons name="search" size={24} color="#F5F0E6" /> 
+        </Pressable> 
       </View>
 
        {/* tab navigation */}
@@ -119,18 +154,30 @@ export default function ShopScreen() {
         {activeTab === "map" &&(
           <>
           {/* search bar */}
-          <View style={styles.mapSearchBar}>
-            <TextInput
-              placeholder="Find Near Me"
-              placeholderTextColor="white"
-              style={styles.input}
-            />
-          </View>
+            <View style={styles.mapSearchBar}>
+              <TextInput
+                placeholder="Find Near Me"
+                placeholderTextColor="white"
+                style={styles.input}
+                value={searchText}
+                onChangeText={setSearchText}
+                onSubmitEditing={handleSearch}
+              />
+            </View>
 
-          {/* map */}
-          <View style={styles.mapPlaceholder}>
-              <MapView style={styles.map} />
-            </View></>
+            {/* map */}
+            <View style={styles.mapPlaceholder}>
+              {/* tap feature to large map screen */}
+              <Pressable
+                style={styles.mapWrapper}
+                onPress={() => router.push("/full-map")}
+              >
+                <MapView style={styles.map} 
+                region={mapRegion}
+                />
+              </Pressable>
+            </View>
+          </>
         )}
       </ScrollView>
     </View>
@@ -147,9 +194,30 @@ const styles = StyleSheet.create({
   //header
   header: {
     backgroundColor: "#264e36",
-    paddingTop: 80,
-    paddingBottom: 65,
-    paddingLeft: 20,
+    paddingTop: 70,
+    paddingBottom: 20,
+    paddingLeft: 25,
+    paddingRight: 20,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+
+  headerIcon: {
+    fontSize: 28,
+  },
+
+  searchIcon: {
+    padding: 8,
+  },
+
+  searchText: {
+    fontSize: 24,
+  },
+
+  image: {
+    height: 49,
+    width: 37,
   },
 
   //tabs
@@ -157,7 +225,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     paddingVertical: 12,
-    backgroundColor: "F5F0E6",
+    backgroundColor: "#F5F0E6",
   },
 
   tabTxt: {
@@ -255,17 +323,21 @@ const styles = StyleSheet.create({
   },
 
   map: {
-    width: "90%",
-    height: "90%",
-    borderRadius: 6,
+    flex: 1,
   },
-  
+
+  mapWrapper: {
+    width: "90%",
+    height: "92%",
+    borderRadius: 6,
+    overflow: "hidden",
+  },
+
   mapSearchBar: {
     height: 50,
     backgroundColor: "#a47148",
     borderRadius: 29,
     justifyContent: "center",
-    alignItems: "center",
     marginBottom: 15,
   },
 
@@ -275,5 +347,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 14,
     fontSize: 15,
+    color: "white",
+    marginLeft: 5,
   },
 });

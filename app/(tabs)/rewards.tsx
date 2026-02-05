@@ -1,5 +1,7 @@
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View, Pressable, Image} from "react-native";
+import { router } from "expo-router";
 import React, { useState } from "react";
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function RewardsScreen() {
   const [activeTab, setActiveTab] = useState("browse");
@@ -37,11 +39,15 @@ export default function RewardsScreen() {
   return (
     <View style={styles.container}>
       {/* header */}
-      <View style={styles.header}>
-        <View />
-        <TouchableOpacity style={styles.searchIcon}>
-          <Text style={styles.searchText}>🔍</Text>
-        </TouchableOpacity>
+      <View style={styles.header}> 
+        {/* logo and search setup */} 
+        <Image source={require('../../assets/images/ecomax_icon_dark.png')} 
+          style={styles.image}
+        /> 
+
+        <Pressable onPress={() => router.back()}> 
+          <Ionicons name="search" size={24} color="#F5F0E6" /> 
+        </Pressable> 
       </View>
 
       {/* tab navigation */}
@@ -70,62 +76,57 @@ export default function RewardsScreen() {
         {activeTab === "browse" && (
           <>
             {/* eco pts banner */}
-            <View style={styles.ecoPointsBanner}>
-              <Text style={styles.ecoPointsLabel}>Eco Points</Text>
-              <Text style={styles.ecoPointsValue}>{ecoPoints}</Text>
-            </View>
+            <View style={styles.pointsBar}> 
+              <Text style={styles.pointsTxt}>Eco Points</Text> 
+              <Text style={styles.pointsValue}>350</Text> 
+            </View> 
+            
+            {/* favorites section */}
+            <Text style={styles.categoryLabel}>Favorites</Text> 
+            
+            <View style={styles.cardGrid}> 
+              {favorites.map((item, index) => ( 
+                <View key={index} style={styles.cardWrapper}> 
+                  <TouchableOpacity style={styles.card}> 
+                    <View style={styles.logoBox}> 
+                      <Text style={styles.logotTxt}>{item.name[0]}</Text> 
+                    </View> 
+                    
+                    <View style={styles.ptsRow}> 
+                      <Text style={styles.ptsTxt}>{item.points}</Text> 
+                      </View> 
+                  </TouchableOpacity> 
+                </View> 
+              ))} 
+            </View> 
+            
+            {/* previously claimed section */}
+            <Text style={styles.categoryLabel}>Previously Claimed</Text> 
+            
+            <View style={styles.cardGrid}> 
+              {previouslyClaimed.map((item, index) => ( 
+                <View key={index} style={styles.cardWrapper}> 
+                  <TouchableOpacity style={styles.card}> 
+                    <View style={styles.logoBox}> 
+                      <Text style={styles.logotTxt}>{item.name[0]}</Text> 
+                    </View> 
 
-            {/* favorites */}
-            <Text style={styles.sectionLabel}>Favorites</Text>
-            <View style={styles.cardGrid}>
-              {favorites.map((item) => (
-                <View key={item.id} style={styles.cardWrapper}>
-                  <TouchableOpacity style={styles.card}>
-                    <View style={styles.imageBox}>
-                      <Text style={styles.imageText}>{item.image}</Text>
-                    </View>
-                    <TouchableOpacity style={styles.heartIcon}>
-                      <Text style={styles.heartText}>♥</Text>
-                    </TouchableOpacity>
-                  </TouchableOpacity>
-                  <View style={styles.pointsRow}>
-                    <Text style={styles.pointsText}>◎ {item.points}</Text>
-                  </View>
-                </View>
-              ))}
-            </View>
-
-            {/* previously claimed */}
-            <Text style={styles.sectionLabel}>Previously Claimed</Text>
-            <View style={styles.cardGrid}>
-              {previouslyClaimed.map((item) => (
-                <View key={item.id} style={styles.cardWrapper}>
-                  <TouchableOpacity style={styles.card}>
-                    <View style={styles.imageBox}>
-                      <Text style={styles.imageText}>{item.image}</Text>
-                    </View>
-                    <TouchableOpacity style={styles.heartIcon}>
-                      <Text style={styles.heartText}>♥</Text>
-                    </TouchableOpacity>
-                  </TouchableOpacity>
-                  <View style={styles.pointsRow}>
-                    <Text style={styles.pointsText}>◎ {item.points}</Text>
-                  </View>
+                    <View style={styles.ptsRow}> 
+                      <Text style={styles.ptsTxt}>{item.points}</Text> 
+                    </View> 
+                  </TouchableOpacity> 
                 </View>
               ))}
             </View>
           </>
         )}
 
-        {/* redeem tab */}
         {activeTab === "redeem" && (
           <>
-            {/* current pts display */}
             <View style={styles.currentPointsDisplay}>
               <Text style={styles.currentPointsText}>◎ {currentPoints}</Text>
             </View>
 
-            {/* redeem rewards list */}
             <View style={styles.redeemList}>
               {redeemRewards.map((reward) => (
                 <View key={reward.id} style={styles.redeemCard}>
@@ -159,28 +160,54 @@ export default function RewardsScreen() {
         {/* leaderboard tab */}
         {activeTab === "leaderboard" && (
           <View>
+            {/* Top 3 Ranking */}
             <View style={styles.topRankingContainer}>
-              {leaderboardUsers.slice(0, 3).map((user, index) => (
-                <View key={user.id} style={styles.rankCardWrapper}>
+              {/* Rank 2 - Left (Chris Robinson) */}
+              <View style={styles.rankCardWrapper}>
+                <View style={styles.rankCard2}>
                   <View style={styles.rankProfileArea}>
-                    <Text style={styles.rankProfileImage}>{user.image}</Text>
+                    <Text style={styles.rankProfileImage}>{leaderboardUsers[0].image}</Text>
                   </View>
-                  <Text style={styles.rankName}>{user.name}</Text>
+                  <Text style={styles.rankName}>{leaderboardUsers[0].name}</Text>
                   <View style={styles.rankScoreBadge}>
-                    <Text style={styles.rankScoreText}>◎ {user.score}</Text>
+                    <Text style={styles.rankScoreText}>◎ {leaderboardUsers[0].score}</Text>
                   </View>
-                  <View
-                    style={[
-                      styles.rankBar,
-                      { backgroundColor: user.barColor, height: `${100 - index * 20}%` },
-                    ]}
-                  />
                 </View>
-              ))}
+                <View style={[styles.rankBar, { backgroundColor: leaderboardUsers[0].barColor, height: "60%" }]} />
+              </View>
+
+              {/* Rank 1 - Center (Jennifer Patterson) */}
+              <View style={styles.rankCardWrapper}>
+                <View style={styles.rankCard1}>
+                  <View style={styles.rankProfileArea}>
+                    <Text style={styles.rankProfileImage}>{leaderboardUsers[1].image}</Text>
+                  </View>
+                  <Text style={styles.rankName}>{leaderboardUsers[1].name}</Text>
+                  <View style={styles.rankScoreBadge}>
+                    <Text style={styles.rankScoreText}>◎ {leaderboardUsers[1].score}</Text>
+                  </View>
+                </View>
+                <View style={[styles.rankBar, { backgroundColor: leaderboardUsers[1].barColor, height: "100%" }]} />
+              </View>
+
+              {/* Rank 3 - Right (James Smith) */}
+              <View style={styles.rankCardWrapper}>
+                <View style={styles.rankCard3}>
+                  <View style={styles.rankProfileArea}>
+                    <Text style={styles.rankProfileImage}>{leaderboardUsers[2].image}</Text>
+                  </View>
+                  <Text style={styles.rankName}>{leaderboardUsers[2].name}</Text>
+                  <View style={styles.rankScoreBadge}>
+                    <Text style={styles.rankScoreText}>◎ {leaderboardUsers[2].score}</Text>
+                  </View>
+                </View>
+                <View style={[styles.rankBar, { backgroundColor: leaderboardUsers[2].barColor, height: "48%" }]} />
+              </View>
             </View>
 
+            {/* Ranks 4-6 List */}
             <View style={styles.restRankingList}>
-              {leaderboardUsers.slice(3).map((user) => (
+              {leaderboardUsers.slice(3).map((user, index) => (
                 <View key={user.id} style={styles.listRankCard}>
                   <View style={styles.listRankNumber}>
                     <Text style={styles.listRankNumberText}>{user.rank}</Text>
@@ -194,6 +221,9 @@ export default function RewardsScreen() {
                   <View style={styles.listUserScore}>
                     <Text style={styles.listScoreText}>◎ {user.score}</Text>
                   </View>
+                  <TouchableOpacity style={styles.listLikeIcon}>
+                    <Text style={styles.likeIconText}>{user.rank <= 5 ? "⬆️" : "⬇️"}</Text>
+                  </TouchableOpacity>
                 </View>
               ))}
             </View>
@@ -215,9 +245,9 @@ const styles = StyleSheet.create({
   //header
   header: {
     backgroundColor: "#264e36",
-    paddingTop: 50,
+    paddingTop: 70,
     paddingBottom: 20,
-    paddingLeft: 20,
+    paddingLeft: 25,
     paddingRight: 20,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -246,71 +276,56 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     paddingVertical: 12,
-    backgroundColor: "#f5f0e6",
-    borderBottomWidth: 1,
-    borderBottomColor: "#e0dbd0",
+    backgroundColor: "#F5F0E6",
   },
 
   tabTxt: {
-    fontSize: 14,
+    fontSize: 15,
     color: "#264e36",
-    fontWeight: "600",
   },
 
   activeTab: {
     fontWeight: "bold",
-    borderBottomWidth: 3,
+    borderBottomWidth: 2,
     borderBottomColor: "#264e36",
-    paddingBottom: 8,
+    paddingBottom: 4,
   },
 
   //content
   content: {
-    paddingVertical: 16,
-    paddingHorizontal: 16,
-    paddingBottom: 20,
+    padding: 16,
   },
 
-  //eco points banner
-  ecoPointsBanner: {
-    backgroundColor: "#5ca377",
-    flexDirection: "row",
-    paddingVertical: 16,
-    paddingHorizontal: 20,
-    marginBottom: 24,
-    borderRadius: 12,
-    alignSelf: "center",
-    width: "65%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  ecoPointsLabel: {
-    fontSize: 12,
-    color: "#f5f0e6",
-    flex: 1,
-    textAlign: "center",
-  },
-
-  ecoPointsValue: {
-    fontSize: 36,
-    color: "#f5f0e6",
-    fontWeight: "bold",
-    flex: 1,
-    textAlign: "center",
-  },
-
-  //section labels
-  sectionLabel: {
-    backgroundColor: "#a47148",
-    color: "#f5f0e6",
-    alignSelf: "flex-start",
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 10,
+  pointsBar: {
+    backgroundColor: "#5ca377", 
+    borderRadius: 10, 
+    padding: 16, 
     marginBottom: 16,
-    fontSize: 16,
+  },
+
+  pointsTxt: {
+    color: "#F5F0E6", 
     fontWeight: "bold",
+    fontSize: 16,
+  },
+
+  pointsValue: {
+    color: "#F5F0E6", 
+    fontSize: 22, 
+    fontWeight: "bold",
+  },
+
+  //card group labels 
+  categoryLabel: { 
+    backgroundColor: "#A47148", 
+    color: "#F5F0E6", 
+    alignSelf: "flex-start", 
+    paddingHorizontal: 12, 
+    paddingVertical: 6, 
+    borderRadius: 10, 
+    marginBottom: 12, 
+    fontSize: 17, 
+    fontWeight: "bold", 
   },
 
   //card grid
@@ -326,59 +341,39 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
 
-  card: {
-    backgroundColor: "#264e36",
-    borderRadius: 10,
-    overflow: "hidden",
-    aspectRatio: 1,
-    position: "relative",
-  },
+  //eco business 
+  card: { 
+    backgroundColor: "#264e36", 
+    borderRadius: 10, 
+    padding: 8, 
+  }, 
 
-  imageBox: {
-    flex: 1,
-    backgroundColor: "#f5f0e6",
-    justifyContent: "center",
-    alignItems: "center",
-    borderWidth: 3,
-    borderColor: "#264e36",
-  },
-
-  imageText: {
-    fontSize: 40,
-  },
-
-  heartIcon: {
-    position: "absolute",
-    top: 8,
-    right: 8,
-    backgroundColor: "#264e36",
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    justifyContent: "center",
-    alignItems: "center",
-    borderWidth: 2,
-    borderColor: "#f5f0e6",
-  },
-
-  heartText: {
-    fontSize: 16,
-    color: "#f5f0e6",
-  },
-
-  pointsRow: {
-    backgroundColor: "#264e36",
-    paddingVertical: 8,
-    alignItems: "center",
-    marginTop: -3,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
-  },
-
-  pointsText: {
-    color: "#5ca377",
-    fontSize: 13,
-    fontWeight: "bold",
+  logoBox: { 
+    height: 60, 
+    backgroundColor: "#F5F0E6",
+    borderRadius: 6, 
+    justifyContent: "center", 
+    alignItems: "center", 
+    marginBottom: 8, 
+  }, 
+    
+  logotTxt: { 
+    color: "#5ca377", 
+    fontSize: 24, 
+    fontWeight: "bold", 
+  }, 
+  
+  ptsRow: { 
+    backgroundColor: "#F5F0E6", 
+    borderRadius: 6, 
+    paddingVertical: 4, 
+    alignItems: "center", 
+  }, 
+  
+  ptsTxt: { 
+    color: "#264e36", 
+    fontSize: 12, 
+    fontWeight: "bold", 
   },
 
   //redeem tab
@@ -495,7 +490,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
 
-  //leaderboard tab
+  // Leaderboard Styles
   topRankingContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
@@ -512,6 +507,24 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: "100%",
     justifyContent: "flex-end",
+  },
+
+  rankCard1: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 12,
+  },
+
+  rankCard2: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 12,
+  },
+
+  rankCard3: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 12,
   },
 
   rankBar: {
@@ -557,7 +570,7 @@ const styles = StyleSheet.create({
     color: "#f5f0e6",
   },
 
-  //rest of ranking list (4-6)
+  // Rest of Ranking List (4-6)
   restRankingList: {
     gap: 12,
     marginTop: 12,

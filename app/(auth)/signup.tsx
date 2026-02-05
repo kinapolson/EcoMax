@@ -1,14 +1,12 @@
-import { TextInput, View, Text, StyleSheet, TouchableOpacity, Pressable } from "react-native";
+import { TextInput, View } from "react-native";
+import { Text } from "react-native";
+import { StyleSheet } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { router } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
-
 
 export default function SignUpScreen() {
     return (
         <View style={styles.container}>
-            <Pressable onPress={() => router.back()}>
-                    <Ionicons name="arrow-back" size={24} color="#F5F0E6" />
-            </Pressable>
             <View style={styles.card}>
                 <Text style={styles.title}>Create an Account</Text>
                 <Text style={styles.subtitle}>Sign Up to Continue</Text>
@@ -110,26 +108,21 @@ const styles = StyleSheet.create({
 
     //text field inputs
     input: {
-        backgroundColor: "transparent",
-        borderBottomWidth: 2,
-        borderBottomColor: "#264E36",
+        backgroundColor: "#FFFFFF",
+        borderRadius: 7,
         paddingVertical: 14,
         paddingHorizontal: 14,
         fontSize: 17,
         marginBottom: 14,
-        color: "#364E36",
-        fontWeight: "bold",
     },
 
-    //signup button
+    //login button
     primaryButton: {
         backgroundColor: "#264E36",
         paddingVertical: 14,
         borderRadius: 7,
         marginTop: 50,
         marginBottom: 10,
-        width: "60%",
-        alignSelf: "center",
     },
 
     primaryTxt: {

@@ -1,21 +1,19 @@
-import { TextInput, View, Text, StyleSheet, ScrollView, Pressable, TouchableOpacity, Image } from "react-native";
 import React, { useState } from "react";
-import { router } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function RewardsScreen() {
   const [activeTab, setActiveTab] = useState("browse");
 
   const favorites = [
-    { name: "Indeu Apothecary", points: 25 },
-    { name: "Good Fills", points: 25 },
-    { name: "Chamberlin's", points: 25 },
+    { id: 1, name: "Eco Product 1", points: 25, image: "🌿" },
+    { id: 2, name: "Eco Product 2", points: 25, image: "" },
+    { id: 3, name: "Eco Product 3", points: 25, image: "" },
   ];
 
-  const claimed = [
-    { name: "Origins", points: 25 },
-    { name: "Peralta Clothing", points: 25 },
-    { name: "...", points: 25 },
+  const previouslyClaimed = [
+    { id: 4, name: "Claimed Item 1", points: 25, image: "" },
+    { id: 5, name: "Claimed Item 2", points: 25, image: "" },
+    { id: 6, name: "Claimed Item 3", points: 25, image: "" },
   ];
 
   const redeemRewards = [
@@ -38,20 +36,19 @@ export default function RewardsScreen() {
 
   return (
     <View style={styles.container}>
+      {/* header */}
       <View style={styles.header}>
-        <Image
-          source={require("../../assets/images/ecomax_icon_dark.png")}
-          style={styles.image}
-        />
-        <Pressable onPress={() => router.back()}>
-          <Ionicons name="search" size={24} color="#F5F0E6" />
-        </Pressable>
+        <View />
+        <TouchableOpacity style={styles.searchIcon}>
+          <Text style={styles.searchText}>🔍</Text>
+        </TouchableOpacity>
       </View>
 
+      {/* tab navigation */}
       <View style={styles.tabRow}>
         <TouchableOpacity onPress={() => setActiveTab("browse")}>
           <Text style={[styles.tabTxt, activeTab === "browse" && styles.activeTab]}>
-            Browse
+            Browse Rewards
           </Text>
         </TouchableOpacity>
 
@@ -68,56 +65,67 @@ export default function RewardsScreen() {
         </TouchableOpacity>
       </View>
 
+      {/* browse tab */}
       <ScrollView contentContainerStyle={styles.content}>
         {activeTab === "browse" && (
           <>
-            <View style={styles.pointsBar}>
-              <Text style={styles.pointsTxt}>Eco Points</Text>
-              <Text style={styles.pointsValue}>{ecoPoints}</Text>
+            {/* eco pts banner */}
+            <View style={styles.ecoPointsBanner}>
+              <Text style={styles.ecoPointsLabel}>Eco Points</Text>
+              <Text style={styles.ecoPointsValue}>{ecoPoints}</Text>
             </View>
 
-            <Text style={styles.categoryLabel}>Favorites</Text>
-
+            {/* favorites */}
+            <Text style={styles.sectionLabel}>Favorites</Text>
             <View style={styles.cardGrid}>
-              {favorites.map((item, index) => (
-                <View key={index} style={styles.cardWrapper}>
+              {favorites.map((item) => (
+                <View key={item.id} style={styles.cardWrapper}>
                   <TouchableOpacity style={styles.card}>
-                    <View style={styles.logoBox}>
-                      <Text style={styles.logotTxt}>{item.name[0]}</Text>
+                    <View style={styles.imageBox}>
+                      <Text style={styles.imageText}>{item.image}</Text>
                     </View>
-                    <View style={styles.ptsRow}>
-                      <Text style={styles.ptsTxt}>{item.points}</Text>
-                    </View>
+                    <TouchableOpacity style={styles.heartIcon}>
+                      <Text style={styles.heartText}>♥</Text>
+                    </TouchableOpacity>
                   </TouchableOpacity>
+                  <View style={styles.pointsRow}>
+                    <Text style={styles.pointsText}>◎ {item.points}</Text>
+                  </View>
                 </View>
               ))}
             </View>
 
-            <Text style={styles.categoryLabel}>Previously Claimed</Text>
-
+            {/* previously claimed */}
+            <Text style={styles.sectionLabel}>Previously Claimed</Text>
             <View style={styles.cardGrid}>
-              {claimed.map((item, index) => (
-                <View key={index} style={styles.cardWrapper}>
+              {previouslyClaimed.map((item) => (
+                <View key={item.id} style={styles.cardWrapper}>
                   <TouchableOpacity style={styles.card}>
-                    <View style={styles.logoBox}>
-                      <Text style={styles.logotTxt}>{item.name[0]}</Text>
+                    <View style={styles.imageBox}>
+                      <Text style={styles.imageText}>{item.image}</Text>
                     </View>
-                    <View style={styles.ptsRow}>
-                      <Text style={styles.ptsTxt}>{item.points}</Text>
-                    </View>
+                    <TouchableOpacity style={styles.heartIcon}>
+                      <Text style={styles.heartText}>♥</Text>
+                    </TouchableOpacity>
                   </TouchableOpacity>
+                  <View style={styles.pointsRow}>
+                    <Text style={styles.pointsText}>◎ {item.points}</Text>
+                  </View>
                 </View>
               ))}
             </View>
           </>
         )}
 
+        {/* redeem tab */}
         {activeTab === "redeem" && (
           <>
+            {/* current pts display */}
             <View style={styles.currentPointsDisplay}>
               <Text style={styles.currentPointsText}>◎ {currentPoints}</Text>
             </View>
 
+            {/* redeem rewards list */}
             <View style={styles.redeemList}>
               {redeemRewards.map((reward) => (
                 <View key={reward.id} style={styles.redeemCard}>
@@ -148,19 +156,18 @@ export default function RewardsScreen() {
           </>
         )}
 
+        {/* leaderboard tab */}
         {activeTab === "leaderboard" && (
           <View>
             <View style={styles.topRankingContainer}>
               {leaderboardUsers.slice(0, 3).map((user, index) => (
                 <View key={user.id} style={styles.rankCardWrapper}>
-                  <View>
-                    <View style={styles.rankProfileArea}>
-                      <Text style={styles.rankProfileImage}>{user.image}</Text>
-                    </View>
-                    <Text style={styles.rankName}>{user.name}</Text>
-                    <View style={styles.rankScoreBadge}>
-                      <Text style={styles.rankScoreText}>◎ {user.score}</Text>
-                    </View>
+                  <View style={styles.rankProfileArea}>
+                    <Text style={styles.rankProfileImage}>{user.image}</Text>
+                  </View>
+                  <Text style={styles.rankName}>{user.name}</Text>
+                  <View style={styles.rankScoreBadge}>
+                    <Text style={styles.rankScoreText}>◎ {user.score}</Text>
                   </View>
                   <View
                     style={[
@@ -197,19 +204,36 @@ export default function RewardsScreen() {
   );
 }
 
+
 const styles = StyleSheet.create({
   //body
   container: {
     flex: 1,
-    backgroundColor: "#F5F0E6",
-   },
+    backgroundColor: "#f5f0e6",
+  },
 
   //header
   header: {
     backgroundColor: "#264e36",
-    paddingTop: 70,
+    paddingTop: 50,
     paddingBottom: 20,
-    paddingLeft: 25,
+    paddingLeft: 20,
+    paddingRight: 20,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+
+  headerIcon: {
+    fontSize: 28,
+  },
+
+  searchIcon: {
+    padding: 8,
+  },
+
+  searchText: {
+    fontSize: 24,
   },
 
   image: {
@@ -222,62 +246,79 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     paddingVertical: 12,
-    backgroundColor: "#F5F0E6",
+    backgroundColor: "#f5f0e6",
+    borderBottomWidth: 1,
+    borderBottomColor: "#e0dbd0",
   },
 
   tabTxt: {
-    fontSize: 15,
+    fontSize: 14,
     color: "#264e36",
+    fontWeight: "600",
   },
 
   activeTab: {
     fontWeight: "bold",
-    borderBottomWidth: 2,
+    borderBottomWidth: 3,
     borderBottomColor: "#264e36",
-    paddingBottom: 4,
+    paddingBottom: 8,
   },
 
+  //content
   content: {
-    padding: 16,
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    paddingBottom: 20,
   },
 
-  pointsBar: {
+  //eco points banner
+  ecoPointsBanner: {
     backgroundColor: "#5ca377",
-    borderRadius: 10,
-    padding: 16,
-    marginBottom: 16,
+    flexDirection: "row",
+    paddingVertical: 16,
+    paddingHorizontal: 20,
+    marginBottom: 24,
+    borderRadius: 12,
+    alignSelf: "center",
+    width: "65%",
+    justifyContent: "center",
+    alignItems: "center",
   },
 
-  pointsTxt: {
-    color: "#F5F0E6",
+  ecoPointsLabel: {
+    fontSize: 12,
+    color: "#f5f0e6",
+    flex: 1,
+    textAlign: "center",
+  },
+
+  ecoPointsValue: {
+    fontSize: 36,
+    color: "#f5f0e6",
     fontWeight: "bold",
-    fontSize: 16,
+    flex: 1,
+    textAlign: "center",
   },
 
-  pointsValue: {
-    color: "#F5F0E6",
-    fontSize: 22,
-    fontWeight: "bold",
-  },
-
-  //card group labels
-  categoryLabel: {
-    backgroundColor: "#A47148",
-    color: "#F5F0E6",
+  //section labels
+  sectionLabel: {
+    backgroundColor: "#a47148",
+    color: "#f5f0e6",
     alignSelf: "flex-start",
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 10,
-    marginBottom: 12,
-    fontSize: 17,
+    marginBottom: 16,
+    fontSize: 16,
     fontWeight: "bold",
   },
 
-  //eco buisness card grid
+  //card grid
   cardGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
+    marginBottom: 24,
   },
 
   cardWrapper: {
@@ -285,46 +326,68 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
 
-  //eco business card
   card: {
     backgroundColor: "#264e36",
     borderRadius: 10,
-    padding: 8,
+    overflow: "hidden",
+    aspectRatio: 1,
+    position: "relative",
   },
 
-  logoBox: {
-    height: 60,
-    backgroundColor: "#F5F0E6",
-    borderRadius: 6,
+  imageBox: {
+    flex: 1,
+    backgroundColor: "#f5f0e6",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 8,
+    borderWidth: 3,
+    borderColor: "#264e36",
   },
 
-  logotTxt: {
-    color: "#5ca377",
-    fontSize: 24,
-    fontWeight: "bold",
+  imageText: {
+    fontSize: 40,
   },
 
-  ptsRow: {
-    backgroundColor: "#F5F0E6",
-    borderRadius: 6,
-    paddingVertical: 4,
+  heartIcon: {
+    position: "absolute",
+    top: 8,
+    right: 8,
+    backgroundColor: "#264e36",
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    justifyContent: "center",
     alignItems: "center",
+    borderWidth: 2,
+    borderColor: "#f5f0e6",
   },
 
-  ptsTxt: {
-    color: "#264e36",
-    fontSize: 12,
+  heartText: {
+    fontSize: 16,
+    color: "#f5f0e6",
+  },
+
+  pointsRow: {
+    backgroundColor: "#264e36",
+    paddingVertical: 8,
+    alignItems: "center",
+    marginTop: -3,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+  },
+
+  pointsText: {
+    color: "#5ca377",
+    fontSize: 13,
     fontWeight: "bold",
   },
 
-  // Redeem tab
+  //redeem tab
   currentPointsDisplay: {
     flexDirection: "row",
     justifyContent: "flex-end",
-    marginBottom: 16,
+    alignItems: "center",
+    marginBottom: 20,
+    paddingRight: 4,
   },
 
   currentPointsText: {
@@ -340,9 +403,12 @@ const styles = StyleSheet.create({
   redeemCard: {
     backgroundColor: "#5ca377",
     borderRadius: 12,
-    padding: 16,
+    overflow: "hidden",
+    paddingVertical: 16,
+    paddingHorizontal: 16,
     flexDirection: "row",
     gap: 12,
+    position: "relative",
   },
 
   redeemIconContainer: {
@@ -356,11 +422,12 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#ff4444",
   },
 
   redeemIcon: {
-    fontSize: 36,
-    color: "#F5F0E6",
+    fontSize: 40,
+    color: "#f5f0e6",
     fontWeight: "bold",
   },
 
@@ -372,39 +439,45 @@ const styles = StyleSheet.create({
   redeemDetailsBox: {
     backgroundColor: "#264e36",
     borderRadius: 8,
-    padding: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 12,
+    flex: 1,
+  },
+
+  redeemNameSection: {
+    flex: 1,
   },
 
   redeemName: {
-    color: "#F5F0E6",
-    fontWeight: "bold",
     fontSize: 14,
+    fontWeight: "bold",
+    color: "#f5f0e6",
     marginBottom: 8,
   },
 
   redeemPointsPriceRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
+    justifyContent: "space-between",
   },
 
   redeemPoints: {
-    color: "#F5F0E6",
     fontSize: 13,
     fontWeight: "bold",
+    color: "#f5f0e6",
   },
 
   priceTag: {
-    backgroundColor: "#F5F0E6",
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 10,
+    backgroundColor: "#f5f0e6",
+    borderRadius: 12,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
   },
 
   priceText: {
-    color: "#264e36",
+    fontSize: 13,
     fontWeight: "bold",
-    fontSize: 12,
+    color: "#264e36",
   },
 
   redeemButton: {
@@ -416,42 +489,51 @@ const styles = StyleSheet.create({
   },
 
   redeemButtonText: {
-    color: "#F5F0E6",
-    fontWeight: "bold",
+    color: "#f5f0e6",
     fontSize: 12,
+    fontWeight: "bold",
     letterSpacing: 0.5,
   },
 
-  // Leaderboard
+  //leaderboard tab
   topRankingContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "flex-end",
+    marginBottom: 20,
+    marginTop: 135,
+    paddingHorizontal: 8,
     height: 260,
-    marginBottom: 24,
-    marginTop: 40,
+    gap: 12,
   },
 
   rankCardWrapper: {
-    alignItems: "center",
-    justifyContent: "flex-end",
     flex: 1,
+    alignItems: "center",
+    height: "100%",
+    justifyContent: "flex-end",
+  },
+
+  rankBar: {
+    width: "100%",
+    borderRadius: 12,
+    minHeight: 80,
   },
 
   rankProfileArea: {
     width: 70,
     height: 70,
     borderRadius: 35,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#ffffff",
     justifyContent: "center",
     alignItems: "center",
+    marginBottom: 8,
     borderWidth: 2,
     borderColor: "#264e36",
-    marginBottom: 8,
   },
 
   rankProfileImage: {
-    fontSize: 36,
+    fontSize: 40,
   },
 
   rankName: {
@@ -464,40 +546,36 @@ const styles = StyleSheet.create({
 
   rankScoreBadge: {
     backgroundColor: "#5ca377",
-    borderRadius: 14,
-    paddingHorizontal: 10,
+    borderRadius: 18,
     paddingVertical: 4,
+    paddingHorizontal: 12,
   },
 
   rankScoreText: {
-    color: "#F5F0E6",
-    fontWeight: "bold",
     fontSize: 11,
+    fontWeight: "bold",
+    color: "#f5f0e6",
   },
 
-  rankBar: {
-    width: "100%",
-    borderRadius: 12,
-    marginTop: 8,
-  },
-
-  // Ranks 4+
+  //rest of ranking list (4-6)
   restRankingList: {
     gap: 12,
+    marginTop: 12,
   },
 
   listRankCard: {
     backgroundColor: "#5ca377",
     borderRadius: 12,
-    padding: 14,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
     flexDirection: "row",
     alignItems: "center",
     gap: 12,
   },
 
   listRankNumber: {
-    width: 40,
-    height: 40,
+    width: 44,
+    height: 44,
     borderRadius: 8,
     backgroundColor: "#264e36",
     justifyContent: "center",
@@ -505,16 +583,16 @@ const styles = StyleSheet.create({
   },
 
   listRankNumberText: {
-    color: "#F5F0E6",
-    fontWeight: "bold",
     fontSize: 16,
+    fontWeight: "bold",
+    color: "#f5f0e6",
   },
 
   listUserProfile: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "#FFFFFF",
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: "#ffffff",
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 2,
@@ -522,7 +600,7 @@ const styles = StyleSheet.create({
   },
 
   listProfileImage: {
-    fontSize: 22,
+    fontSize: 24,
   },
 
   listUserInfo: {
@@ -530,21 +608,34 @@ const styles = StyleSheet.create({
   },
 
   listUserName: {
-    color: "#F5F0E6",
-    fontWeight: "bold",
     fontSize: 14,
+    fontWeight: "bold",
+    color: "#f5f0e6",
   },
 
   listUserScore: {
-    backgroundColor: "#FFFFFF",
-    paddingHorizontal: 10,
-    paddingVertical: 6,
+    backgroundColor: "#ffffff",
     borderRadius: 8,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
   },
 
   listScoreText: {
-    color: "#264e36",
-    fontWeight: "bold",
     fontSize: 12,
+    fontWeight: "bold",
+    color: "#264e36",
+  },
+
+  listLikeIcon: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: "#ffffff",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  likeIconText: {
+    fontSize: 16,
   },
 });

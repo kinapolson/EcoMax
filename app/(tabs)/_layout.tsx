@@ -1,19 +1,8 @@
 import { Tabs } from "expo-router";
 import { View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useState } from "react";
 
 export default function TabLayout() {
-  const [shops, setShops] = useState([
-    { id: 1, name: "Indeu Apothecary", points: 25, isFavorite: false },
-    { id: 2, name: "Good Fills", points: 25, isFavorite: false },
-    { id: 3, name: "Chamberlin's", points: 25, isFavorite: false },
-    { id: 4, name: "Green Phantom", points: 25, isFavorite: false },
-    { id: 5, name: "LÜFKA", points: 25, isFavorite: false },
-    { id: 6, name: "Orlando Cleaners", points: 25, isFavorite: false },
-    { id: 7, name: "Origins", points: 25, isFavorite: false },
-    { id: 8, name: "Peralta Clothing", points: 25, isFavorite: false },
-  ]);
 
   return (
     <Tabs

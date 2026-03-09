@@ -1,9 +1,58 @@
-import { TextInput, View, Text, StyleSheet, TouchableOpacity, Pressable } from "react-native";
-import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
+import React, { useState } from "react";
+import { Alert, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
+const API_URL = "http://192.168.137.1";
 
 export default function SignUpScreen() {
+    //variables for input fields
+    const [first_name, setFirstName] = useState("");
+    const [last_name, setLastName] = useState("");
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+
+    const handleSignup = async () => {
+        //checks password matching
+        if (password !== confirmPassword) {
+            Alert.alert("Error", "Passwords Do Not Match");
+            return;
+        }
+
+        try {
+            //sends user info to signup.php to the server
+            const response = await fetch(`${API_URL}/signup.php`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    first_name: first_name,
+                    last_name: last_name,
+                    username: username,
+                    email: email,
+                    password: password
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.status === "success") {
+                Alert.alert("Success", "Account Created");
+                router.replace("/login");
+            } else {
+                Alert.alert("Signup Failed", data.message);
+            }
+
+        } catch (error) {
+            console.log(error);
+            Alert.alert("Server Error", "Could Not Connect to Server");
+        }
+
+    };
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -21,14 +70,26 @@ export default function SignUpScreen() {
                     placeholder="First Name"
                     placeholderTextColor="#6b6b6b"
                     style={styles.input}
+                    value={first_name}
+                    onChangeText={setFirstName}
                 />
 
                 {/* last name */}
                 <TextInput
                     placeholder="Last Name"
                     placeholderTextColor="#6b6b6b"
-                    secureTextEntry
                     style={styles.input}
+                    value={last_name}
+                    onChangeText={setLastName}
+                />
+
+                {/* usernanme */}
+                <TextInput
+                    placeholder="Username"
+                    placeholderTextColor="#6b6b6b"
+                    style={styles.input}
+                    value={username}
+                    onChangeText={setUsername}
                 />
 
                 {/* email */}
@@ -36,14 +97,18 @@ export default function SignUpScreen() {
                     placeholder="Email"
                     placeholderTextColor="#6b6b6b"
                     style={styles.input}
+                    value={email}
+                    onChangeText={setEmail}
                 />
-                
+
                 {/* password */}
                 <TextInput
                     placeholder="Password"
                     placeholderTextColor="#6b6b6b"
                     secureTextEntry
                     style={styles.input}
+                    value={password}
+                    onChangeText={setPassword}
                 />
 
                 {/* confirm password */}
@@ -52,22 +117,24 @@ export default function SignUpScreen() {
                     placeholderTextColor="#6b6b6b"
                     secureTextEntry
                     style={styles.input}
+                    value={confirmPassword}
+                    onChangeText={setConfirmPassword}
                 />
-                
-                {/* login button */}
+
+                {/* sign up button */}
                 <TouchableOpacity
                     style={styles.primaryButton}
-                    onPress={() => router.replace("/(tabs)")}
+                    onPress={handleSignup}
                 >
                     <Text style={styles.primaryTxt}>Sign Up</Text>
                 </TouchableOpacity>
 
-                {/* sign up link */}
+                {/* login link */}
                 <TouchableOpacity onPress={() => router.push("/login")}>
-                <Text style={styles.footerTxt}>
-                    Already have an account? <Text style={styles.link}>Login!</Text>
-                </Text>
-            </TouchableOpacity>
+                    <Text style={styles.footerTxt}>
+                        Already have an account? <Text style={styles.link}>Login!</Text>
+                    </Text>
+                </TouchableOpacity>
             </View>
         </View>
     );

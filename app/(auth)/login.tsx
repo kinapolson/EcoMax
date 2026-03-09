@@ -1,8 +1,61 @@
-import { TextInput, View, Text, StyleSheet, Pressable, TouchableOpacity } from "react-native";
-import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
+import React, { useState } from "react";
+import { Alert, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+
+//ip address where backend is running
+const API_URL = "http://192.168.137.1";
 
 export default function LoginScreen() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const handleLogin = async () => {
+        //checks if both of the fields are empty
+        if (!email || !password) {
+            Alert.alert("Error", "Please Enter Emmail and Password");
+            return;
+        }
+
+        try {
+            //sends e+p to login.php to the server
+            const response = await fetch(`${API_URL}/login.php`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            });
+
+            const text = await response.text();   //console txt to confirm it works
+            console.log("SERVER RESPONSE:", text);
+
+            const data = JSON.parse(text);  
+
+            if (data.status === "success") {
+                const user = data.user;
+
+                router.replace({
+                    pathname: "/(tabs)",
+                    params: {
+                        name: user.first_name,
+                        points: user.eco_pts
+                    }
+                });
+
+            } else {
+                Alert.alert("Login Failed", data.message);
+            }
+
+        } catch (error) {
+            console.log("Login Error:", error);
+            Alert.alert("Server Error", "Could not Connect to the Server");
+        }
+    };
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -20,6 +73,8 @@ export default function LoginScreen() {
                     placeholder="Email"
                     placeholderTextColor="#6b6b6b"
                     style={styles.input}
+                    value={email}
+                    onChangeText={setEmail}
                 />
 
                 {/* password */}
@@ -28,22 +83,24 @@ export default function LoginScreen() {
                     placeholderTextColor="#6b6b6b"
                     secureTextEntry
                     style={styles.input}
+                    value={password}
+                    onChangeText={setPassword}
                 />
-                
+
                 {/* login button */}
                 <TouchableOpacity
                     style={styles.primaryButton}
-                    onPress={() => router.replace("/(tabs)")}
+                    onPress={handleLogin}
                 >
                     <Text style={styles.primaryTxt}>Login</Text>
                 </TouchableOpacity>
 
                 {/* sign up link */}
                 <TouchableOpacity onPress={() => router.push("/signup")}>
-                <Text style={styles.footerTxt}>
-                    Don't have an account? <Text style={styles.link}>Sign Up!</Text>
-                </Text>
-            </TouchableOpacity>
+                    <Text style={styles.footerTxt}>
+                        Don't have an account? <Text style={styles.link}>Sign Up!</Text>
+                    </Text>
+                </TouchableOpacity>
             </View>
         </View>
     );

@@ -35,7 +35,7 @@ export default function LoginScreen() {
 
             const data = JSON.parse(text);  
 
-            if (data.status === "success") {
+            if (data.status === "Success") {
                 const user = data.user;
 
                 router.replace({

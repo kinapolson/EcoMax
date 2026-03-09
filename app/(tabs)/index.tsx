@@ -1,12 +1,13 @@
-//import { Platform, StyleSheet } from 'react-native';
-
-//import { HelloWave } from '@/components/hello-wave';
-import { StyleSheet, View, ScrollView } from "react-native";
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+import { useLocalSearchParams } from "expo-router";
+import React from 'react';
+import { ScrollView, StyleSheet, View } from "react-native";
 
 export default function HomeScreen() {
+
+  const { name, points } = useLocalSearchParams();
+
   const progress = 86;
 
   return (
@@ -15,7 +16,7 @@ export default function HomeScreen() {
       {/* header */}
       <ThemedView style={styles.header}>
         <ThemedText style={styles.headerTxt}>
-          Hi James!
+          Hi {name}!
         </ThemedText>
       </ThemedView>
 
@@ -27,7 +28,7 @@ export default function HomeScreen() {
               Eco Points
             </ThemedText>
             <ThemedText style={styles.homeValue}>
-              350
+              {points}
             </ThemedText>
           </View>
 
@@ -65,7 +66,7 @@ export default function HomeScreen() {
           </ThemedText>
         </View>
       </View>
-
+      
       {/* impact tracker */}
       <View style={styles.card}>
         <ThemedText style={styles.cardTitle}>
@@ -74,7 +75,6 @@ export default function HomeScreen() {
         
         <View style={styles.cardTitleDivider} />
 
-        {/* impact tracker content */}
         <View style={styles.chart}>
             <View style={styles.barGroup}>
               <View style={[styles.bar, { height: 30 }]} />
@@ -115,7 +115,6 @@ export default function HomeScreen() {
     </ScrollView>
   );
 }
-
 
 const styles = StyleSheet.create({
   //body

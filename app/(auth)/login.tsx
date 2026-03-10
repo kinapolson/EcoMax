@@ -41,6 +41,7 @@ export default function LoginScreen() {
                 router.replace({
                     pathname: "/(tabs)",
                     params: {
+                        userId: user.id,
                         name: user.first_name,
                         points: user.eco_pts
                     }

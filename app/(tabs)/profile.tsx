@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Image, ScrollView, StyleSheet, Switch, TextInput, TouchableOpacity, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import { Ionicons } from '@expo/vector-icons';
+import React, { useState } from 'react';
+import { Image, ScrollView, StyleSheet, Switch, TextInput, TouchableOpacity, View } from 'react-native';
 
 const RECEIPTS_DATA = [
     {

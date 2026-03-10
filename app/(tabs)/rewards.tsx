@@ -1,30 +1,111 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View, Pressable, Image} from "react-native";
-import { router } from "expo-router";
-import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { router, useLocalSearchParams } from "expo-router";
+import React, { useEffect, useState } from "react";
+import { Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+
+//reward struct from rewards db
+type Reward = {
+  reward_id: number;
+  reward_name: string;
+  reward_price: number;
+  pts_required: number;
+};
+
+//business item struct form business item db
+type EcoItem = {
+  id: number;
+  image: string;
+  points: number;
+};
 
 export default function RewardsScreen() {
   const [activeTab, setActiveTab] = useState("browse");
+  const [redeemedItems, setRedeemedItems] = useState<number[]>([]);
+  const [favorites, setFavorites] = useState<EcoItem[]>([]);
+  const [previouslyClaimed, setPreviouslyClaimed] = useState<EcoItem[]>([]);
+  const [userPoints, setUserPoints] = useState(0);
+  const [rewards, setRewards] = useState<Reward[]>([]);
+  const { userId } = useLocalSearchParams();
 
-  const favorites = [
-    { id: 1, name: "Eco Product 1", points: 25, logo: require("../../assets/images/items/l_black_clay_fw.webp"), },
-    { id: 2, name: "Eco Product 2", points: 25, logo: require("../../assets/images/items/c_ic_bears.webp"), },
-    { id: 3, name: "Eco Product 3", points: 25, logo: require("../../assets/images/items/gp_uw.png"), },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        //grabs user's eco pts
+        const ptsRes = await fetch("http://192.168.137.1/get_user_pts.php");
+        const ptsText = await ptsRes.text();
+        const ptsData = JSON.parse(ptsText);
 
-  const previouslyClaimed = [
-    { id: 4, name: "Claimed Item 1", points: 25, logo: require("../../assets/images/items/ia-creme-brulee-candle.webp"), },
-    { id: 5, name: "Claimed Item 2", points: 25, logo: require("../../assets/images/items/ia-blue-tansy-body-oil.webp"), },
-    { id: 6, name: "Claimed Item 3", points: 25, logo: require("../../assets/images/items/ia-tummeric-soap.webp"), },
-  ];
+        if (ptsData.status === "success") {
+          setUserPoints(ptsData.points);
+        }
+        
+        //grabs fab items
+        const favRes = await fetch("http://192.168.137.1/get_b_items.php?b_id=1");
+        const favText = await favRes.text();
+        const favData = JSON.parse(favText);
 
-  const redeemRewards = [
-    { id: 1, name: "Target", icon: "●", color: "#ff4444", points: 100, price: 10 },
-    { id: 2, name: "Indeu Apothecary", icon: "●", color: "#c9a961", points: 125, price: 10 },
-    { id: 3, name: "LÜFKA", icon: "●", color: "#f4e4a6", points: 75, price: 5 },
-  ];
+        if (favData.status === "success") {
+          setFavorites(favData.items);
+        }
 
-  const ecoPoints = 350;
+        //grabs previously claimed items
+        const prevRes = await fetch("http://192.168.137.1/get_b_items.php?b_id=2");
+        const prevText = await prevRes.text();
+        const prevData = JSON.parse(prevText);
+
+        if (prevData.status === "success") {
+          setPreviouslyClaimed(prevData.items);
+        }
+
+        //grabs redeem rewards
+        const rewardsRes = await fetch("http://192.168.137.1/get_rewards.php");
+        const rewardsText = await rewardsRes.text();
+        const rewardsData = JSON.parse(rewardsText);
+
+        if (rewardsData.status === "success") {
+          setRewards(rewardsData.rewards);
+        }
+      } catch (error) {
+        console.log("FETCH ERROR:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  //unable to redeem rewards due to insufficent eco pts pop up
+  const redeemReward = async (reward: { reward_id: any; reward_name?: string; reward_price?: number; pts_required: any; }) => {
+    if (userPoints < reward.pts_required) {
+      alert("Unable to Redeem. Not Enough Eco Points.");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://192.168.1.7/redeem_reward.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          user_id: 1,
+          reward_id: reward.reward_id
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.status === "success") {
+        setUserPoints(data.new_points);
+        setRedeemedItems([...redeemedItems, reward.reward_id]);
+        alert("Reward redeemed successfully!");
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const currentPoints = 25;
 
   const leaderboardUsers = [
@@ -70,96 +151,113 @@ export default function RewardsScreen() {
         </TouchableOpacity>
       </View>
 
-      {/* browse tab */}
+      {/* Browse Tab */}
       <ScrollView contentContainerStyle={styles.content}>
+
         {activeTab === "browse" && (
           <>
-            {/* eco pts banner */}
-            <View style={styles.pointsBar}> 
-              <Text style={styles.pointsTxt}>Eco Points</Text> 
-              <Text style={styles.pointsValue}>350</Text> 
-            </View> 
-            
-            {/* favorites section */}
-            <Text style={styles.categoryLabel}>Favorites</Text> 
-            
-            <View style={styles.cardGrid}> 
-              {favorites.map((item, index) => ( 
-                <View key={index} style={styles.cardWrapper}> 
-                  <TouchableOpacity style={styles.card} 
+            {/* Points Banner */}
+            <View style={styles.pointsBar}>
+              <Text style={styles.pointsTxt}>Eco Points</Text>
+              <Text style={styles.pointsValue}>{userPoints}</Text>
+            </View>
+
+            {/* Favorites */}
+            <Text style={styles.categoryLabel}>Favorites</Text>
+
+            <View style={styles.cardGrid}>
+              {favorites.map((item, index) => (
+                <View key={index} style={styles.cardWrapper}>
+                  <TouchableOpacity
+                    style={styles.card}
                     onPress={() => router.push(`/eco-items/${item.id}`)}
-                  > 
+                  >
                     <View style={styles.logoBox}>
-                      <Image 
-                        source={item.logo}
+                      <Image
+                        source={{ uri: `http://192.168.137.1/items/${item.image}` }}
                         style={styles.logoImage}
                         resizeMode="contain"
                       />
                     </View>
-                    
-                    <View style={styles.ptsRow}> 
-                      <Text style={styles.ptsTxt}>{item.points}</Text> 
-                      </View> 
-                  </TouchableOpacity> 
-                </View> 
-              ))} 
-            </View> 
-            
-            {/* previously claimed section */}
-            <Text style={styles.categoryLabel}>Previously Claimed</Text> 
-            
-            <View style={styles.cardGrid}> 
-              {previouslyClaimed.map((item, index) => ( 
-                <View key={index} style={styles.cardWrapper}> 
-                  <TouchableOpacity style={styles.card} 
+
+                    <View style={styles.ptsRow}>
+                      <Text style={styles.ptsTxt}>{item.points}</Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              ))}
+            </View>
+
+            {/* Previously Claimed */}
+            <Text style={styles.categoryLabel}>Previously Claimed</Text>
+
+            <View style={styles.cardGrid}>
+              {previouslyClaimed.map((item, index) => (
+                <View key={index} style={styles.cardWrapper}>
+                  <TouchableOpacity
+                    style={styles.card}
                     onPress={() => router.push(`/eco-items/${item.id}`)}
-                  > 
+                  >
                     <View style={styles.logoBox}>
-                      <Image 
-                        source={item.logo}
+                      <Image
+                        source={{ uri: `http://192.168.137.1/items/${item.image}` }}
                         style={styles.logoImage}
                         resizeMode="contain"
                       />
-                    </View> 
+                    </View>
 
-                    <View style={styles.ptsRow}> 
-                      <Text style={styles.ptsTxt}>{item.points}</Text> 
-                    </View> 
-                  </TouchableOpacity> 
+                    <View style={styles.ptsRow}>
+                      <Text style={styles.ptsTxt}>{item.points}</Text>
+                    </View>
+                  </TouchableOpacity>
                 </View>
               ))}
             </View>
           </>
         )}
 
+        {/* Redeem Tab */}
         {activeTab === "redeem" && (
           <>
             <View style={styles.currentPointsDisplay}>
-              <Text style={styles.currentPointsText}>◎ {currentPoints}</Text>
+              <Text style={styles.currentPointsText}>◎ {userPoints}</Text>
             </View>
 
             <View style={styles.redeemList}>
-              {redeemRewards.map((reward) => (
-                <View key={reward.id} style={styles.redeemCard}>
+              {rewards.map((reward) => (
+                <View key={reward.reward_id} style={styles.redeemCard}>
+
                   <View style={styles.redeemIconContainer}>
-                    <View style={[styles.redeemIconBox, { backgroundColor: reward.color }]}>
-                      <Text style={styles.redeemIcon}>{reward.icon}</Text>
+                    <View style={styles.redeemIconBox}>
+                      <Text style={styles.redeemIcon}>🎁</Text>
                     </View>
                   </View>
 
                   <View style={styles.redeemRightContainer}>
+
                     <View style={styles.redeemDetailsBox}>
-                      <Text style={styles.redeemName}>{reward.name}</Text>
+                      <Text style={styles.redeemName}>{reward.reward_name}</Text>
+
                       <View style={styles.redeemPointsPriceRow}>
-                        <Text style={styles.redeemPoints}>◎ {reward.points}</Text>
+                        <Text style={styles.redeemPoints}>◎ {reward.pts_required}</Text>
+
                         <View style={styles.priceTag}>
-                          <Text style={styles.priceText}>${reward.price}</Text>
+                          <Text style={styles.priceText}>${reward.reward_price}</Text>
                         </View>
                       </View>
                     </View>
 
-                    <TouchableOpacity style={styles.redeemButton}>
-                      <Text style={styles.redeemButtonText}>REDEEM</Text>
+                    <TouchableOpacity
+                      style={[
+                        styles.redeemButton,
+                        redeemedItems.includes(reward.reward_id) && { backgroundColor: "#999" }
+                      ]}
+                      disabled={redeemedItems.includes(reward.reward_id)}
+                      onPress={() => redeemReward(reward)}
+                    >
+                      <Text style={styles.redeemButtonText}>
+                        {redeemedItems.includes(reward.reward_id) ? "REDEEMED" : "REDEEM"}
+                      </Text>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -244,7 +342,6 @@ export default function RewardsScreen() {
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   //body

@@ -1,8 +1,8 @@
-import { View, Image, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from "react-native";
-import { CameraView, useCameraPermissions } from "expo-camera";
-import { useRef, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { CameraView, useCameraPermissions } from "expo-camera";
 import { router } from "expo-router";
+import React, { useRef, useState } from "react";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function ScanScreen() {
     const cameraRef = useRef<CameraView>(null);

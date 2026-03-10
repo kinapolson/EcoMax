@@ -1,77 +1,110 @@
-import { View, Text, Pressable, StyleSheet, ScrollView, Image, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { HeaderBackButton } from "@react-navigation/elements";
+import React, { useEffect, useState } from "react";
+import { Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function BusinessDetails() {
+
   const router = useRouter();
   const { id } = useLocalSearchParams();
 
-  const featuredItems = [
-    { id: 1, image: require("../../assets/images/items/ia-blue-tansy-body-oil.webp"), points: 25 },
-    { id: 2, image: require("../../assets/images/items/ia-tummeric-soap.webp"), points: 25 },
-  ];
+  const [item, setItem] = useState<any>(null);
+  const [similarItems, setSimilarItems] = useState<any[]>([]);
+
+  useEffect(() => {
+
+    fetch(`http://192.168.137.1/get_b_items.php?item_id=${id}`)
+      .then(res => res.json())
+      .then(data => {
+
+        if (data.status === "success") {
+
+          setItem(data.item);
+
+          fetch(`http://192.168.137.1/get_b_items.php?b_id=${data.item.b_id}`)
+            .then(res => res.json())
+            .then(data2 => {
+
+              if (data2.status === "success") {
+
+                const filtered = data2.items.filter((i:any) => i.id != id);
+                setSimilarItems(filtered);
+
+              }
+
+            });
+
+        }
+
+      });
+
+  }, [id]);
+
+  if (!item) return null;
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.header}> 
-        {/* logo and search setup */} 
-        <Image source={require('../../assets/images/ecomax_icon_dark.png')} 
+
+      <View style={styles.header}>
+        <Image
+          source={require('../../assets/images/ecomax_icon_dark.png')}
           style={styles.image}
-        /> 
+        />
+
         <Pressable onPress={() => router.push("/search")}>
-          <Ionicons name="search" size={24} color="#F5F0E6" /> 
-        </Pressable> 
+          <Ionicons name="search" size={24} color="#F5F0E6" />
+        </Pressable>
       </View>
-      
+
       <View style={styles.content}>
-        {/* back btn */}
+
         <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
           <Ionicons name="chevron-back-outline" size={33} color="#264e36" />
         </TouchableOpacity>
-        
+
         <View style={styles.itemThumbCard}>
+
           <View style={styles.imgWrapper}>
+
             <View style={styles.ptsBadge}>
               <Ionicons name="leaf" size={25} color="#F5F0E6" />
-              <Text style={styles.ptsTxt}>25</Text>
+              <Text style={styles.ptsTxt}>{item.points}</Text>
             </View>
 
             <Image
-              source={require("../../assets/images/items/ia-creme-brulee-candle.webp")}
+              source={{ uri: `http://192.168.137.1/items/${item.image}` }}
               style={styles.thumbImage}
               resizeMode="cover"
             />
-            
-            <View style={styles.brandLogoWrap}>
-            <Image
-              source={require("../../assets/images/logos/ia_logo.avif")}
-              style={styles.brandLogo}
-              resizeMode="contain"
-            />
-          </View>
+
           </View>
 
-          {/* business info card */}
           <View style={styles.itemInfo}>
-            <Text style={styles.itemTitle}>Crème Brulé Soy Candle</Text>
-            <Text style={styles.price}>$38.95</Text>
+            <Text style={styles.itemTitle}>{item.name}</Text>
+            <Text style={styles.price}>${item.price}</Text>
 
             <Text style={styles.itemDescript}>
-              Indeu Apothecary offers a hand-poured natural soy candle wax in a glass jar. 
-              Scent notes of coconut and caramelized sugar,
-              rum and custard, and a vanilla-maple base.
+              {item.description}
             </Text>
           </View>
+
         </View>
 
-        {/* similar items */}
         <View style={styles.similarContainer}>
+
           <Text style={styles.title}>Similar Items</Text>
+
           <View style={styles.cardTitleDivider} />
+
           <View style={styles.itemsGrid}>
-            {featuredItems.map((business) => (
-              <View key={business.id} style={styles.itemCard}>
+
+            {similarItems.map((business) => (
+
+              <TouchableOpacity
+                key={business.id}
+                style={styles.itemCard}
+                onPress={() => router.push(`/eco-items/${business.id}`)}
+              >
 
                 <Ionicons
                   name="heart-outline"
@@ -80,17 +113,25 @@ export default function BusinessDetails() {
                   style={styles.heart}
                 />
 
-                <Image source={business.image} style={styles.itemImage} />
+                <Image
+                  source={{ uri: `http://192.168.137.1/items/${business.image}` }}
+                  style={styles.itemImage}
+                />
 
                 <View style={styles.ptsRow}>
                   <Ionicons name="leaf" size={14} color="#1c4964" />
                   <Text style={styles.ecoPtsTxt}>{business.points}</Text>
                 </View>
-              </View>
+
+              </TouchableOpacity>
+
             ))}
+
           </View>
         </View>
+
       </View>
+
     </ScrollView>
   );
 }

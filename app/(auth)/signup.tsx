@@ -14,7 +14,7 @@ import {
     View
 } from "react-native";
 
-const API_URL = "http://192.168.137.1";
+const API_URL = "http://10.127.216.112";
 
 export default function SignUpScreen() {
 

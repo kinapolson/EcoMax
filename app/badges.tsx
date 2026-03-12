@@ -18,7 +18,7 @@ export default function Badges() {
   const [badges,setBadges] = useState<Badge[]>([]);
   
   useEffect(()=> {
-    fetch("http://192.168.137.1/get_badges.php?user_id=1")
+    fetch("http://10.127.216.112/get_badges.php?user_id=1")
       .then(res=>res.json())
       .then(data=> {
         console.log("BADGE DATA:", data);

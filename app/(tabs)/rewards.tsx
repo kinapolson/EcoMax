@@ -41,7 +41,7 @@ export default function RewardsScreen() {
     const fetchData = async () => {
       try {
         //grabs user's eco pts
-        const ptsRes = await fetch("http://192.168.137.1/get_user_pts.php");
+        const ptsRes = await fetch("http://10.127.216.112/get_user_pts.php");
         const ptsText = await ptsRes.text();
         const ptsData = JSON.parse(ptsText);
 
@@ -50,7 +50,7 @@ export default function RewardsScreen() {
         }
         
         //grabs fab items
-        const favRes = await fetch("http://192.168.137.1/get_b_items.php?b_id=1");
+        const favRes = await fetch("http://10.127.216.112/get_b_items.php?b_id=1");
         const favText = await favRes.text();
         const favData = JSON.parse(favText);
 
@@ -59,7 +59,7 @@ export default function RewardsScreen() {
         }
 
         //grabs previously claimed items
-        const prevRes = await fetch("http://192.168.137.1/get_b_items.php?b_id=2");
+        const prevRes = await fetch("http://10.127.216.112/get_b_items.php?b_id=2");
         const prevText = await prevRes.text();
         const prevData = JSON.parse(prevText);
 
@@ -68,7 +68,7 @@ export default function RewardsScreen() {
         }
 
         //grabs redeem rewards
-        const rewardsRes = await fetch("http://192.168.137.1/get_rewards.php");
+        const rewardsRes = await fetch("http://10.127.216.112/get_rewards.php");
         const rewardsText = await rewardsRes.text();
         const rewardsData = JSON.parse(rewardsText);
 
@@ -77,7 +77,7 @@ export default function RewardsScreen() {
         }
 
         //grabs leaderboard data
-        const leaderboardRes = await fetch("http://192.168.137.1/get_leaderboard.php");
+        const leaderboardRes = await fetch("http://10.127.216.112/get_leaderboard.php");
         const leaderboardText = await leaderboardRes.text();
         const leaderboardData = JSON.parse(leaderboardText);
 
@@ -192,7 +192,7 @@ export default function RewardsScreen() {
                   >
                     <View style={styles.logoBox}>
                       <Image
-                        source={{ uri: `http://192.168.137.1/items/${item.image}` }}
+                        source={{ uri: `http://10.127.216.112/items/${item.image}` }}
                         style={styles.logoImage}
                         resizeMode="contain"
                       />
@@ -219,7 +219,7 @@ export default function RewardsScreen() {
                   >
                     <View style={styles.logoBox}>
                       <Image
-                        source={{ uri: `http://192.168.137.1/items/${item.image}` }}
+                        source={{ uri: `http://10.127.216.112/items/${item.image}` }}
                         style={styles.logoImage}
                         resizeMode="contain"
                       />
@@ -293,11 +293,9 @@ export default function RewardsScreen() {
         {activeTab === "leaderboard" && (
           <View>
 
-            {/* Top 3 */}
+            {/* top 3 */}
             <View style={styles.topRankingContainer}>
-
               {topThree.map((user, index) => {
-
                 const isSecond = index === 0;
                 const isFirst = index === 1;
                 const isThird = index === 2;
@@ -305,9 +303,9 @@ export default function RewardsScreen() {
                 return (
                   <View key={user.id} style={styles.rankCardWrapper}>
 
-                    {/* Profile */}
+                    {/* profile */}
                     <Image
-                      source={{ uri: `http://192.168.137.1/pfp/${user.pfp}` }}
+                      source={{ uri: `http://10.127.216.112/pfp/${user.pfp}` }}
                       style={[
                         styles.rankAvatar,
                         index === 1 && { width: 70, height: 70, borderRadius: 35 }
@@ -321,7 +319,7 @@ export default function RewardsScreen() {
                       <Text style={styles.rankScoreText}>{user.score}</Text>
                     </View>
 
-                    {/* Podium */}
+                    {/* podium */}
                     <View
                       style={[
                         styles.podium,
@@ -330,19 +328,14 @@ export default function RewardsScreen() {
                         isThird && styles.thirdPodium,
                       ]}
                     />
-
                   </View>
                 );
               })}
+            </View>s
 
-            </View>
-
-
-            {/* Rest of leaderboard */}
+            {/* rest of leaderboard */}
             <View style={styles.restRankingList}>
-
               {restUsers.map((user) => (
-
                 <View key={user.id} style={styles.listRankCard}>
 
                   <View style={styles.listRankNumber}>
@@ -352,7 +345,7 @@ export default function RewardsScreen() {
                   <View style={styles.listUserProfile}>
                     <Image
                       source={{
-                        uri: `http://192.168.137.1/pfp/${user.pfp}`
+                        uri: `http://10.127.216.112/pfp/${user.pfp}`
                       }}
                       style={styles.listAvatar}
                     />
@@ -366,13 +359,9 @@ export default function RewardsScreen() {
                     <Ionicons name="leaf" size={12} color="#264e36"/>
                     <Text style={styles.listScoreText}>{user.score}</Text>
                   </View>
-
                 </View>
-
               ))}
-
             </View>
-
           </View>
         )}
       </ScrollView>

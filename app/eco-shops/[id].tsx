@@ -10,7 +10,7 @@ export default function BusinessDetails() {
   const [business,setBusiness] = useState<any>(null);
 
   useEffect(()=>{
-    fetch(`http://192.168.137.1/business_details.php?id=${id}`)
+    fetch(`http://10.127.216.112/business_details.php?id=${id}`)
       .then(res=>res.json())
       .then(data=>{
         if(data.status==="success"){
@@ -18,7 +18,7 @@ export default function BusinessDetails() {
         }
       });
 
-    fetch(`http://192.168.137.1/get_b_items.php?b_id=${id}`)
+    fetch(`http://10.127.216.112/get_b_items.php?b_id=${id}`)
       .then(res=>res.json())
       .then(data=>{
         if(data.status==="success"){
@@ -73,7 +73,7 @@ export default function BusinessDetails() {
                 />
 
                 <Image
-                  source={{uri:`http://192.168.137.1/items/${item.image}`}}
+                  source={{uri:`http://10.127.216.112/items/${item.image}`}}
                   style={styles.itemImage}
                 />
 

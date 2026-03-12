@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Alert, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 //ip address where backend is running
-const API_URL = "http://192.168.137.1";
+const API_URL = "http://10.127.216.112";
 
 export default function LoginScreen() {
     const [email, setEmail] = useState("");

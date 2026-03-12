@@ -1,4 +1,7 @@
 <?php
+header("Content-Type: application/json");
+header("Access-Control-Allow-Origin: *");
+
 $conn = new mysqli("localhost","root","","ecomax_users");
 
 if ($conn->connect_error) {

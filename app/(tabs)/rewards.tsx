@@ -18,6 +18,7 @@ type EcoItem = {
   points: number;
 };
 
+<<<<<<< HEAD
 //leaderbaord struc
 type LeaderboardUser = {
   id: number;
@@ -27,6 +28,8 @@ type LeaderboardUser = {
   pfp: string;
 };
 
+=======
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
 export default function RewardsScreen() {
   const [activeTab, setActiveTab] = useState("browse");
   const [redeemedItems, setRedeemedItems] = useState<number[]>([]);
@@ -35,7 +38,10 @@ export default function RewardsScreen() {
   const [userPoints, setUserPoints] = useState(0);
   const [rewards, setRewards] = useState<Reward[]>([]);
   const { userId } = useLocalSearchParams();
+<<<<<<< HEAD
   const [leaderboardUsers, setLeaderboardUsers] = useState<LeaderboardUser[]>([]);
+=======
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
 
   useEffect(() => {
     const fetchData = async () => {
@@ -75,6 +81,7 @@ export default function RewardsScreen() {
         if (rewardsData.status === "success") {
           setRewards(rewardsData.rewards);
         }
+<<<<<<< HEAD
 
         //grabs leaderboard data
         const leaderboardRes = await fetch("http://192.168.137.1/get_leaderboard.php");
@@ -84,6 +91,8 @@ export default function RewardsScreen() {
         if (leaderboardData.status === "success") {
           setLeaderboardUsers(leaderboardData.leaderboard);
         }
+=======
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
       } catch (error) {
         console.log("FETCH ERROR:", error);
       }
@@ -125,6 +134,7 @@ export default function RewardsScreen() {
     }
   };
 
+<<<<<<< HEAD
   const sortedUsers = [...leaderboardUsers].sort((a,b)=>b.score-a.score);
 
   const topThree = [
@@ -134,6 +144,18 @@ export default function RewardsScreen() {
   ].filter(Boolean);
 
   const restUsers = sortedUsers.slice(3);
+=======
+  const currentPoints = 25;
+
+  const leaderboardUsers = [
+    { id: 1, name: "Chris Robinson", score: 375, rank: 1, image: "👨", barColor: "#5ca377" },
+    { id: 2, name: "Jennifer Patterson", score: 410, rank: 2, image: "👩", barColor: "#c9a961" },
+    { id: 3, name: "James Smith", score: 350, rank: 3, image: "👨", barColor: "#7a94a3" },
+    { id: 4, name: "Robert Williams", score: 302, rank: 4, image: "👨" },
+    { id: 5, name: "Crystal Park", score: 258, rank: 5, image: "👩" },
+    { id: 6, name: "Sam Stevenson", score: 250, rank: 6, image: "👩" },
+  ];
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
 
   return (
     <View style={styles.container}>
@@ -199,7 +221,10 @@ export default function RewardsScreen() {
                     </View>
 
                     <View style={styles.ptsRow}>
+<<<<<<< HEAD
                       <Ionicons name="leaf" size={14} color="#1c4964" />
+=======
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
                       <Text style={styles.ptsTxt}>{item.points}</Text>
                     </View>
                   </TouchableOpacity>
@@ -226,7 +251,10 @@ export default function RewardsScreen() {
                     </View>
 
                     <View style={styles.ptsRow}>
+<<<<<<< HEAD
                       <Ionicons name="leaf" size={14} color="#1c4964" />
+=======
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
                       <Text style={styles.ptsTxt}>{item.points}</Text>
                     </View>
                   </TouchableOpacity>
@@ -240,8 +268,12 @@ export default function RewardsScreen() {
         {activeTab === "redeem" && (
           <>
             <View style={styles.currentPointsDisplay}>
+<<<<<<< HEAD
               <Ionicons name="leaf" size={20} color="#264e36" />
               <Text style={styles.currentPointsText}>{userPoints}</Text>
+=======
+              <Text style={styles.currentPointsText}>◎ {userPoints}</Text>
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
             </View>
 
             <View style={styles.redeemList}>
@@ -250,7 +282,11 @@ export default function RewardsScreen() {
 
                   <View style={styles.redeemIconContainer}>
                     <View style={styles.redeemIconBox}>
+<<<<<<< HEAD
                       <Ionicons name="gift" size={40} color="white" />
+=======
+                      <Text style={styles.redeemIcon}>🎁</Text>
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
                     </View>
                   </View>
 
@@ -258,11 +294,17 @@ export default function RewardsScreen() {
 
                     <View style={styles.redeemDetailsBox}>
                       <Text style={styles.redeemName}>{reward.reward_name}</Text>
+<<<<<<< HEAD
                       <View style={styles.redeemPointsPriceRow}>
                         <View style={styles.redeemPointsRow}>
                           <Ionicons name="leaf" size={14} color="#F5F0E6" />
                           <Text style={styles.redeemPoints}>{reward.pts_required}</Text>
                         </View>
+=======
+
+                      <View style={styles.redeemPointsPriceRow}>
+                        <Text style={styles.redeemPoints}>◎ {reward.pts_required}</Text>
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
 
                         <View style={styles.priceTag}>
                           <Text style={styles.priceText}>${reward.reward_price}</Text>
@@ -292,6 +334,7 @@ export default function RewardsScreen() {
         {/* leaderboard tab */}
         {activeTab === "leaderboard" && (
           <View>
+<<<<<<< HEAD
 
             {/* Top 3 */}
             <View style={styles.topRankingContainer}>
@@ -373,6 +416,75 @@ export default function RewardsScreen() {
 
             </View>
 
+=======
+            {/* Top 3 Ranking */}
+            <View style={styles.topRankingContainer}>
+              {/* Rank 2 - Left (Chris Robinson) */}
+              <View style={styles.rankCardWrapper}>
+                <View style={styles.rankCard2}>
+                  <View style={styles.rankProfileArea}>
+                    <Text style={styles.rankProfileImage}>{leaderboardUsers[0].image}</Text>
+                  </View>
+                  <Text style={styles.rankName}>{leaderboardUsers[0].name}</Text>
+                  <View style={styles.rankScoreBadge}>
+                    <Text style={styles.rankScoreText}>◎ {leaderboardUsers[0].score}</Text>
+                  </View>
+                </View>
+                <View style={[styles.rankBar, { backgroundColor: leaderboardUsers[0].barColor, height: "60%" }]} />
+              </View>
+
+              {/* Rank 1 - Center (Jennifer Patterson) */}
+              <View style={styles.rankCardWrapper}>
+                <View style={styles.rankCard1}>
+                  <View style={styles.rankProfileArea}>
+                    <Text style={styles.rankProfileImage}>{leaderboardUsers[1].image}</Text>
+                  </View>
+                  <Text style={styles.rankName}>{leaderboardUsers[1].name}</Text>
+                  <View style={styles.rankScoreBadge}>
+                    <Text style={styles.rankScoreText}>◎ {leaderboardUsers[1].score}</Text>
+                  </View>
+                </View>
+                <View style={[styles.rankBar, { backgroundColor: leaderboardUsers[1].barColor, height: "100%" }]} />
+              </View>
+
+              {/* Rank 3 - Right (James Smith) */}
+              <View style={styles.rankCardWrapper}>
+                <View style={styles.rankCard3}>
+                  <View style={styles.rankProfileArea}>
+                    <Text style={styles.rankProfileImage}>{leaderboardUsers[2].image}</Text>
+                  </View>
+                  <Text style={styles.rankName}>{leaderboardUsers[2].name}</Text>
+                  <View style={styles.rankScoreBadge}>
+                    <Text style={styles.rankScoreText}>◎ {leaderboardUsers[2].score}</Text>
+                  </View>
+                </View>
+                <View style={[styles.rankBar, { backgroundColor: leaderboardUsers[2].barColor, height: "48%" }]} />
+              </View>
+            </View>
+
+            {/* Ranks 4-6 List */}
+            <View style={styles.restRankingList}>
+              {leaderboardUsers.slice(3).map((user, index) => (
+                <View key={user.id} style={styles.listRankCard}>
+                  <View style={styles.listRankNumber}>
+                    <Text style={styles.listRankNumberText}>{user.rank}</Text>
+                  </View>
+                  <View style={styles.listUserProfile}>
+                    <Text style={styles.listProfileImage}>{user.image}</Text>
+                  </View>
+                  <View style={styles.listUserInfo}>
+                    <Text style={styles.listUserName}>{user.name}</Text>
+                  </View>
+                  <View style={styles.listUserScore}>
+                    <Text style={styles.listScoreText}>◎ {user.score}</Text>
+                  </View>
+                  <TouchableOpacity style={styles.listLikeIcon}>
+                    <Text style={styles.likeIconText}>{user.rank <= 5 ? "⬆️" : "⬇️"}</Text>
+                  </TouchableOpacity>
+                </View>
+              ))}
+            </View>
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
           </View>
         )}
       </ScrollView>
@@ -507,12 +619,19 @@ const styles = StyleSheet.create({
   },  
   
   ptsRow: { 
+<<<<<<< HEAD
     backgroundColor: "#F5F0E6",
     borderRadius: 6,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     paddingVertical: 4,
+=======
+    backgroundColor: "#F5F0E6", 
+    borderRadius: 6, 
+    paddingVertical: 4, 
+    alignItems: "center", 
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
   }, 
   
   ptsTxt: { 
@@ -532,7 +651,10 @@ const styles = StyleSheet.create({
 
   currentPointsText: {
     fontSize: 25,
+<<<<<<< HEAD
     marginLeft: 6,
+=======
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
     fontFamily: 'Quicksand_700Bold',
     color: "#264e36",
   },
@@ -563,7 +685,17 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     justifyContent: "center",
     alignItems: "center",
+<<<<<<< HEAD
     backgroundColor: "#264E36",
+=======
+    backgroundColor: "#ff4444",
+  },
+
+  redeemIcon: {
+    fontSize: 40,
+    color: "#f5f0e6",
+    fontWeight: "bold",
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
   },
 
   redeemRightContainer: {
@@ -579,21 +711,35 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
+<<<<<<< HEAD
   redeemName: {
     color: "#F5F0E6",
     fontFamily: "Quicksand_700Bold",
   },
 
+=======
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
   redeemNameSection: {
     flex: 1,
   },
 
+<<<<<<< HEAD
+=======
+  redeemName: {
+    fontSize: 14,
+    fontFamily: 'Quicksand_700Bold',
+    color: "#f5f0e6",
+    marginBottom: 8,
+  },
+
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
   redeemPointsPriceRow: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
   },
 
+<<<<<<< HEAD
   redeemPointsRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -602,6 +748,10 @@ const styles = StyleSheet.create({
   redeemPoints: {
     fontSize: 17,
     marginLeft: 4,
+=======
+  redeemPoints: {
+    fontSize: 17,
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
     fontFamily: 'Quicksand_700Bold',
     color: "#f5f0e6",
   },
@@ -637,16 +787,30 @@ const styles = StyleSheet.create({
   // Leaderboard Styles
   topRankingContainer: {
     flexDirection: "row",
+<<<<<<< HEAD
     justifyContent: "space-evenly",
     alignItems: "flex-end",
     marginTop: 40,
     marginBottom: 20,
     height: 220,
+=======
+    justifyContent: "space-around",
+    alignItems: "flex-end",
+    marginBottom: 20,
+    marginTop: 135,
+    paddingHorizontal: 8,
+    height: 260,
+    gap: 12,
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
   },
 
   rankCardWrapper: {
     flex: 1,
     alignItems: "center",
+<<<<<<< HEAD
+=======
+    height: "100%",
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
     justifyContent: "flex-end",
   },
 
@@ -656,7 +820,27 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
 
+<<<<<<< HEAD
 
+=======
+  rankCard2: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 12,
+  },
+
+  rankCard3: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 12,
+  },
+
+  rankBar: {
+    width: "100%",
+    borderRadius: 12,
+    minHeight: 80,
+  },
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
 
   rankProfileArea: {
     width: 70,
@@ -670,6 +854,13 @@ const styles = StyleSheet.create({
     borderColor: "#264e36",
   },
 
+<<<<<<< HEAD
+=======
+  rankProfileImage: {
+    fontSize: 40,
+  },
+
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
   rankName: {
     fontSize: 11,
     fontFamily: 'Quicksand_700Bold',
@@ -683,9 +874,12 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     paddingVertical: 4,
     paddingHorizontal: 12,
+<<<<<<< HEAD
     flexDirection: "row",
     alignItems: "center",
     gap: 4,
+=======
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
   },
 
   rankScoreText: {
@@ -755,9 +949,12 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingVertical: 6,
     paddingHorizontal: 12,
+<<<<<<< HEAD
     flexDirection: "row",
     alignItems: "center",
     gap: 4,
+=======
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
   },
 
   listScoreText: {
@@ -766,6 +963,7 @@ const styles = StyleSheet.create({
     color: "#264e36",
   },
 
+<<<<<<< HEAD
   podium: {
     width: 70,
     borderRadius: 10,
@@ -798,5 +996,18 @@ const styles = StyleSheet.create({
     width:36,
     height:36,
     borderRadius:18
+=======
+  listLikeIcon: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: "#ffffff",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  likeIconText: {
+    fontSize: 16,
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
   },
 });

@@ -4,12 +4,20 @@ import React, { useEffect, useState } from "react";
 import { Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function BusinessDetails() {
+<<<<<<< HEAD
   const router = useRouter();
   const { id } = useLocalSearchParams();
+=======
+
+  const router = useRouter();
+  const { id } = useLocalSearchParams();
+
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
   const [item, setItem] = useState<any>(null);
   const [similarItems, setSimilarItems] = useState<any[]>([]);
 
   useEffect(() => {
+<<<<<<< HEAD
     fetch(`http://192.168.137.1/get_b_items.php?item_id=${id}`)
       .then(res => res.json())
       .then(data => {
@@ -25,12 +33,44 @@ export default function BusinessDetails() {
             });
           }
       });
+=======
+
+    fetch(`http://192.168.137.1/get_b_items.php?item_id=${id}`)
+      .then(res => res.json())
+      .then(data => {
+
+        if (data.status === "success") {
+
+          setItem(data.item);
+
+          fetch(`http://192.168.137.1/get_b_items.php?b_id=${data.item.b_id}`)
+            .then(res => res.json())
+            .then(data2 => {
+
+              if (data2.status === "success") {
+
+                const filtered = data2.items.filter((i:any) => i.id != id);
+                setSimilarItems(filtered);
+
+              }
+
+            });
+
+        }
+
+      });
+
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
   }, [id]);
 
   if (!item) return null;
 
   return (
     <ScrollView style={styles.container}>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
       <View style={styles.header}>
         <Image
           source={require('../../assets/images/ecomax_icon_dark.png')}
@@ -43,12 +83,22 @@ export default function BusinessDetails() {
       </View>
 
       <View style={styles.content}>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
         <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
           <Ionicons name="chevron-back-outline" size={33} color="#264e36" />
         </TouchableOpacity>
 
         <View style={styles.itemThumbCard}>
+<<<<<<< HEAD
           <View style={styles.imgWrapper}>
+=======
+
+          <View style={styles.imgWrapper}>
+
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
             <View style={styles.ptsBadge}>
               <Ionicons name="leaf" size={25} color="#F5F0E6" />
               <Text style={styles.ptsTxt}>{item.points}</Text>
@@ -59,15 +109,24 @@ export default function BusinessDetails() {
               style={styles.thumbImage}
               resizeMode="cover"
             />
+<<<<<<< HEAD
+=======
+
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
           </View>
 
           <View style={styles.itemInfo}>
             <Text style={styles.itemTitle}>{item.name}</Text>
             <Text style={styles.price}>${item.price}</Text>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
             <Text style={styles.itemDescript}>
               {item.description}
             </Text>
           </View>
+<<<<<<< HEAD
         </View>
 
         <View style={styles.similarContainer}>
@@ -75,11 +134,30 @@ export default function BusinessDetails() {
           <View style={styles.cardTitleDivider} />
           <View style={styles.itemsGrid}>
             {similarItems.map((business) => (
+=======
+
+        </View>
+
+        <View style={styles.similarContainer}>
+
+          <Text style={styles.title}>Similar Items</Text>
+
+          <View style={styles.cardTitleDivider} />
+
+          <View style={styles.itemsGrid}>
+
+            {similarItems.map((business) => (
+
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
               <TouchableOpacity
                 key={business.id}
                 style={styles.itemCard}
                 onPress={() => router.push(`/eco-items/${business.id}`)}
               >
+<<<<<<< HEAD
+=======
+
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
                 <Ionicons
                   name="heart-outline"
                   size={18}
@@ -96,11 +174,24 @@ export default function BusinessDetails() {
                   <Ionicons name="leaf" size={14} color="#1c4964" />
                   <Text style={styles.ecoPtsTxt}>{business.points}</Text>
                 </View>
+<<<<<<< HEAD
               </TouchableOpacity>
             ))}
           </View>
         </View>
       </View>
+=======
+
+              </TouchableOpacity>
+
+            ))}
+
+          </View>
+        </View>
+
+      </View>
+
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
     </ScrollView>
   );
 }

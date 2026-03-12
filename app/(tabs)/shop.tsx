@@ -10,6 +10,10 @@ if (Platform.OS !== "web") {
 }
 
 export default function ShopScreen() {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
   const router = useRouter();
 
   const [activeTab, setActiveTab] = useState("business");
@@ -59,6 +63,10 @@ export default function ShopScreen() {
 
   return (
     <View style={styles.container}>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
       <View style={styles.header}>
         <Image
           source={require('../../assets/images/ecomax_icon_dark.png')}
@@ -71,6 +79,10 @@ export default function ShopScreen() {
       </View>
 
       <View style={styles.tabRow}>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
         <TouchableOpacity onPress={() => setActiveTab("business")}>
           <Text style={[styles.tabTxt, activeTab === "business" && styles.activeTab]}>
             Business
@@ -82,21 +94,39 @@ export default function ShopScreen() {
             Map
           </Text>
         </TouchableOpacity>
+<<<<<<< HEAD
       </View>
 
       <ScrollView contentContainerStyle={styles.content}>
         {/* business tab */}
+=======
+
+      </View>
+
+      <ScrollView contentContainerStyle={styles.content}>
+
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
         {activeTab === "business" && (
           <>
             <Text style={styles.categoryLabel}>Featured</Text>
 
             <View style={styles.cardGrid}>
               {ecoBusinesses.map((item, index) => (
+<<<<<<< HEAD
                 <View key={index} style={styles.cardWrapper}>
+=======
+
+                <View key={index} style={styles.cardWrapper}>
+
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
                   <TouchableOpacity
                     style={styles.card}
                     onPress={() => router.push(`/eco-shops/${item.id}`)}
                   >
+<<<<<<< HEAD
+=======
+
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
                     <View style={styles.logoBox}>
                       <Image
                         source={{ uri: `http://192.168.137.1/logos/${item.logo}` }}
@@ -106,18 +136,33 @@ export default function ShopScreen() {
                     </View>
 
                     <View style={styles.ptsRow}>
+<<<<<<< HEAD
                       <Ionicons name="leaf" size={14} color="#1c4964" />
                       <Text style={styles.ptsTxt}>25</Text>
                     </View>
                   </TouchableOpacity>
                   <Text style={styles.cardName}>{item.name}</Text>
                 </View>
+=======
+                      <Text style={styles.ptsTxt}>25</Text>
+                    </View>
+
+                  </TouchableOpacity>
+
+                  <Text style={styles.cardName}>{item.name}</Text>
+
+                </View>
+
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
               ))}
             </View>
           </>
         )}
 
+<<<<<<< HEAD
         {/* map tab */}
+=======
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
         {activeTab === "map" && (
           <>
             <View style={styles.mapSearchBar}>
@@ -136,6 +181,10 @@ export default function ShopScreen() {
                 style={styles.mapWrapper}
                 onPress={() => router.push("/full-map")}
               >
+<<<<<<< HEAD
+=======
+
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
                 {Platform.OS === "web" ? (
                   <View style={[styles.map, { justifyContent: "center", alignItems: "center" }]}>
                     <Text style={{ color: "white", textAlign: "center" }}>
@@ -145,10 +194,18 @@ export default function ShopScreen() {
                 ) : (
                   <MapView style={styles.map} region={mapRegion} />
                 )}
+<<<<<<< HEAD
+=======
+
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
               </Pressable>
             </View>
           </>
         )}
+<<<<<<< HEAD
+=======
+
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
       </ScrollView>
     </View>
   );
@@ -266,10 +323,15 @@ const styles = StyleSheet.create({
   ptsRow: {
     backgroundColor: "#F5F0E6",
     borderRadius: 6,
+<<<<<<< HEAD
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     paddingVertical: 4,
+=======
+    paddingVertical: 4,
+    alignItems: "center",
+>>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
   },
 
   ptsTxt: {

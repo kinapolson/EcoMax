@@ -58,7 +58,6 @@ export default function HomeScreen() {
           >
             <ThemedText style={styles.homeLabel}>
               Eco Badges
-
             </ThemedText>
 
             <ThemedText style={styles.homeValue}>

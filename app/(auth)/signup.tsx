@@ -14,7 +14,7 @@ import {
     View
 } from "react-native";
 
-const API_URL = "http://10.127.216.112";
+const API_URL = "https://gavialoid-forensic-regan.ngrok-free.dev";
 
 export default function SignUpScreen() {
 

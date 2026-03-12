@@ -24,7 +24,7 @@ export default function ShopScreen() {
   });
 
   useEffect(() => {
-    fetch("http://10.127.216.112/get_businesses.php")
+    fetch("http://gavialoid-forensic-regan.ngrok-free.dev/get_businesses.php")
       .then(res => res.json())
       .then(data => {
         if (data.status === "success") {
@@ -99,7 +99,7 @@ export default function ShopScreen() {
                   >
                     <View style={styles.logoBox}>
                       <Image
-                        source={{ uri: `http://10.127.216.112/logos/${item.logo}` }}
+                        source={{ uri: `http://gavialoid-forensic-regan.ngrok-free.dev/logos/${item.logo}` }}
                         style={styles.logoImage}
                         resizeMode="contain"
                       />

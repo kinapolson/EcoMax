@@ -17,7 +17,7 @@ export default function HomeScreen() {
   const progress = badges.length ? Math.round((earnedCount / badges.length) * 100) : 0;
 
   useEffect(()=>{
-    fetch("http://192.168.137.1/get_badges.php?user_id=1")
+    fetch("http://gavialoid-forensic-regan.ngrok-free.dev/get_badges.php?user_id=1")
       .then(res => res.json())
       .then(data => {
         if(data.status === "success"){

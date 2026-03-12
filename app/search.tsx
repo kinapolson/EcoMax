@@ -1,11 +1,6 @@
-<<<<<<< HEAD
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-=======
-import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity, Image } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
->>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
 
 export default function SearchScreen() {
   return (

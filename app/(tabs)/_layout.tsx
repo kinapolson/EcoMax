@@ -1,13 +1,7 @@
-<<<<<<< HEAD
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import React from "react";
 import { View } from "react-native";
-=======
-import { Tabs } from "expo-router";
-import { View } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
->>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
 
 export default function TabLayout() {
 

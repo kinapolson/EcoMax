@@ -1,5 +1,6 @@
-import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import React from "react";
+import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 export default function SearchScreen() {
   return (

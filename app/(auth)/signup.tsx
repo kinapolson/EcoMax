@@ -1,11 +1,23 @@
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useState } from "react";
-import { Alert, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+    Alert,
+    KeyboardAvoidingView,
+    Platform,
+    Pressable,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View
+} from "react-native";
 
 const API_URL = "http://192.168.137.1";
 
 export default function SignUpScreen() {
+
     //variables for input fields
     const [first_name, setFirstName] = useState("");
     const [last_name, setLastName] = useState("");
@@ -15,6 +27,7 @@ export default function SignUpScreen() {
     const [confirmPassword, setConfirmPassword] = useState("");
 
     const handleSignup = async () => {
+
         //checks password matching
         if (password !== confirmPassword) {
             Alert.alert("Error", "Passwords Do Not Match");
@@ -22,6 +35,7 @@ export default function SignUpScreen() {
         }
 
         try {
+
             //sends user info to signup.php to the server
             const response = await fetch(`${API_URL}/signup.php`, {
                 method: "POST",
@@ -41,19 +55,27 @@ export default function SignUpScreen() {
 
             if (data.status === "success") {
                 Alert.alert("Success", "Account Created");
-                router.replace("/login");
+                router.replace("/(tabs)");
             } else {
                 Alert.alert("Signup Failed", data.message);
             }
-
         } catch (error) {
             console.log(error);
             Alert.alert("Server Error", "Could Not Connect to Server");
         }
-
     };
 
     return (
+        <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+
+        <ScrollView
+            contentContainerStyle={{ flexGrow: 1 }}
+            keyboardShouldPersistTaps="handled"
+        >
+
         <View style={styles.container}>
             <View style={styles.header}>
                 <Pressable onPress={() => router.push("/(auth)")}>
@@ -83,7 +105,7 @@ export default function SignUpScreen() {
                     onChangeText={setLastName}
                 />
 
-                {/* usernanme */}
+                {/* username */}
                 <TextInput
                     placeholder="Username"
                     placeholderTextColor="#6b6b6b"
@@ -137,6 +159,8 @@ export default function SignUpScreen() {
                 </TouchableOpacity>
             </View>
         </View>
+        </ScrollView>
+        </KeyboardAvoidingView>
     );
 }
 
@@ -146,8 +170,8 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#264E36",
     },
-    
-    //header back button    
+
+    //header back button
     header: {
         paddingTop: 65,
         paddingLeft: 20,
@@ -164,12 +188,12 @@ const styles = StyleSheet.create({
         marginLeft: 1,
     },
 
-    subtitle : {
-      fontSize: 20,
-      color: "#264E36", 
-      marginBottom: 40,
-      marginLeft: 1,
-      fontFamily: 'Poppins_400Regular',
+    subtitle: {
+        fontSize: 20,
+        color: "#264E36",
+        marginBottom: 40,
+        marginLeft: 1,
+        fontFamily: 'Poppins_400Regular',
     },
 
     //cream sand container
@@ -226,4 +250,5 @@ const styles = StyleSheet.create({
         fontFamily: 'Quicksand_700Bold',
         textDecorationLine: "underline",
     },
+
 });

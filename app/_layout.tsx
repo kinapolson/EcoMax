@@ -1,13 +1,14 @@
+import { Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins';
+import { Quicksand_400Regular, Quicksand_700Bold } from '@expo-google-fonts/quicksand';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
-import { useFonts } from 'expo-font';
-import { Quicksand_400Regular, Quicksand_700Bold } from '@expo-google-fonts/quicksand';
-import { Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins';
 
 
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import React from 'react';
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -31,6 +32,11 @@ export default function RootLayout() {
 
         {/* tabs folder */}
         <Stack.Screen name="(tabs)" />
+
+        {/* badges screen */}
+        <Stack.Screen name="badges" />
+
+        {/* modal */}
         <Stack.Screen name="modal"
           options={{ presentation: 'modal', title: 'Modal' }}
         />

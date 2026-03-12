@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Image, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 let MapView: any = null;
@@ -10,10 +10,12 @@ if (Platform.OS !== "web") {
 }
 
 export default function ShopScreen() {
-  const [activeTab, setActiveTab] = useState("business"); {/* swith btwn tabs */ }
   const router = useRouter();
-  const [searchText, setSearchText] = useState(""); {/* search map feat */ }
-  {/* set default map area to orl */ }
+
+  const [activeTab, setActiveTab] = useState("business");
+  const [searchText, setSearchText] = useState("");
+  const [ecoBusinesses, setEcoBusinesses] = useState<any[]>([]);
+
   const [mapRegion, setMapRegion] = useState({
     latitude: 28.5383,
     longitude: -81.3792,
@@ -21,54 +23,27 @@ export default function ShopScreen() {
     longitudeDelta: 0.05,
   });
 
-  const ecoBusinesses = [
-    {
-      id: "indeu", name: "Indeu Apothecary", points: 25,
-      logo: require("../../assets/images/logos/ia_logo.avif"),
-    },
-    {
-      id: "goodgills", name: "Good Fills", points: 25,
-      logo: require("../../assets/images/logos/gf_logo.png"),
-    },
-    {
-      id: "chamberlins", name: "Chamberlin's", points: 25,
-      logo: require("../../assets/images/logos/c_logo.png"),
-    },
-    {
-      name: "Green Phantom", points: 25,
-      logo: require("../../assets/images/logos/gp_logo.png"),
-    },
-    {
-      name: "LÜFKA", points: 25,
-      logo: require("../../assets/images/logos/l_logo.png"),
-    },
-    {
-      name: "Orlando Cleaners", points: 25,
-      logo: require("../../assets/images/logos/oc_logo.png"),
-    },
-  ];
+  useEffect(() => {
+    fetch("http://192.168.137.1/get_businesses.php")
+      .then(res => res.json())
+      .then(data => {
+        if (data.status === "success") {
+          setEcoBusinesses(data.businesses);
+        }
+      })
+      .catch(err => console.log(err));
+  }, []);
 
-  const moreEcoBusiness = [
-    {
-      name: "Origins", points: 25,
-      logo: require("../../assets/images/logos/o_logo.png"),
-    },
-    {
-      name: "Peralta Clothing", points: 25,
-      logo: require("../../assets/images/logos/pc_logo.png"),
-    },
-    { name: "...", points: 25 },
-  ];
-
-  {/* search map feat */ }
   const handleSearch = async () => {
     if (!searchText) return;
+
     try {
       const response = await fetch(
         `https://nominatim.openstreetmap.org/search?format=json&q=${searchText}`
       );
 
       const data = await response.json();
+
       if (data.length > 0) {
         setMapRegion({
           latitude: parseFloat(data[0].lat),
@@ -85,101 +60,56 @@ export default function ShopScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        {/* logo and search setup */}
-        <Image source={require('../../assets/images/ecomax_icon_dark.png')}
+        <Image
+          source={require('../../assets/images/ecomax_icon_dark.png')}
           style={styles.image}
         />
+
         <Pressable onPress={() => router.push("/search")}>
           <Ionicons name="search" size={24} color="#F5F0E6" />
         </Pressable>
       </View>
 
-      {/* tab navigation */}
       <View style={styles.tabRow}>
-        {/* business tab */}
         <TouchableOpacity onPress={() => setActiveTab("business")}>
-          <Text
-            style={[
-              styles.tabTxt,
-              activeTab === "business" && styles.activeTab,
-            ]}
-          >
+          <Text style={[styles.tabTxt, activeTab === "business" && styles.activeTab]}>
             Business
           </Text>
         </TouchableOpacity>
 
-        {/* map tab */}
         <TouchableOpacity onPress={() => setActiveTab("map")}>
-          <Text
-            style={[
-              styles.tabTxt,
-              activeTab === "map" && styles.activeTab,
-            ]}
-          >
+          <Text style={[styles.tabTxt, activeTab === "map" && styles.activeTab]}>
             Map
           </Text>
         </TouchableOpacity>
       </View>
 
       <ScrollView contentContainerStyle={styles.content}>
-
-        {/* busiesss content*/}
+        {/* business tab */}
         {activeTab === "business" && (
           <>
             <Text style={styles.categoryLabel}>Featured</Text>
 
-            {/* eco buisnesses grid */}
             <View style={styles.cardGrid}>
               {ecoBusinesses.map((item, index) => (
                 <View key={index} style={styles.cardWrapper}>
-                  {/* card */}
-                  <TouchableOpacity style={styles.card}
-                    onPress={() => router.push(`/eco-shops/${item.id}`)}>
-                    {/* buisness logo */}
+                  <TouchableOpacity
+                    style={styles.card}
+                    onPress={() => router.push(`/eco-shops/${item.id}`)}
+                  >
                     <View style={styles.logoBox}>
                       <Image
-                        source={item.logo}
+                        source={{ uri: `http://192.168.137.1/logos/${item.logo}` }}
                         style={styles.logoImage}
                         resizeMode="contain"
                       />
                     </View>
 
-                    {/* eco pts */}
                     <View style={styles.ptsRow}>
-                      <Text style={styles.ptsTxt}>{item.points}</Text>
+                      <Ionicons name="leaf" size={14} color="#1c4964" />
+                      <Text style={styles.ptsTxt}>25</Text>
                     </View>
                   </TouchableOpacity>
-
-                  {/* buisness name */}
-                  <Text style={styles.cardName}>{item.name}</Text>
-                </View>
-              ))}
-            </View>
-
-            <Text style={styles.categoryLabel}>More</Text>
-
-            {/* eco buisnesses grid */}
-            <View style={styles.cardGrid}>
-              {moreEcoBusiness.map((item, index) => (
-                <View key={index} style={styles.cardWrapper}>
-                  {/* card */}
-                  <TouchableOpacity style={styles.card}>
-                    {/* buisness logo */}
-                    <View style={styles.logoBox}>
-                      <Image
-                        source={item.logo}
-                        style={styles.logoImage}
-                        resizeMode="contain"
-                      />
-                    </View>
-
-                    {/* eco pts */}
-                    <View style={styles.ptsRow}>
-                      <Text style={styles.ptsTxt}>{item.points}</Text>
-                    </View>
-                  </TouchableOpacity>
-
-                  {/* buisness name */}
                   <Text style={styles.cardName}>{item.name}</Text>
                 </View>
               ))}
@@ -187,10 +117,9 @@ export default function ShopScreen() {
           </>
         )}
 
-        {/* map content */}
+        {/* map tab */}
         {activeTab === "map" && (
           <>
-            {/* search bar */}
             <View style={styles.mapSearchBar}>
               <TextInput
                 placeholder="Find Near Me"
@@ -202,18 +131,15 @@ export default function ShopScreen() {
               />
             </View>
 
-            {/* map */}
             <View style={styles.mapPlaceholder}>
-              {/* tap feature to large map screen */}
               <Pressable
                 style={styles.mapWrapper}
                 onPress={() => router.push("/full-map")}
               >
                 {Platform.OS === "web" ? (
                   <View style={[styles.map, { justifyContent: "center", alignItems: "center" }]}>
-                    <Text style={{ color: "white", fontFamily: "Poppins_700Bold", textAlign: "center", paddingHorizontal: 12 }}>
-                      Map preview is only avaliable on iOS/Android.
-                      {"\n"}(Web version for Docker grading)
+                    <Text style={{ color: "white", textAlign: "center" }}>
+                      Map preview only available on mobile
                     </Text>
                   </View>
                 ) : (
@@ -340,8 +266,10 @@ const styles = StyleSheet.create({
   ptsRow: {
     backgroundColor: "#F5F0E6",
     borderRadius: 6,
-    paddingVertical: 4,
+    flexDirection: "row",
+    justifyContent: "center",
     alignItems: "center",
+    paddingVertical: 4,
   },
 
   ptsTxt: {

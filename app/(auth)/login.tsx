@@ -35,21 +35,20 @@ export default function LoginScreen() {
 
             const data = JSON.parse(text);  
 
-            if (data.status === "success") {
+            if (data.status === "Success") {
                 const user = data.user;
 
                 router.replace({
                     pathname: "/(tabs)",
                     params: {
+                        userId: user.id,
                         name: user.first_name,
                         points: user.eco_pts
                     }
                 });
-
             } else {
                 Alert.alert("Login Failed", data.message);
             }
-
         } catch (error) {
             console.log("Login Error:", error);
             Alert.alert("Server Error", "Could not Connect to the Server");

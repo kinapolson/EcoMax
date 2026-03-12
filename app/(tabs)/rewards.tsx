@@ -1,40 +1,139 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View, Pressable, Image} from "react-native";
-import { router } from "expo-router";
-import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { router, useLocalSearchParams } from "expo-router";
+import React, { useEffect, useState } from "react";
+import { Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+
+//reward struct from rewards db
+type Reward = {
+  reward_id: number;
+  reward_name: string;
+  reward_price: number;
+  pts_required: number;
+};
+
+//business item struct form business item db
+type EcoItem = {
+  id: number;
+  image: string;
+  points: number;
+};
+
+//leaderbaord struc
+type LeaderboardUser = {
+  id: number;
+  name: string;
+  score: number;
+  rank: number;
+  pfp: string;
+};
 
 export default function RewardsScreen() {
   const [activeTab, setActiveTab] = useState("browse");
+  const [redeemedItems, setRedeemedItems] = useState<number[]>([]);
+  const [favorites, setFavorites] = useState<EcoItem[]>([]);
+  const [previouslyClaimed, setPreviouslyClaimed] = useState<EcoItem[]>([]);
+  const [userPoints, setUserPoints] = useState(0);
+  const [rewards, setRewards] = useState<Reward[]>([]);
+  const { userId } = useLocalSearchParams();
+  const [leaderboardUsers, setLeaderboardUsers] = useState<LeaderboardUser[]>([]);
 
-  const favorites = [
-    { id: 1, name: "Eco Product 1", points: 25, logo: require("../../assets/images/items/l_black_clay_fw.webp"), },
-    { id: 2, name: "Eco Product 2", points: 25, logo: require("../../assets/images/items/c_ic_bears.webp"), },
-    { id: 3, name: "Eco Product 3", points: 25, logo: require("../../assets/images/items/gp_uw.png"), },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        //grabs user's eco pts
+        const ptsRes = await fetch("http://192.168.137.1/get_user_pts.php");
+        const ptsText = await ptsRes.text();
+        const ptsData = JSON.parse(ptsText);
 
-  const previouslyClaimed = [
-    { id: 4, name: "Claimed Item 1", points: 25, logo: require("../../assets/images/items/ia-creme-brulee-candle.webp"), },
-    { id: 5, name: "Claimed Item 2", points: 25, logo: require("../../assets/images/items/ia-blue-tansy-body-oil.webp"), },
-    { id: 6, name: "Claimed Item 3", points: 25, logo: require("../../assets/images/items/ia-tummeric-soap.webp"), },
-  ];
+        if (ptsData.status === "success") {
+          setUserPoints(ptsData.points);
+        }
+        
+        //grabs fab items
+        const favRes = await fetch("http://192.168.137.1/get_b_items.php?b_id=1");
+        const favText = await favRes.text();
+        const favData = JSON.parse(favText);
 
-  const redeemRewards = [
-    { id: 1, name: "Target", icon: "●", color: "#ff4444", points: 100, price: 10 },
-    { id: 2, name: "Indeu Apothecary", icon: "●", color: "#c9a961", points: 125, price: 10 },
-    { id: 3, name: "LÜFKA", icon: "●", color: "#f4e4a6", points: 75, price: 5 },
-  ];
+        if (favData.status === "success") {
+          setFavorites(favData.items);
+        }
 
-  const ecoPoints = 350;
-  const currentPoints = 25;
+        //grabs previously claimed items
+        const prevRes = await fetch("http://192.168.137.1/get_b_items.php?b_id=2");
+        const prevText = await prevRes.text();
+        const prevData = JSON.parse(prevText);
 
-  const leaderboardUsers = [
-    { id: 1, name: "Chris Robinson", score: 375, rank: 1, image: "👨", barColor: "#5ca377" },
-    { id: 2, name: "Jennifer Patterson", score: 410, rank: 2, image: "👩", barColor: "#c9a961" },
-    { id: 3, name: "James Smith", score: 350, rank: 3, image: "👨", barColor: "#7a94a3" },
-    { id: 4, name: "Robert Williams", score: 302, rank: 4, image: "👨" },
-    { id: 5, name: "Crystal Park", score: 258, rank: 5, image: "👩" },
-    { id: 6, name: "Sam Stevenson", score: 250, rank: 6, image: "👩" },
-  ];
+        if (prevData.status === "success") {
+          setPreviouslyClaimed(prevData.items);
+        }
+
+        //grabs redeem rewards
+        const rewardsRes = await fetch("http://192.168.137.1/get_rewards.php");
+        const rewardsText = await rewardsRes.text();
+        const rewardsData = JSON.parse(rewardsText);
+
+        if (rewardsData.status === "success") {
+          setRewards(rewardsData.rewards);
+        }
+
+        //grabs leaderboard data
+        const leaderboardRes = await fetch("http://192.168.137.1/get_leaderboard.php");
+        const leaderboardText = await leaderboardRes.text();
+        const leaderboardData = JSON.parse(leaderboardText);
+
+        if (leaderboardData.status === "success") {
+          setLeaderboardUsers(leaderboardData.leaderboard);
+        }
+      } catch (error) {
+        console.log("FETCH ERROR:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  //unable to redeem rewards due to insufficent eco pts pop up
+  const redeemReward = async (reward: { reward_id: any; reward_name?: string; reward_price?: number; pts_required: any; }) => {
+    if (userPoints < reward.pts_required) {
+      alert("Unable to Redeem. Not Enough Eco Points.");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://192.168.1.7/redeem_reward.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          user_id: 1,
+          reward_id: reward.reward_id
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.status === "success") {
+        setUserPoints(data.new_points);
+        setRedeemedItems([...redeemedItems, reward.reward_id]);
+        alert("Reward redeemed successfully!");
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const sortedUsers = [...leaderboardUsers].sort((a,b)=>b.score-a.score);
+
+  const topThree = [
+    sortedUsers[1], //p2 r
+    sortedUsers[0], //p1 m
+    sortedUsers[2]  //p3 l
+  ].filter(Boolean);
+
+  const restUsers = sortedUsers.slice(3);
 
   return (
     <View style={styles.container}>
@@ -70,96 +169,118 @@ export default function RewardsScreen() {
         </TouchableOpacity>
       </View>
 
-      {/* browse tab */}
+      {/* Browse Tab */}
       <ScrollView contentContainerStyle={styles.content}>
+
         {activeTab === "browse" && (
           <>
-            {/* eco pts banner */}
-            <View style={styles.pointsBar}> 
-              <Text style={styles.pointsTxt}>Eco Points</Text> 
-              <Text style={styles.pointsValue}>350</Text> 
-            </View> 
-            
-            {/* favorites section */}
-            <Text style={styles.categoryLabel}>Favorites</Text> 
-            
-            <View style={styles.cardGrid}> 
-              {favorites.map((item, index) => ( 
-                <View key={index} style={styles.cardWrapper}> 
-                  <TouchableOpacity style={styles.card} 
+            {/* Points Banner */}
+            <View style={styles.pointsBar}>
+              <Text style={styles.pointsTxt}>Eco Points</Text>
+              <Text style={styles.pointsValue}>{userPoints}</Text>
+            </View>
+
+            {/* Favorites */}
+            <Text style={styles.categoryLabel}>Favorites</Text>
+
+            <View style={styles.cardGrid}>
+              {favorites.map((item, index) => (
+                <View key={index} style={styles.cardWrapper}>
+                  <TouchableOpacity
+                    style={styles.card}
                     onPress={() => router.push(`/eco-items/${item.id}`)}
-                  > 
+                  >
                     <View style={styles.logoBox}>
-                      <Image 
-                        source={item.logo}
+                      <Image
+                        source={{ uri: `http://192.168.137.1/items/${item.image}` }}
                         style={styles.logoImage}
                         resizeMode="contain"
                       />
                     </View>
-                    
-                    <View style={styles.ptsRow}> 
-                      <Text style={styles.ptsTxt}>{item.points}</Text> 
-                      </View> 
-                  </TouchableOpacity> 
-                </View> 
-              ))} 
-            </View> 
-            
-            {/* previously claimed section */}
-            <Text style={styles.categoryLabel}>Previously Claimed</Text> 
-            
-            <View style={styles.cardGrid}> 
-              {previouslyClaimed.map((item, index) => ( 
-                <View key={index} style={styles.cardWrapper}> 
-                  <TouchableOpacity style={styles.card} 
+
+                    <View style={styles.ptsRow}>
+                      <Ionicons name="leaf" size={14} color="#1c4964" />
+                      <Text style={styles.ptsTxt}>{item.points}</Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              ))}
+            </View>
+
+            {/* Previously Claimed */}
+            <Text style={styles.categoryLabel}>Previously Claimed</Text>
+
+            <View style={styles.cardGrid}>
+              {previouslyClaimed.map((item, index) => (
+                <View key={index} style={styles.cardWrapper}>
+                  <TouchableOpacity
+                    style={styles.card}
                     onPress={() => router.push(`/eco-items/${item.id}`)}
-                  > 
+                  >
                     <View style={styles.logoBox}>
-                      <Image 
-                        source={item.logo}
+                      <Image
+                        source={{ uri: `http://192.168.137.1/items/${item.image}` }}
                         style={styles.logoImage}
                         resizeMode="contain"
                       />
-                    </View> 
+                    </View>
 
-                    <View style={styles.ptsRow}> 
-                      <Text style={styles.ptsTxt}>{item.points}</Text> 
-                    </View> 
-                  </TouchableOpacity> 
+                    <View style={styles.ptsRow}>
+                      <Ionicons name="leaf" size={14} color="#1c4964" />
+                      <Text style={styles.ptsTxt}>{item.points}</Text>
+                    </View>
+                  </TouchableOpacity>
                 </View>
               ))}
             </View>
           </>
         )}
 
+        {/* Redeem Tab */}
         {activeTab === "redeem" && (
           <>
             <View style={styles.currentPointsDisplay}>
-              <Text style={styles.currentPointsText}>◎ {currentPoints}</Text>
+              <Ionicons name="leaf" size={20} color="#264e36" />
+              <Text style={styles.currentPointsText}>{userPoints}</Text>
             </View>
 
             <View style={styles.redeemList}>
-              {redeemRewards.map((reward) => (
-                <View key={reward.id} style={styles.redeemCard}>
+              {rewards.map((reward) => (
+                <View key={reward.reward_id} style={styles.redeemCard}>
+
                   <View style={styles.redeemIconContainer}>
-                    <View style={[styles.redeemIconBox, { backgroundColor: reward.color }]}>
-                      <Text style={styles.redeemIcon}>{reward.icon}</Text>
+                    <View style={styles.redeemIconBox}>
+                      <Ionicons name="gift" size={40} color="white" />
                     </View>
                   </View>
 
                   <View style={styles.redeemRightContainer}>
+
                     <View style={styles.redeemDetailsBox}>
-                      <Text style={styles.redeemName}>{reward.name}</Text>
+                      <Text style={styles.redeemName}>{reward.reward_name}</Text>
                       <View style={styles.redeemPointsPriceRow}>
-                        <Text style={styles.redeemPoints}>◎ {reward.points}</Text>
+                        <View style={styles.redeemPointsRow}>
+                          <Ionicons name="leaf" size={14} color="#F5F0E6" />
+                          <Text style={styles.redeemPoints}>{reward.pts_required}</Text>
+                        </View>
+
                         <View style={styles.priceTag}>
-                          <Text style={styles.priceText}>${reward.price}</Text>
+                          <Text style={styles.priceText}>${reward.reward_price}</Text>
                         </View>
                       </View>
                     </View>
 
-                    <TouchableOpacity style={styles.redeemButton}>
-                      <Text style={styles.redeemButtonText}>REDEEM</Text>
+                    <TouchableOpacity
+                      style={[
+                        styles.redeemButton,
+                        redeemedItems.includes(reward.reward_id) && { backgroundColor: "#999" }
+                      ]}
+                      disabled={redeemedItems.includes(reward.reward_id)}
+                      onPress={() => redeemReward(reward)}
+                    >
+                      <Text style={styles.redeemButtonText}>
+                        {redeemedItems.includes(reward.reward_id) ? "REDEEMED" : "REDEEM"}
+                      </Text>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -171,80 +292,93 @@ export default function RewardsScreen() {
         {/* leaderboard tab */}
         {activeTab === "leaderboard" && (
           <View>
-            {/* Top 3 Ranking */}
+
+            {/* Top 3 */}
             <View style={styles.topRankingContainer}>
-              {/* Rank 2 - Left (Chris Robinson) */}
-              <View style={styles.rankCardWrapper}>
-                <View style={styles.rankCard2}>
-                  <View style={styles.rankProfileArea}>
-                    <Text style={styles.rankProfileImage}>{leaderboardUsers[0].image}</Text>
-                  </View>
-                  <Text style={styles.rankName}>{leaderboardUsers[0].name}</Text>
-                  <View style={styles.rankScoreBadge}>
-                    <Text style={styles.rankScoreText}>◎ {leaderboardUsers[0].score}</Text>
-                  </View>
-                </View>
-                <View style={[styles.rankBar, { backgroundColor: leaderboardUsers[0].barColor, height: "60%" }]} />
-              </View>
 
-              {/* Rank 1 - Center (Jennifer Patterson) */}
-              <View style={styles.rankCardWrapper}>
-                <View style={styles.rankCard1}>
-                  <View style={styles.rankProfileArea}>
-                    <Text style={styles.rankProfileImage}>{leaderboardUsers[1].image}</Text>
-                  </View>
-                  <Text style={styles.rankName}>{leaderboardUsers[1].name}</Text>
-                  <View style={styles.rankScoreBadge}>
-                    <Text style={styles.rankScoreText}>◎ {leaderboardUsers[1].score}</Text>
-                  </View>
-                </View>
-                <View style={[styles.rankBar, { backgroundColor: leaderboardUsers[1].barColor, height: "100%" }]} />
-              </View>
+              {topThree.map((user, index) => {
 
-              {/* Rank 3 - Right (James Smith) */}
-              <View style={styles.rankCardWrapper}>
-                <View style={styles.rankCard3}>
-                  <View style={styles.rankProfileArea}>
-                    <Text style={styles.rankProfileImage}>{leaderboardUsers[2].image}</Text>
+                const isSecond = index === 0;
+                const isFirst = index === 1;
+                const isThird = index === 2;
+
+                return (
+                  <View key={user.id} style={styles.rankCardWrapper}>
+
+                    {/* Profile */}
+                    <Image
+                      source={{ uri: `http://192.168.137.1/pfp/${user.pfp}` }}
+                      style={[
+                        styles.rankAvatar,
+                        index === 1 && { width: 70, height: 70, borderRadius: 35 }
+                      ]}
+                    />
+
+                    <Text style={styles.rankName}>{user.name}</Text>
+
+                    <View style={styles.rankScoreBadge}>
+                      <Ionicons name="leaf" size={14} color="#F5F0E6"/>
+                      <Text style={styles.rankScoreText}>{user.score}</Text>
+                    </View>
+
+                    {/* Podium */}
+                    <View
+                      style={[
+                        styles.podium,
+                        isFirst && styles.firstPodium,
+                        isSecond && styles.secondPodium,
+                        isThird && styles.thirdPodium,
+                      ]}
+                    />
+
                   </View>
-                  <Text style={styles.rankName}>{leaderboardUsers[2].name}</Text>
-                  <View style={styles.rankScoreBadge}>
-                    <Text style={styles.rankScoreText}>◎ {leaderboardUsers[2].score}</Text>
-                  </View>
-                </View>
-                <View style={[styles.rankBar, { backgroundColor: leaderboardUsers[2].barColor, height: "48%" }]} />
-              </View>
+                );
+              })}
+
             </View>
 
-            {/* Ranks 4-6 List */}
+
+            {/* Rest of leaderboard */}
             <View style={styles.restRankingList}>
-              {leaderboardUsers.slice(3).map((user, index) => (
+
+              {restUsers.map((user) => (
+
                 <View key={user.id} style={styles.listRankCard}>
+
                   <View style={styles.listRankNumber}>
                     <Text style={styles.listRankNumberText}>{user.rank}</Text>
                   </View>
+
                   <View style={styles.listUserProfile}>
-                    <Text style={styles.listProfileImage}>{user.image}</Text>
+                    <Image
+                      source={{
+                        uri: `http://192.168.137.1/pfp/${user.pfp}`
+                      }}
+                      style={styles.listAvatar}
+                    />
                   </View>
+
                   <View style={styles.listUserInfo}>
                     <Text style={styles.listUserName}>{user.name}</Text>
                   </View>
+
                   <View style={styles.listUserScore}>
-                    <Text style={styles.listScoreText}>◎ {user.score}</Text>
+                    <Ionicons name="leaf" size={12} color="#264e36"/>
+                    <Text style={styles.listScoreText}>{user.score}</Text>
                   </View>
-                  <TouchableOpacity style={styles.listLikeIcon}>
-                    <Text style={styles.likeIconText}>{user.rank <= 5 ? "⬆️" : "⬇️"}</Text>
-                  </TouchableOpacity>
+
                 </View>
+
               ))}
+
             </View>
+
           </View>
         )}
       </ScrollView>
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   //body
@@ -373,10 +507,12 @@ const styles = StyleSheet.create({
   },  
   
   ptsRow: { 
-    backgroundColor: "#F5F0E6", 
-    borderRadius: 6, 
-    paddingVertical: 4, 
-    alignItems: "center", 
+    backgroundColor: "#F5F0E6",
+    borderRadius: 6,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 4,
   }, 
   
   ptsTxt: { 
@@ -396,6 +532,7 @@ const styles = StyleSheet.create({
 
   currentPointsText: {
     fontSize: 25,
+    marginLeft: 6,
     fontFamily: 'Quicksand_700Bold',
     color: "#264e36",
   },
@@ -426,13 +563,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#ff4444",
-  },
-
-  redeemIcon: {
-    fontSize: 40,
-    color: "#f5f0e6",
-    fontWeight: "bold",
+    backgroundColor: "#264E36",
   },
 
   redeemRightContainer: {
@@ -448,15 +579,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  redeemNameSection: {
-    flex: 1,
+  redeemName: {
+    color: "#F5F0E6",
+    fontFamily: "Quicksand_700Bold",
   },
 
-  redeemName: {
-    fontSize: 14,
-    fontFamily: 'Quicksand_700Bold',
-    color: "#f5f0e6",
-    marginBottom: 8,
+  redeemNameSection: {
+    flex: 1,
   },
 
   redeemPointsPriceRow: {
@@ -465,8 +594,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
 
+  redeemPointsRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
   redeemPoints: {
     fontSize: 17,
+    marginLeft: 4,
     fontFamily: 'Quicksand_700Bold',
     color: "#f5f0e6",
   },
@@ -502,19 +637,16 @@ const styles = StyleSheet.create({
   // Leaderboard Styles
   topRankingContainer: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-evenly",
     alignItems: "flex-end",
+    marginTop: 40,
     marginBottom: 20,
-    marginTop: 135,
-    paddingHorizontal: 8,
-    height: 260,
-    gap: 12,
+    height: 220,
   },
 
   rankCardWrapper: {
     flex: 1,
     alignItems: "center",
-    height: "100%",
     justifyContent: "flex-end",
   },
 
@@ -524,23 +656,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
 
-  rankCard2: {
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 12,
-  },
 
-  rankCard3: {
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 12,
-  },
-
-  rankBar: {
-    width: "100%",
-    borderRadius: 12,
-    minHeight: 80,
-  },
 
   rankProfileArea: {
     width: 70,
@@ -552,10 +668,6 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     borderWidth: 2,
     borderColor: "#264e36",
-  },
-
-  rankProfileImage: {
-    fontSize: 40,
   },
 
   rankName: {
@@ -571,6 +683,9 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     paddingVertical: 4,
     paddingHorizontal: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
   },
 
   rankScoreText: {
@@ -640,6 +755,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingVertical: 6,
     paddingHorizontal: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
   },
 
   listScoreText: {
@@ -648,16 +766,37 @@ const styles = StyleSheet.create({
     color: "#264e36",
   },
 
-  listLikeIcon: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: "#ffffff",
-    justifyContent: "center",
-    alignItems: "center",
+  podium: {
+    width: 70,
+    borderRadius: 10,
+    marginTop: 10,
   },
 
-  likeIconText: {
-    fontSize: 16,
+  firstPodium: {
+    height: 120,
+    backgroundColor: "#C4A484",
+  },
+
+  secondPodium: {
+    height: 90,
+    backgroundColor: "#9FB89F",
+  },
+
+  thirdPodium: {
+    height: 70,
+    backgroundColor: "#7E939C",
+  },
+
+  //pfp
+  rankAvatar:{
+    width:60,
+    height:60,
+    borderRadius:30
+  },
+
+  listAvatar:{
+    width:36,
+    height:36,
+    borderRadius:18
   },
 });

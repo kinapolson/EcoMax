@@ -1,18 +1,37 @@
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { useLocalSearchParams } from "expo-router";
-import React from 'react';
-import { ScrollView, StyleSheet, View } from "react-native";
+import { router, useLocalSearchParams } from "expo-router";
+import React, { useEffect, useState } from 'react';
+import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+
+type Badge = {
+  badge_id: number
+  badge_name: string
+  earned: number
+}
 
 export default function HomeScreen() {
-
   const { name, points } = useLocalSearchParams();
+  const [badges, setBadges] = useState<Badge[]>([]);
+  const [earnedCount,setEarnedCount] = useState(0);
+  const progress = badges.length ? Math.round((earnedCount / badges.length) * 100) : 0;
 
-  const progress = 86;
+  useEffect(()=>{
+    fetch("http://192.168.137.1/get_badges.php?user_id=1")
+      .then(res => res.json())
+      .then(data => {
+        if(data.status === "success"){
+          setBadges(data.badges)
+          const earned = data.badges.filter((b: Badge) => b.earned === 1).length;
+          setEarnedCount(earned)
+        }
+      })
+      .catch(err => console.log("Badge fetch error:", err))
+    },[]
+  )
 
   return (
     <ScrollView style={styles.container}>
-
       {/* header */}
       <ThemedView style={styles.header}>
         <ThemedText style={styles.headerTxt}>
@@ -34,14 +53,18 @@ export default function HomeScreen() {
 
           <View style={styles.homeDivider} />
 
-          <View style={styles.homeItem}>
+          <TouchableOpacity style={styles.homeItem}
+            onPress={() => router.push("/badges")}
+          >
             <ThemedText style={styles.homeLabel}>
-              Eco Challenge
+              Eco Badges
+
             </ThemedText>
+
             <ThemedText style={styles.homeValue}>
-              6/7
+              {earnedCount}/{badges.length}
             </ThemedText>
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
 

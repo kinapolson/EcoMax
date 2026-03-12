@@ -59,25 +59,13 @@ export default function SignUpScreen() {
             } else {
                 Alert.alert("Signup Failed", data.message);
             }
-<<<<<<< HEAD
-=======
-
->>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
         } catch (error) {
             console.log(error);
             Alert.alert("Server Error", "Could Not Connect to Server");
         }
-<<<<<<< HEAD
     };
 
     return (
-=======
-
-    };
-
-    return (
-
->>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
         <KeyboardAvoidingView
             style={{ flex: 1 }}
             behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -89,10 +77,6 @@ export default function SignUpScreen() {
         >
 
         <View style={styles.container}>
-<<<<<<< HEAD
-=======
-
->>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
             <View style={styles.header}>
                 <Pressable onPress={() => router.push("/(auth)")}>
                     <Ionicons name="chevron-back-outline" size={33} color="#F5F0E6" />
@@ -100,10 +84,6 @@ export default function SignUpScreen() {
             </View>
 
             <View style={styles.card}>
-<<<<<<< HEAD
-=======
-
->>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
                 <Text style={styles.title}>Create an Account</Text>
                 <Text style={styles.subtitle}>Sign Up to Continue</Text>
 
@@ -177,25 +157,14 @@ export default function SignUpScreen() {
                         Already have an account? <Text style={styles.link}>Login!</Text>
                     </Text>
                 </TouchableOpacity>
-<<<<<<< HEAD
             </View>
         </View>
-=======
-
-            </View>
-        </View>
-
->>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
         </ScrollView>
         </KeyboardAvoidingView>
     );
 }
 
 const styles = StyleSheet.create({
-<<<<<<< HEAD
-=======
-
->>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
     //body
     container: {
         flex: 1,

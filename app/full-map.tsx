@@ -1,9 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-<<<<<<< HEAD
 import React from "react";
-=======
->>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
 import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 

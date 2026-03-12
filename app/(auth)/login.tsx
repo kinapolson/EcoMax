@@ -46,17 +46,9 @@ export default function LoginScreen() {
                         points: user.eco_pts
                     }
                 });
-<<<<<<< HEAD
             } else {
                 Alert.alert("Login Failed", data.message);
             }
-=======
-
-            } else {
-                Alert.alert("Login Failed", data.message);
-            }
-
->>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
         } catch (error) {
             console.log("Login Error:", error);
             Alert.alert("Server Error", "Could not Connect to the Server");

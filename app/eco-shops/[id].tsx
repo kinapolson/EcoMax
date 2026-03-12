@@ -4,23 +4,12 @@ import React, { useEffect, useState } from "react";
 import { Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function BusinessDetails() {
-<<<<<<< HEAD
   const router = useRouter();
   const { id } = useLocalSearchParams();
-=======
-
-  const router = useRouter();
-  const { id } = useLocalSearchParams();
-
->>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
   const [items,setItems] = useState<any[]>([]);
   const [business,setBusiness] = useState<any>(null);
 
   useEffect(()=>{
-<<<<<<< HEAD
-=======
-
->>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
     fetch(`http://192.168.137.1/business_details.php?id=${id}`)
       .then(res=>res.json())
       .then(data=>{
@@ -36,26 +25,13 @@ export default function BusinessDetails() {
           setItems(data.items);
         }
       });
-<<<<<<< HEAD
     },[id]);
-=======
-
-  },[id]);
->>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
 
   if(!business) return null;
 
   return (
-<<<<<<< HEAD
     <ScrollView style={styles.container}>
       <View style={styles.header}>
-=======
-
-    <ScrollView style={styles.container}>
-
-      <View style={styles.header}>
-
->>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
         <Image
           source={require('../../assets/images/ecomax_icon_dark.png')}
           style={styles.image}
@@ -64,23 +40,14 @@ export default function BusinessDetails() {
         <Pressable onPress={()=>router.push("/search")}>
           <Ionicons name="search" size={24} color="#F5F0E6"/>
         </Pressable>
-<<<<<<< HEAD
       </View>
 
       <View style={styles.content}>
-=======
-
-      </View>
-
-      <View style={styles.content}>
-
->>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
         <TouchableOpacity onPress={()=>router.back()} style={styles.backBtn}>
           <Ionicons name="chevron-back-outline" size={33} color="#264e36"/>
         </TouchableOpacity>
 
         <View style={styles.infoCard}>
-<<<<<<< HEAD
           <Text style={styles.title}>{business.name}</Text>
           <View style={styles.cardTitleDivider}/>
           <Text style={styles.description}>
@@ -93,38 +60,11 @@ export default function BusinessDetails() {
           <View style={styles.cardTitleDivider}/>
           <View style={styles.itemsGrid}>
             {items.map((item)=> (
-=======
-
-          <Text style={styles.title}>{business.name}</Text>
-
-          <View style={styles.cardTitleDivider}/>
-
-          <Text style={styles.description}>
-            {business.description}
-          </Text>
-
-        </View>
-
-        <View style={styles.featuredContainer}>
-
-          <Text style={styles.title}>Featured Items</Text>
-
-          <View style={styles.cardTitleDivider}/>
-
-          <View style={styles.itemsGrid}>
-
-            {items.map((item)=>(
-
->>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
               <TouchableOpacity
                 key={item.id}
                 style={styles.itemCard}
                 onPress={()=>router.push(`/eco-items/${item.id}`)}
               >
-<<<<<<< HEAD
-=======
-
->>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
                 <Ionicons
                   name="heart-outline"
                   size={18}
@@ -138,7 +78,6 @@ export default function BusinessDetails() {
                 />
 
                 <View style={styles.ptsRow}>
-<<<<<<< HEAD
                   <Ionicons name="leaf" size={14} color="#1c4964" />
                   <Text style={styles.ptsTxt}>{item.points}</Text>
                 </View>
@@ -147,31 +86,11 @@ export default function BusinessDetails() {
           </View>
         </View>
       </View>
-=======
-                  <Ionicons name="leaf" size={14} color="#1c4964"/>
-                  <Text style={styles.ptsTxt}>{item.points}</Text>
-                </View>
-
-              </TouchableOpacity>
-
-            ))}
-
-          </View>
-
-        </View>
-
-      </View>
-
->>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-<<<<<<< HEAD
-=======
-
->>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
   container:{
     flex:1,
     backgroundColor:"#F5F0E6"
@@ -264,21 +183,12 @@ const styles = StyleSheet.create({
   },
 
   ptsRow:{
-<<<<<<< HEAD
     backgroundColor: "#F5F0E6",
     borderRadius: 6,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     paddingVertical: 4,
-=======
-    backgroundColor:"#F5F0E6",
-    borderRadius:6,
-    flexDirection:"row",
-    justifyContent:"center",
-    alignItems:"center",
-    paddingVertical:4
->>>>>>> 47ec453ca7a8c7ec1c69f2d20268f5ffcc12d84b
   },
 
   ptsTxt:{
